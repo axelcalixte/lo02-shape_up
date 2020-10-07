@@ -53,13 +53,12 @@
 * passée cette évaluation, il sera inutile de corriger bugs et/ou d'ajouter des fonctionnalités
 * il ne nous sera pas demandé de mettre le code au propre, tout le formatage serà réaliser pour les derniers livrables.
 
-### Autres remarques peut-être importantes à inclure dans l'introduction
-
-*
-
 ### Explications du jeu
 
 * la racine du zip final à rendre doit posséder la bonne hiérarchie de dossiers
 * code commenté et propre
 * diagramme de classes doit être mis-à-jour tout au long du projet
 * l'état actuel de l'application doit aussi être documenté -> fichier markdown dans un repo
+* partie sur les droits d'auteur
+* aucun retard accepté
+* consulter les intervenants de TP
