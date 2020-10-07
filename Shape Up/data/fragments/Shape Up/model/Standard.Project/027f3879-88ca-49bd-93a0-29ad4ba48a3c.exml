@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Shape Up" version="4">
+  <OBJECT>
+    <ID name="Shape Up" mc="Standard.Project" uid="027f3879-88ca-49bd-93a0-29ad4ba48a3c"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[Shape Up]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="Shape Up" mc="Infrastructure.DiagramSet" uid="fd8862ff-a415-42b0-aeb4-f8fb9a52b5e0"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="shape up" version="4">
+  <OBJECT>
+    <ID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
+    <PID name="Shape Up" mc="Standard.Project" uid="027f3879-88ca-49bd-93a0-29ad4ba48a3c"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[shape up]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Player" mc="Standard.Actor" uid="66e90925-d374-4379-bcec-bc1a79cb2af3"/>
+        <COMPID name="Choose a game mode" mc="Standard.UseCase" uid="f6d7ee61-b16f-4915-9dcb-9d1752d787cb"/>
+        <COMPID name="Draw a card" mc="Standard.UseCase" uid="0873f2ac-da33-478d-a3c1-58a3ef8463d2"/>
+        <COMPID name="Look at one's victory card" mc="Standard.UseCase" uid="04864100-1924-41a8-b06e-c5b2ff0840ac"/>
+        <COMPID name="Play a card" mc="Standard.UseCase" uid="5fd6d1f0-3c3d-4fbb-9622-8df44cecf299"/>
+        <COMPID name="Move a card" mc="Standard.UseCase" uid="ae974bad-9556-453b-a731-c0b3d06b6f7e"/>
+        <COMPID name="Start a game" mc="Standard.UseCase" uid="2ed96ed6-447d-4510-9fbb-0e4787588584"/>
+        <COMPID name="Choose the amount of players" mc="Standard.UseCase" uid="73177e5f-0048-426a-b1b6-3d528e7363e2"/>
+        <COMPID name="Choose player types (AI/Human)" mc="Standard.UseCase" uid="1b86e3dc-3bc9-48f6-a41c-1f777807c876"/>
+        <COMPID name="Visualize the game's state" mc="Standard.UseCase" uid="cadddd96-881e-41c7-8a23-9ed31a30db18"/>
+        <COMPID name="Visualize the game through text" mc="Standard.UseCase" uid="3c210a8c-c72d-4198-8aa4-1b31ad9779e5"/>
+        <COMPID name="Visualize the game graphically" mc="Standard.UseCase" uid="42c5e731-ab30-41a0-a294-05d29b7828b5"/>
+        <COMPID name="Interact throug a GUI" mc="Standard.UseCase" uid="d9f2c1d5-ce88-4e8a-8553-7cf11e4d29a0"/>
+        <COMPID name="Interact through text" mc="Standard.UseCase" uid="f725a580-1678-4887-b468-8645bb4d218e"/>
+        <COMPID name="Interact with the game" mc="Standard.UseCase" uid="9248923c-bf26-47ce-89a1-6e948c1d0da5"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="shape up Use Case diagram" mc="Standard.UseCaseDiagram" uid="20fa8901-0fde-480b-a500-ce6d55803702"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
