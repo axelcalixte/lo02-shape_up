@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="RetrieveDefaultBehaviour" version="4">
+  <OBJECT>
+    <ID name="RetrieveDefaultBehaviour" mc="Infrastructure.EnumeratedPropertyType" uid="5b7b1703-c86c-4385-8569-58ec4f1f2791"/>
+    <PID name="JavaDesigner" mc="Infrastructure.ModuleComponent" uid="003800a8-0000-022e-0000-000000000000"/>
+    <ATTRIBUTES>
+      <ATT name="BaseType">String</ATT>
+      <ATT name="Name"><![CDATA[RetrieveDefaultBehaviour]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Litteral">
+        <OBJECT>
+          <ID name="Ask" mc="Infrastructure.PropertyEnumerationLitteral" uid="e2feb51f-667b-4bf3-bfa5-65da47f6e850"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[Ask]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Retrieve" mc="Infrastructure.PropertyEnumerationLitteral" uid="b6599fb0-b6fa-42c7-ad01-5850274d6ff9"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[Retrieve]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Keep" mc="Infrastructure.PropertyEnumerationLitteral" uid="828990ae-2407-47c6-9e2a-afdd490b0a6c"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[Keep]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

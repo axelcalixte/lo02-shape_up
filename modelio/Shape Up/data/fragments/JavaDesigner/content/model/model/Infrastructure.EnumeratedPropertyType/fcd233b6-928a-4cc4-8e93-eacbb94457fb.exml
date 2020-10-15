@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Encoding" version="4">
+  <OBJECT>
+    <ID name="Encoding" mc="Infrastructure.EnumeratedPropertyType" uid="fcd233b6-928a-4cc4-8e93-eacbb94457fb"/>
+    <PID name="JavaDesigner" mc="Infrastructure.ModuleComponent" uid="003800a8-0000-022e-0000-000000000000"/>
+    <ATTRIBUTES>
+      <ATT name="BaseType">String</ATT>
+      <ATT name="Name"><![CDATA[Encoding]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Litteral">
+        <OBJECT>
+          <ID name="ISO-8859-1" mc="Infrastructure.PropertyEnumerationLitteral" uid="c305e201-0a71-48b8-ad26-2accd018104d"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[ISO-8859-1]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="US-ASCII" mc="Infrastructure.PropertyEnumerationLitteral" uid="f6782994-ef5e-4efc-a2aa-0e692806af7a"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[US-ASCII]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="UTF-8" mc="Infrastructure.PropertyEnumerationLitteral" uid="796c6f68-e282-4cfb-b196-d9ad625eade9"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[UTF-8]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="UTF-16BE" mc="Infrastructure.PropertyEnumerationLitteral" uid="b5f25e6b-2ee4-45ac-b7fd-a852d2f65972"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[UTF-16BE]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="UTF-16LE" mc="Infrastructure.PropertyEnumerationLitteral" uid="35e524a9-a169-4933-9907-5852ec7dd521"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[UTF-16LE]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="UTF-16" mc="Infrastructure.PropertyEnumerationLitteral" uid="23590e19-7415-4a2d-9d57-bf8347980ab3"/>
+          <ATTRIBUTES>
+            <ATT name="Name"><![CDATA[UTF-16]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

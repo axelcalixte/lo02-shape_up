@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="shape up" version="4">
+  <OBJECT>
+    <ID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
+    <PID name="Shape Up" mc="Standard.Project" uid="027f3879-88ca-49bd-93a0-29ad4ba48a3c"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[shape up]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Player" mc="Standard.Actor" uid="66e90925-d374-4379-bcec-bc1a79cb2af3"/>
+        <COMPID name="Choose a game mode" mc="Standard.UseCase" uid="f6d7ee61-b16f-4915-9dcb-9d1752d787cb"/>
+        <COMPID name="Draw a card" mc="Standard.UseCase" uid="0873f2ac-da33-478d-a3c1-58a3ef8463d2"/>
+        <COMPID name="Look at one's victory card" mc="Standard.UseCase" uid="04864100-1924-41a8-b06e-c5b2ff0840ac"/>
+        <COMPID name="Play a card" mc="Standard.UseCase" uid="5fd6d1f0-3c3d-4fbb-9622-8df44cecf299"/>
+        <COMPID name="Move a card" mc="Standard.UseCase" uid="ae974bad-9556-453b-a731-c0b3d06b6f7e"/>
+        <COMPID name="Start a game" mc="Standard.UseCase" uid="2ed96ed6-447d-4510-9fbb-0e4787588584"/>
+        <COMPID name="Choose the amount of players" mc="Standard.UseCase" uid="73177e5f-0048-426a-b1b6-3d528e7363e2"/>
+        <COMPID name="Choose player types (AI/Human)" mc="Standard.UseCase" uid="1b86e3dc-3bc9-48f6-a41c-1f777807c876"/>
+        <COMPID name="Visualize the game's state" mc="Standard.UseCase" uid="cadddd96-881e-41c7-8a23-9ed31a30db18"/>
+        <COMPID name="Visualize the game through text" mc="Standard.UseCase" uid="3c210a8c-c72d-4198-8aa4-1b31ad9779e5"/>
+        <COMPID name="Visualize the game graphically" mc="Standard.UseCase" uid="42c5e731-ab30-41a0-a294-05d29b7828b5"/>
+        <COMPID name="Interact through a GUI" mc="Standard.UseCase" uid="d9f2c1d5-ce88-4e8a-8553-7cf11e4d29a0"/>
+        <COMPID name="Interact through text" mc="Standard.UseCase" uid="f725a580-1678-4887-b468-8645bb4d218e"/>
+        <COMPID name="Interact with the game" mc="Standard.UseCase" uid="9248923c-bf26-47ce-89a1-6e948c1d0da5"/>
+        <COMPID name="Play a turn" mc="Standard.UseCase" uid="7bb9fe0e-c208-4311-b95f-6fee11db3b0b"/>
+        <COMPID name="Manage the game" mc="Standard.UseCase" uid="4204b058-6b4e-4567-8bf5-0f275a9e4733"/>
+        <COMPID name="Card" mc="Standard.Class" uid="1ed1bf1f-60bc-483b-816f-910001dc3912"/>
+        <COMPID name="Board" mc="Standard.Interface" uid="2a7e9c40-784f-49a8-81ad-eb19f9489602"/>
+        <OBJECT>
+          <ID name="Shape" mc="Standard.Enumeration" uid="feb7634e-27c1-4ff9-9cde-800126ce5903"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Shape]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Filledness" mc="Standard.Enumeration" uid="57f19ac8-45c3-44af-835a-407550ba08c4"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Filledness]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Color" mc="Standard.Enumeration" uid="9c92096b-f886-4dc0-b923-bf58bbd98042"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[Color]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="shape up Use Case diagram" mc="Standard.UseCaseDiagram" uid="20fa8901-0fde-480b-a500-ce6d55803702"/>
+        <COMPID name="shape up Class diagram" mc="Standard.ClassDiagram" uid="08a1e19c-af93-4014-bbcd-5c94afc65fb3"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
