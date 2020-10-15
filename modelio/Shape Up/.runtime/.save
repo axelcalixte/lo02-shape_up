@@ -1,8 +1,15 @@
-#Thu Oct 08 19:02:25 CEST 2020
+#Thu Oct 15 14:29:35 CEST 2020
 org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.full.perspective.parentId=app.ui.ext_com.partstack.bottom
-org.modelio.model.search.SearchHistory1=enum
+org.modelio.app.diagram.editor.OpenedDiagrams2='Interaction Sequence diagram' {1db132d9-5719-4a9d-8959-7c96d737a424} Standard.SequenceDiagram
+org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.app.ui.model.perspective.parentId=org.modelio.app.bottom.parts
+org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.development.perspective.parentId=app.ui.ext_com.partstack.bottom
+org.modelio.app.diagram.editor.OpenedDiagrams1='shape up Class diagram' {08a1e19c-af93-4014-bbcd-5c94afc65fb3} Standard.ClassDiagram
+org.modelio.app.diagram.editor.OpenedDiagrams0='shape up Use Case diagram' {20fa8901-0fde-480b-a500-ce6d55803702} Standard.UseCaseDiagram
+org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.full.perspective.parentId=app.ui.ext_com.partstack.bottom
+org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.diagram.perspective.parentId=app.ui.ext_com.partstack.right
 org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.app.ui.model.perspective.parentId=org.modelio.app.bottom.parts
 org.modelio.diagram.editor.OpenedDiagrams1='shape up Class diagram' {08a1e19c-af93-4014-bbcd-5c94afc65fb3} Standard.ClassDiagram
+org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.diagram.perspective.parentId=app.ui.ext_com.partstack.right
 org.modelio.diagram.editor.OpenedDiagrams0='shape up Use Case diagram' {20fa8901-0fde-480b-a500-ce6d55803702} Standard.UseCaseDiagram
 org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.development.perspective.parentId=app.ui.ext_com.partstack.bottom
-org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.diagram.perspective.parentId=app.ui.ext_com.partstack.right
+org.modelio.model.search.SearchHistory1=enum

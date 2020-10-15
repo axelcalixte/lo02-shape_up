@@ -5,7 +5,7 @@
     <ATTRIBUTES>
       <ATT name="LicenseKey">0</ATT>
       <ATT name="MajVersion">3</ATT>
-      <ATT name="MinVersion">9</ATT>
+      <ATT name="MinVersion">10</ATT>
       <ATT name="MinMinVersion"><![CDATA[0]]></ATT>
       <ATT name="MinBinVersionCompatibility"></ATT>
       <ATT name="JavaClassName"><![CDATA[org.modelio.module.javadesigner.impl.JavaDesignerModule]]></ATT>
@@ -14,20 +14,20 @@
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="DefinedPropertyType">
-        <COMPID name="GenerationMode" mc="Infrastructure.EnumeratedPropertyType" uid="0ef54160-47c4-42ef-9cca-d2a47c1dcd2f"/>
-        <COMPID name="RetrieveDefaultBehaviour" mc="Infrastructure.EnumeratedPropertyType" uid="5b7b1703-c86c-4385-8569-58ec4f1f2791"/>
-        <COMPID name="Encoding" mc="Infrastructure.EnumeratedPropertyType" uid="fcd233b6-928a-4cc4-8e93-eacbb94457fb"/>
-        <COMPID name="JavaCompatibility" mc="Infrastructure.EnumeratedPropertyType" uid="2e4000ee-ba9e-48e2-8849-306d3213829c"/>
-        <COMPID name="InterfaceImplementation" mc="Infrastructure.EnumeratedPropertyType" uid="a250d7fd-b5c6-486b-912f-ba5b87116d0d"/>
-        <COMPID name="AccessorsGeneration" mc="Infrastructure.EnumeratedPropertyType" uid="db6a6da8-af50-48c1-8894-176cbc2bf297"/>
-        <COMPID name="PublicAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="1bb0b6c3-6e77-4fc5-8de7-92bbaeefdb2d"/>
-        <COMPID name="PublicModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="fdafe6b0-3c8c-4800-a925-760b0dfe2528"/>
-        <COMPID name="ProtectedAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0227a322-98aa-462b-9558-8fa02c100e59"/>
-        <COMPID name="ProtectedModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="33eea5a9-1340-4ea9-8aa8-7bf6e15a8ba5"/>
-        <COMPID name="FriendlyAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="b4ba9143-77cb-426a-9be5-8e05fb48c56e"/>
-        <COMPID name="FriendlyModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="e6d56150-e9de-41e1-8825-0e190ffcbca3"/>
-        <COMPID name="PrivateAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0c5e8aa1-7a9c-4aaa-9876-f260ee41144e"/>
-        <COMPID name="PrivateModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="a5232ee7-14f7-4e6a-a863-850ead9fe1c3"/>
+        <COMPID name="GenerationMode" mc="Infrastructure.EnumeratedPropertyType" uid="971f7fc3-e631-4fb7-8ce1-4e6ad2ec54a1"/>
+        <COMPID name="RetrieveDefaultBehaviour" mc="Infrastructure.EnumeratedPropertyType" uid="4909a767-cf72-46fe-8a5a-1c2ecccbfc32"/>
+        <COMPID name="Encoding" mc="Infrastructure.EnumeratedPropertyType" uid="c3e7a9b7-520a-425c-b47a-4bfe4797fab1"/>
+        <COMPID name="JavaCompatibility" mc="Infrastructure.EnumeratedPropertyType" uid="62a2bede-2275-4d10-bcad-8a75f74c77a1"/>
+        <COMPID name="InterfaceImplementation" mc="Infrastructure.EnumeratedPropertyType" uid="2e5fd322-5d47-4bdd-9695-6902e5fe3e85"/>
+        <COMPID name="AccessorsGeneration" mc="Infrastructure.EnumeratedPropertyType" uid="3313d0f4-7348-4ae6-8537-557934a34f55"/>
+        <COMPID name="PublicAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="f153256c-5f1c-435b-9e3b-4247d7e58596"/>
+        <COMPID name="PublicModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="ea6ef588-7b86-4a34-80a4-73b9d88b2d2c"/>
+        <COMPID name="ProtectedAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="2f75488b-98c9-49c0-bc99-3120a1889697"/>
+        <COMPID name="ProtectedModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0d241ef8-7947-490d-983b-212ca59f2cd0"/>
+        <COMPID name="FriendlyAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="d115689f-d505-4ca1-b90b-43173ac47cfd"/>
+        <COMPID name="FriendlyModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="a52d0347-0a78-4c76-aca2-069b51d44bfb"/>
+        <COMPID name="PrivateAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="774b921f-8a07-4d62-bdd7-ea51422feecd"/>
+        <COMPID name="PrivateModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="bdd48933-78f7-4669-88dc-51d2a056a4cb"/>
       </COMP>
       <COMP relation="OwnedProfile">
         <COMPID name="JavaExtensions" mc="Infrastructure.Profile" uid="25801104-0000-1069-0000-000000000000"/>
@@ -49,7 +49,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="GenerationMode" mc="Infrastructure.EnumeratedPropertyType" uid="0ef54160-47c4-42ef-9cca-d2a47c1dcd2f"/>
+              <ID name="GenerationMode" mc="Infrastructure.EnumeratedPropertyType" uid="971f7fc3-e631-4fb7-8ce1-4e6ad2ec54a1"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -68,7 +68,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="RetrieveDefaultBehaviour" mc="Infrastructure.EnumeratedPropertyType" uid="5b7b1703-c86c-4385-8569-58ec4f1f2791"/>
+              <ID name="RetrieveDefaultBehaviour" mc="Infrastructure.EnumeratedPropertyType" uid="4909a767-cf72-46fe-8a5a-1c2ecccbfc32"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -87,7 +87,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="Encoding" mc="Infrastructure.EnumeratedPropertyType" uid="fcd233b6-928a-4cc4-8e93-eacbb94457fb"/>
+              <ID name="Encoding" mc="Infrastructure.EnumeratedPropertyType" uid="c3e7a9b7-520a-425c-b47a-4bfe4797fab1"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -106,7 +106,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="JavaCompatibility" mc="Infrastructure.EnumeratedPropertyType" uid="2e4000ee-ba9e-48e2-8849-306d3213829c"/>
+              <ID name="JavaCompatibility" mc="Infrastructure.EnumeratedPropertyType" uid="62a2bede-2275-4d10-bcad-8a75f74c77a1"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -335,7 +335,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="InterfaceImplementation" mc="Infrastructure.EnumeratedPropertyType" uid="a250d7fd-b5c6-486b-912f-ba5b87116d0d"/>
+              <ID name="InterfaceImplementation" mc="Infrastructure.EnumeratedPropertyType" uid="2e5fd322-5d47-4bdd-9695-6902e5fe3e85"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -354,7 +354,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="AccessorsGeneration" mc="Infrastructure.EnumeratedPropertyType" uid="db6a6da8-af50-48c1-8894-176cbc2bf297"/>
+              <ID name="AccessorsGeneration" mc="Infrastructure.EnumeratedPropertyType" uid="3313d0f4-7348-4ae6-8537-557934a34f55"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -373,7 +373,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="PublicAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="1bb0b6c3-6e77-4fc5-8de7-92bbaeefdb2d"/>
+              <ID name="PublicAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="f153256c-5f1c-435b-9e3b-4247d7e58596"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -392,7 +392,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="PublicModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="fdafe6b0-3c8c-4800-a925-760b0dfe2528"/>
+              <ID name="PublicModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="ea6ef588-7b86-4a34-80a4-73b9d88b2d2c"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -411,7 +411,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="ProtectedAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0227a322-98aa-462b-9558-8fa02c100e59"/>
+              <ID name="ProtectedAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="2f75488b-98c9-49c0-bc99-3120a1889697"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -430,7 +430,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="ProtectedModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="33eea5a9-1340-4ea9-8aa8-7bf6e15a8ba5"/>
+              <ID name="ProtectedModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0d241ef8-7947-490d-983b-212ca59f2cd0"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -449,7 +449,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="FriendlyAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="b4ba9143-77cb-426a-9be5-8e05fb48c56e"/>
+              <ID name="FriendlyAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="d115689f-d505-4ca1-b90b-43173ac47cfd"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -468,7 +468,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="FriendlyModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="e6d56150-e9de-41e1-8825-0e190ffcbca3"/>
+              <ID name="FriendlyModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="a52d0347-0a78-4c76-aca2-069b51d44bfb"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -487,7 +487,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="PrivateAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="0c5e8aa1-7a9c-4aaa-9876-f260ee41144e"/>
+              <ID name="PrivateAccessorVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="774b921f-8a07-4d62-bdd7-ea51422feecd"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
@@ -506,7 +506,7 @@
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="EnumType">
-              <ID name="PrivateModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="a5232ee7-14f7-4e6a-a863-850ead9fe1c3"/>
+              <ID name="PrivateModifierVisibility" mc="Infrastructure.EnumeratedPropertyType" uid="bdd48933-78f7-4669-88dc-51d2a056a4cb"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
