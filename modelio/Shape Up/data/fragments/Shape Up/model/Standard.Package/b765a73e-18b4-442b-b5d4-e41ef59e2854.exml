@@ -14,7 +14,8 @@
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedBehavior">
-        <COMPID name="Interaction" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
+        <COMPID name="Tour" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
+        <COMPID name="Général" mc="Standard.Interaction" uid="2254268d-401e-4e9c-b756-0f251342c105"/>
       </COMP>
       <COMP relation="OwnedElement">
         <COMPID name="Player" mc="Standard.Actor" uid="66e90925-d374-4379-bcec-bc1a79cb2af3"/>
@@ -50,25 +51,25 @@
           <DEPENDENCIES>
             <COMP relation="Value">
               <OBJECT>
-                <ID name="Circle" mc="Standard.EnumerationLiteral" uid="23990dda-f02b-46b9-bd5a-b3239f6286c3"/>
+                <ID name="CIRCLE" mc="Standard.EnumerationLiteral" uid="23990dda-f02b-46b9-bd5a-b3239f6286c3"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Circle]]></ATT>
+                  <ATT name="Name"><![CDATA[CIRCLE]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="Square" mc="Standard.EnumerationLiteral" uid="801bcf27-d0b3-4532-8e97-6e6a5ec28335"/>
+                <ID name="SQUARE" mc="Standard.EnumerationLiteral" uid="801bcf27-d0b3-4532-8e97-6e6a5ec28335"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Square]]></ATT>
+                  <ATT name="Name"><![CDATA[SQUARE]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="Triangle" mc="Standard.EnumerationLiteral" uid="a918a804-024c-4219-b096-388244397b42"/>
+                <ID name="TRIANGLE" mc="Standard.EnumerationLiteral" uid="a918a804-024c-4219-b096-388244397b42"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Triangle]]></ATT>
+                  <ATT name="Name"><![CDATA[TRIANGLE]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
@@ -90,17 +91,17 @@
           <DEPENDENCIES>
             <COMP relation="Value">
               <OBJECT>
-                <ID name="Filled" mc="Standard.EnumerationLiteral" uid="db21eb1a-3dd2-4346-9388-79b750715c46"/>
+                <ID name="FILLED" mc="Standard.EnumerationLiteral" uid="db21eb1a-3dd2-4346-9388-79b750715c46"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Filled]]></ATT>
+                  <ATT name="Name"><![CDATA[FILLED]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="Hollow" mc="Standard.EnumerationLiteral" uid="37292268-aeef-4a3e-92ee-65814aa63a06"/>
+                <ID name="HOLLOW" mc="Standard.EnumerationLiteral" uid="37292268-aeef-4a3e-92ee-65814aa63a06"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Hollow]]></ATT>
+                  <ATT name="Name"><![CDATA[HOLLOW]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
@@ -122,25 +123,25 @@
           <DEPENDENCIES>
             <COMP relation="Value">
               <OBJECT>
-                <ID name="Red" mc="Standard.EnumerationLiteral" uid="8cdc537e-d061-4b8a-a909-d8b9afb68311"/>
+                <ID name="RED" mc="Standard.EnumerationLiteral" uid="8cdc537e-d061-4b8a-a909-d8b9afb68311"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Red]]></ATT>
+                  <ATT name="Name"><![CDATA[RED]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="Green" mc="Standard.EnumerationLiteral" uid="25f52643-1b22-47ce-91cc-20d0e888d6d5"/>
+                <ID name="GREEN" mc="Standard.EnumerationLiteral" uid="25f52643-1b22-47ce-91cc-20d0e888d6d5"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Green]]></ATT>
+                  <ATT name="Name"><![CDATA[GREEN]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="Blue" mc="Standard.EnumerationLiteral" uid="13b28392-48fe-4486-be62-5a8bda07b2de"/>
+                <ID name="BLUE" mc="Standard.EnumerationLiteral" uid="13b28392-48fe-4486-be62-5a8bda07b2de"/>
                 <ATTRIBUTES>
-                  <ATT name="Name"><![CDATA[Blue]]></ATT>
+                  <ATT name="Name"><![CDATA[BLUE]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES></DEPENDENCIES>
@@ -149,16 +150,48 @@
           </DEPENDENCIES>
         </OBJECT>
         <COMPID name="Deck" mc="Standard.Class" uid="b74f803a-235b-4677-a75f-d4460476c28c"/>
-        <COMPID name="Shape Up" mc="Standard.Class" uid="c30a7c77-2f10-418c-ad1f-4417497732d5"/>
         <COMPID name="UI" mc="Standard.Interface" uid="c1b81c2e-6935-4e73-b2bc-bd880a0e826e"/>
         <COMPID name="CLI" mc="Standard.Class" uid="7536b1b5-b1e9-46e0-8bcb-55d5f51d077d"/>
         <COMPID name="GUI" mc="Standard.Class" uid="6641b1ea-cfad-4141-9c39-093871c44490"/>
         <COMPID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
-        <COMPID name="Player" mc="Standard.Interface" uid="76c4f391-b8e7-4f4d-b9fa-1ee0b6751767"/>
         <COMPID name="GameController" mc="Standard.Class" uid="5d119cdf-95ed-4b45-95a8-abf0fec20849"/>
-        <COMPID name="RealPlayer" mc="Standard.Class" uid="8c41b6d5-4d07-4239-b6ce-141fd54bef95"/>
-        <COMPID name="BasicAI" mc="Standard.Class" uid="a4362dea-050f-4978-9580-10667cd8ebe2"/>
-        <COMPID name="AdvancedAI" mc="Standard.Class" uid="78516d0a-6ada-496b-8539-8a42923b1ebf"/>
+        <COMPID name="GridBoard" mc="Standard.Class" uid="d5e4a392-c7b3-4ade-849d-590e2232d506"/>
+        <COMPID name="RoundBoard" mc="Standard.Class" uid="b1064228-469a-4d66-adda-f9b37b1dfc45"/>
+        <COMPID name="VirtualUI" mc="Standard.Class" uid="92fd69ac-aed3-4f80-a8a9-5c093b33c02c"/>
+        <COMPID name="PlayerState" mc="Standard.Class" uid="6c56891b-2d28-42c2-a4c7-4f2e5f248157"/>
+        <COMPID name="PlayerAction" mc="Standard.Interface" uid="228263dc-6044-4368-bdca-63995ffa87e0"/>
+        <OBJECT>
+          <ID name="AskAgain" mc="Standard.Enumeration" uid="c29dbc54-b91f-4248-a15f-193155cee5ba"/>
+          <ATTRIBUTES>
+            <ATT name="IsElementary">true</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[AskAgain]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Value">
+              <OBJECT>
+                <ID name="YES" mc="Standard.EnumerationLiteral" uid="8950bb46-c78d-4834-9c22-b3d0be152e35"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[YES]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="NO" mc="Standard.EnumerationLiteral" uid="44eb32cb-6c40-4379-b22b-577b8c07b270"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"><![CDATA[NO]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES></DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
       </COMP>
       <COMP relation="Product">
         <COMPID name="shape up Use Case diagram" mc="Standard.UseCaseDiagram" uid="20fa8901-0fde-480b-a500-ce6d55803702"/>

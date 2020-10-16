@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Player" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="PlayerAction" version="4">
   <OBJECT>
-    <ID name="Player" mc="Standard.Interface" uid="76c4f391-b8e7-4f4d-b9fa-1ee0b6751767"/>
+    <ID name="PlayerAction" mc="Standard.Interface" uid="228263dc-6044-4368-bdca-63995ffa87e0"/>
     <PID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
     <ATTRIBUTES>
       <ATT name="IsElementary">false</ATT>
@@ -9,13 +9,13 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[Player]]></ATT>
+      <ATT name="Name"><![CDATA[PlayerAction]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="giveCard" mc="Standard.Operation" uid="43bf6dfc-d0ef-4399-811c-fb772885651c"/>
+          <ID name="executeAction" mc="Standard.Operation" uid="c112f23f-bb7a-43cd-832d-8d3364b1126e"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -23,13 +23,37 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[giveCard]]></ATT>
+            <ATT name="Name"><![CDATA[executeAction]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <COMP relation="IO">
               <OBJECT>
-                <ID name="card" mc="Standard.Parameter" uid="b19eef1f-1fa2-4761-af65-155097600b5b"/>
+                <ID name="c" mc="Standard.Parameter" uid="962aa476-e673-4ddb-bc16-215a85d497d9"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">Inout</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[c]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="GameController" mc="Standard.Class" uid="5d119cdf-95ed-4b45-95a8-abf0fec20849"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="Return">
+              <OBJECT>
+                <ID name="p2" mc="Standard.Parameter" uid="fc76ca3b-b7f6-4afd-b2bf-2576043b4d2e"/>
                 <ATTRIBUTES>
                   <ATT name="ParameterPassing">In</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
@@ -41,12 +65,12 @@
                   <ATT name="IsException">false</ATT>
                   <ATT name="IsStream">false</ATT>
                   <ATT name="Effect">ReadEffect</ATT>
-                  <ATT name="Name"><![CDATA[card]]></ATT>
+                  <ATT name="Name"><![CDATA[p2]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="Card" mc="Standard.Class" uid="1ed1bf1f-60bc-483b-816f-910001dc3912"/>
+                    <FOREIGNID name="boolean" mc="Standard.DataType" uid="00000004-0000-0005-0000-000000000000"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>

@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Général" version="4">
+  <OBJECT>
+    <ID name="Général" mc="Standard.Interaction" uid="2254268d-401e-4e9c-b756-0f251342c105"/>
+    <PID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
+    <ATTRIBUTES>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[Général]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedCollaboration">
+        <OBJECT>
+          <ID name="locals" mc="Standard.Collaboration" uid="ba40fa4c-7154-4cb2-9258-86c734d256e4"/>
+          <ATTRIBUTES>
+            <ATT name="IsConcurrent">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[locals]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Interaction1 Sequence diagram" mc="Standard.SequenceDiagram" uid="452a6748-aa76-45fd-a197-fdc6f4ee8de0"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

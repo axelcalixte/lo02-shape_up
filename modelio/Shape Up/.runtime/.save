@@ -1,5 +1,6 @@
-#Thu Oct 15 14:29:35 CEST 2020
+#Fri Oct 16 16:24:18 CEST 2020
 org.modelio.module.propertytab.JavaDesigner\ v3.8.01\ GModule\ @file\:///home/lumm/.modelio/3.8/modules/JavaDesigner_3.8.01/JavaDesigner_3.8.01.jmdac\ runtime\ module_.org.modelio.full.perspective.parentId=app.ui.ext_com.partstack.bottom
+org.modelio.app.diagram.editor.OpenedDiagrams3='Interaction1 Sequence diagram' {452a6748-aa76-45fd-a197-fdc6f4ee8de0} Standard.SequenceDiagram
 org.modelio.app.diagram.editor.OpenedDiagrams2='Interaction Sequence diagram' {1db132d9-5719-4a9d-8959-7c96d737a424} Standard.SequenceDiagram
 org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.app.ui.model.perspective.parentId=org.modelio.app.bottom.parts
 org.modelio.app.module.propertytab.JavaDesigner\ v3.10.00\ GModule\ @null\ runtime\ module_.org.modelio.development.perspective.parentId=app.ui.ext_com.partstack.bottom

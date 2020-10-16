@@ -1,146 +1,14 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Interaction" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Tour" version="4">
   <OBJECT>
-    <ID name="Interaction" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
+    <ID name="Tour" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
     <PID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
     <ATTRIBUTES>
       <ATT name="IsReentrant">false</ATT>
-      <ATT name="Name"><![CDATA[Interaction]]></ATT>
+      <ATT name="Name"><![CDATA[Tour]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
-      <COMP relation="Fragment">
-        <OBJECT>
-          <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="e8ea73f4-1058-4ec4-98b0-42fb3aff2933"/>
-          <ATTRIBUTES>
-            <ATT name="LineNumber">91</ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="SentMessage">
-              <OBJECT>
-                <ID name="" mc="Standard.Message" uid="00173879-c4e0-4db8-91a6-2afff585ccd5"/>
-                <ATTRIBUTES>
-                  <ATT name="Argument"></ATT>
-                  <ATT name="KindOfMessage">CompleteKind</ATT>
-                  <ATT name="SortOfMessage">SyncCall</ATT>
-                  <ATT name="Sequence"><![CDATA[1]]></ATT>
-                  <ATT name="Name"></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="ReceiveEvent">
-                    <REFOBJ>
-                      <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="207b0faf-2c69-4624-bb70-b9b516f25f5c"/>
-                    </REFOBJ>
-                  </LINK>
-                  <LINK relation="Invoked">
-                    <REFOBJ>
-                      <ID name="drawCard" mc="Standard.Operation" uid="fd65fe7f-0aca-440d-8a67-6dba4e9ba8cb"/>
-                    </REFOBJ>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-            <LINK relation="Covered">
-              <REFOBJ>
-                <ID name="controller" mc="Standard.Lifeline" uid="56f7c183-5d04-44ed-bcca-095e29c633cf"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="207b0faf-2c69-4624-bb70-b9b516f25f5c"/>
-          <ATTRIBUTES>
-            <ATT name="LineNumber">91</ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Started">
-              <REFOBJ>
-                <ID name="" mc="Standard.ExecutionSpecification" uid="0bdbafde-955b-4b00-838d-0da375820157"/>
-              </REFOBJ>
-            </LINK>
-            <LINK relation="Covered">
-              <REFOBJ>
-                <ID name="r" mc="Standard.Lifeline" uid="24729829-2dfa-48de-a921-f13349c0c762"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="d2429d2e-48f8-40b4-b55d-e44d39b0a7f0"/>
-          <ATTRIBUTES>
-            <ATT name="LineNumber">151</ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <COMP relation="SentMessage">
-              <OBJECT>
-                <ID name="top card of the deck" mc="Standard.Message" uid="c31d76e9-944f-4a3c-a451-3e839f3b3df3"/>
-                <ATTRIBUTES>
-                  <ATT name="Argument"></ATT>
-                  <ATT name="KindOfMessage">CompleteKind</ATT>
-                  <ATT name="SortOfMessage">ReturnMessage</ATT>
-                  <ATT name="Sequence"><![CDATA[2]]></ATT>
-                  <ATT name="Name"><![CDATA[top card of the deck]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="ReceiveEvent">
-                    <REFOBJ>
-                      <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="4f9b235b-759c-4397-baf0-3443ad2c5a87"/>
-                    </REFOBJ>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
-            <LINK relation="Covered">
-              <REFOBJ>
-                <ID name="r" mc="Standard.Lifeline" uid="24729829-2dfa-48de-a921-f13349c0c762"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Standard.ExecutionSpecification" uid="0bdbafde-955b-4b00-838d-0da375820157"/>
-          <ATTRIBUTES>
-            <ATT name="LineNumber">91</ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Finish">
-              <REFOBJ>
-                <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="d2429d2e-48f8-40b4-b55d-e44d39b0a7f0"/>
-              </REFOBJ>
-            </LINK>
-            <LINK relation="Covered">
-              <REFOBJ>
-                <ID name="r" mc="Standard.Lifeline" uid="24729829-2dfa-48de-a921-f13349c0c762"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="" mc="Standard.ExecutionOccurenceSpecification" uid="4f9b235b-759c-4397-baf0-3443ad2c5a87"/>
-          <ATTRIBUTES>
-            <ATT name="LineNumber">151</ATT>
-            <ATT name="Name"></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Covered">
-              <REFOBJ>
-                <ID name="controller" mc="Standard.Lifeline" uid="56f7c183-5d04-44ed-bcca-095e29c633cf"/>
-              </REFOBJ>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
       <COMP relation="OwnedLine">
         <OBJECT>
           <ID name="controller" mc="Standard.Lifeline" uid="56f7c183-5d04-44ed-bcca-095e29c633cf"/>
@@ -158,48 +26,64 @@
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="p2" mc="Standard.Lifeline" uid="a356b1bd-90ca-46d5-8315-ecbebbf2961a"/>
+          <ID name="deck" mc="Standard.Lifeline" uid="24729829-2dfa-48de-a921-f13349c0c762"/>
           <ATTRIBUTES>
             <ATT name="Selector"></ATT>
-            <ATT name="Name"><![CDATA[p2]]></ATT>
+            <ATT name="Name"><![CDATA[deck]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Represented">
               <REFOBJ>
-                <ID name="p2" mc="Standard.BindableInstance" uid="02e91378-47db-412d-a766-92371a76266a"/>
+                <ID name="deck" mc="Standard.BindableInstance" uid="066b37f9-b63e-4da2-8680-3b2f911a7c16"/>
               </REFOBJ>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="p1" mc="Standard.Lifeline" uid="51a07ded-7244-4779-b5b8-6d533f442d52"/>
+          <ID name="board" mc="Standard.Lifeline" uid="b3748ce6-bbc4-4e44-941a-28d4448f6cf0"/>
           <ATTRIBUTES>
             <ATT name="Selector"></ATT>
-            <ATT name="Name"><![CDATA[p1]]></ATT>
+            <ATT name="Name"><![CDATA[board]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Represented">
               <REFOBJ>
-                <ID name="p1" mc="Standard.BindableInstance" uid="d4535174-0512-4130-bf89-83d6d431b511"/>
+                <ID name="board" mc="Standard.BindableInstance" uid="f516fc54-f55d-4f21-b8c2-b00a9f69c0c3"/>
               </REFOBJ>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>
         <OBJECT>
-          <ID name="r" mc="Standard.Lifeline" uid="24729829-2dfa-48de-a921-f13349c0c762"/>
+          <ID name="ui" mc="Standard.Lifeline" uid="51c3644b-aa65-46fb-8e4c-12d5574e8993"/>
           <ATTRIBUTES>
             <ATT name="Selector"></ATT>
-            <ATT name="Name"><![CDATA[r]]></ATT>
+            <ATT name="Name"><![CDATA[ui]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="Represented">
               <REFOBJ>
-                <ID name="r" mc="Standard.BindableInstance" uid="066b37f9-b63e-4da2-8680-3b2f911a7c16"/>
+                <ID name="ui" mc="Standard.BindableInstance" uid="b8e22912-2d77-4db2-b117-3ab28cef811f"/>
               </REFOBJ>
             </LINK>
+            <COMP relation="Descriptor">
+              <OBJECT>
+                <ID name="Note" mc="Infrastructure.Note" uid="03fc3c29-090c-4c13-92db-ca8ead6a692f"/>
+                <ATTRIBUTES>
+                  <ATT name="Content"><![CDATA[Actions triggered by player interaction]]></ATT>
+                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
+                  <ATT name="Name"><![CDATA[Note]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Model">
+                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
@@ -243,11 +127,7 @@
                   <ATT name="Name"><![CDATA[p2]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Base">
-                    <ID name="Player" mc="Standard.Interface" uid="76c4f391-b8e7-4f4d-b9fa-1ee0b6751767"/>
-                  </LINK>
-                </DEPENDENCIES>
+                <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
                 <ID name="p1" mc="Standard.BindableInstance" uid="d4535174-0512-4130-bf89-83d6d431b511"/>
@@ -259,25 +139,53 @@
                   <ATT name="Name"><![CDATA[p1]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Base">
-                    <ID name="Player" mc="Standard.Interface" uid="76c4f391-b8e7-4f4d-b9fa-1ee0b6751767"/>
-                  </LINK>
-                </DEPENDENCIES>
+                <DEPENDENCIES></DEPENDENCIES>
               </OBJECT>
               <OBJECT>
-                <ID name="r" mc="Standard.BindableInstance" uid="066b37f9-b63e-4da2-8680-3b2f911a7c16"/>
+                <ID name="deck" mc="Standard.BindableInstance" uid="066b37f9-b63e-4da2-8680-3b2f911a7c16"/>
                 <ATTRIBUTES>
                   <ATT name="IsConstant">false</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="Value"></ATT>
-                  <ATT name="Name"><![CDATA[r]]></ATT>
+                  <ATT name="Name"><![CDATA[deck]]></ATT>
                   <ATT name="status">1970354901745664</ATT>
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Base">
                     <ID name="Deck" mc="Standard.Class" uid="b74f803a-235b-4677-a75f-d4460476c28c"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="board" mc="Standard.BindableInstance" uid="f516fc54-f55d-4f21-b8c2-b00a9f69c0c3"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[board]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="Board" mc="Standard.Interface" uid="2a7e9c40-784f-49a8-81ad-eb19f9489602"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="ui" mc="Standard.BindableInstance" uid="b8e22912-2d77-4db2-b117-3ab28cef811f"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[ui]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="UI" mc="Standard.Interface" uid="c1b81c2e-6935-4e73-b2bc-bd880a0e826e"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
