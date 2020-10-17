@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="shapeUP_useCaseDiagram" version="4">
+  <OBJECT>
+    <ID name="shapeUP_useCaseDiagram" mc="Infrastructure.DiagramSet" uid="187cd584-69f9-446f-888e-3c31f9c56018"/>
+    <PID name="shapeUP_useCaseDiagram" mc="Standard.Project" uid="9a27c5ef-b214-44f7-9ee5-834071fb42f5"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[shapeUP_useCaseDiagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

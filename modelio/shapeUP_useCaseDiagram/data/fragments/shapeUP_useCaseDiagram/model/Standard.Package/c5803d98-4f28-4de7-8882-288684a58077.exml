@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="shapeup_usecasediagram" version="4">
+  <OBJECT>
+    <ID name="shapeup_usecasediagram" mc="Standard.Package" uid="c5803d98-4f28-4de7-8882-288684a58077"/>
+    <PID name="shapeUP_useCaseDiagram" mc="Standard.Project" uid="9a27c5ef-b214-44f7-9ee5-834071fb42f5"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[shapeup_usecasediagram]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="Player" mc="Standard.Actor" uid="a5444608-d44f-4d82-9447-817669a0c255"/>
+        <COMPID name="Play a 2 player game" mc="Standard.UseCase" uid="f78b77e8-620c-457b-8c37-604b8724ab4b"/>
+        <COMPID name="Manage the game" mc="Standard.UseCase" uid="3ed36d9e-415a-4d4b-b173-80ec0a8baf0b"/>
+        <COMPID name="Play an &quot;advanced&quot; game" mc="Standard.UseCase" uid="eb8baa04-ae66-4043-b4cd-ed014058ea2a"/>
+        <COMPID name="Play a 3 player game" mc="Standard.UseCase" uid="dfb8f927-d139-4de2-a67e-2571d44c53dc"/>
+        <COMPID name="Choose the players' types" mc="Standard.UseCase" uid="3dc3931c-1954-4155-aabf-167b4a3e2ddc"/>
+        <COMPID name="Choose the amount of players for the game" mc="Standard.UseCase" uid="8ed4ebf0-86bc-469d-8ea3-6e1e79834ee0"/>
+        <COMPID name="Choose the game's mode" mc="Standard.UseCase" uid="cc80afaf-f125-4719-b846-23ea3766960f"/>
+        <COMPID name="Draw a card for a turn" mc="Standard.UseCase" uid="25b76e59-9102-4a5b-80b4-1a1e9bb7f486"/>
+        <COMPID name="Take a look at your own victory card" mc="Standard.UseCase" uid="7674a2f6-72a8-4cb2-acfd-4a383886b216"/>
+        <COMPID name="Place a card on the board" mc="Standard.UseCase" uid="c7d52559-e8a0-477c-9032-f17ef5db5250"/>
+        <COMPID name="Move a card elsewhere on the board" mc="Standard.UseCase" uid="46fbf4d1-db08-4614-aecf-932e54045a11"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="shapeup_usecasediagram Use Case diagram" mc="Standard.UseCaseDiagram" uid="47a51b12-5f1a-407a-bf5c-72faa3b7e150"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
