@@ -14,7 +14,7 @@
     </ATTRIBUTES>
     <DEPENDENCIES>
       <COMP relation="OwnedBehavior">
-        <COMPID name="Tour" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
+        <COMPID name="Turn" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
         <COMPID name="Général" mc="Standard.Interaction" uid="2254268d-401e-4e9c-b756-0f251342c105"/>
       </COMP>
       <COMP relation="OwnedElement">
@@ -195,7 +195,8 @@
       </COMP>
       <COMP relation="Product">
         <COMPID name="shape up Use Case diagram" mc="Standard.UseCaseDiagram" uid="20fa8901-0fde-480b-a500-ce6d55803702"/>
-        <COMPID name="shape up Class diagram" mc="Standard.ClassDiagram" uid="08a1e19c-af93-4014-bbcd-5c94afc65fb3"/>
+        <COMPID name="shape up complete Class diagram" mc="Standard.ClassDiagram" uid="08a1e19c-af93-4014-bbcd-5c94afc65fb3"/>
+        <COMPID name="shape up simple Class diagram" mc="Standard.ClassDiagram" uid="aa1cb3a7-3e4f-4460-bdef-cac749d34917"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

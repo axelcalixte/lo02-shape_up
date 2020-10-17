@@ -70,7 +70,9 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <FOREIGNID name="boolean" mc="Standard.DataType" uid="00000004-0000-0005-0000-000000000000"/>
+                    <REFOBJ>
+                      <ID name="AskAgain" mc="Standard.Enumeration" uid="c29dbc54-b91f-4248-a15f-193155cee5ba"/>
+                    </REFOBJ>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>

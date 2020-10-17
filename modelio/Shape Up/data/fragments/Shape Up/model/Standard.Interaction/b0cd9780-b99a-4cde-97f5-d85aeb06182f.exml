@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Tour" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="Turn" version="4">
   <OBJECT>
-    <ID name="Tour" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
+    <ID name="Turn" mc="Standard.Interaction" uid="b0cd9780-b99a-4cde-97f5-d85aeb06182f"/>
     <PID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
     <ATTRIBUTES>
       <ATT name="IsReentrant">false</ATT>
-      <ATT name="Name"><![CDATA[Tour]]></ATT>
+      <ATT name="Name"><![CDATA[Turn]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
@@ -53,37 +53,6 @@
                 <ID name="board" mc="Standard.BindableInstance" uid="f516fc54-f55d-4f21-b8c2-b00a9f69c0c3"/>
               </REFOBJ>
             </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-        <OBJECT>
-          <ID name="ui" mc="Standard.Lifeline" uid="51c3644b-aa65-46fb-8e4c-12d5574e8993"/>
-          <ATTRIBUTES>
-            <ATT name="Selector"></ATT>
-            <ATT name="Name"><![CDATA[ui]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Represented">
-              <REFOBJ>
-                <ID name="ui" mc="Standard.BindableInstance" uid="b8e22912-2d77-4db2-b117-3ab28cef811f"/>
-              </REFOBJ>
-            </LINK>
-            <COMP relation="Descriptor">
-              <OBJECT>
-                <ID name="Note" mc="Infrastructure.Note" uid="03fc3c29-090c-4c13-92db-ca8ead6a692f"/>
-                <ATTRIBUTES>
-                  <ATT name="Content"><![CDATA[Actions triggered by player interaction]]></ATT>
-                  <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
-                  <ATT name="Name"><![CDATA[Note]]></ATT>
-                  <ATT name="status">1970354901745664</ATT>
-                </ATTRIBUTES>
-                <DEPENDENCIES>
-                  <LINK relation="Model">
-                    <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
-                  </LINK>
-                </DEPENDENCIES>
-              </OBJECT>
-            </COMP>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
@@ -189,12 +158,44 @@
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
+              <OBJECT>
+                <ID name="gui" mc="Standard.BindableInstance" uid="5dd1d395-7249-47fa-bdaf-d6b596f1e124"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[gui]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="GUI" mc="Standard.Class" uid="6641b1ea-cfad-4141-9c39-093871c44490"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+              <OBJECT>
+                <ID name="vui" mc="Standard.BindableInstance" uid="350bdf32-7c0c-4654-a7dd-c0db3d078300"/>
+                <ATTRIBUTES>
+                  <ATT name="IsConstant">false</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
+                  <ATT name="Value"></ATT>
+                  <ATT name="Name"><![CDATA[vui]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Base">
+                    <ID name="VirtualUI" mc="Standard.Class" uid="92fd69ac-aed3-4f80-a8a9-5c093b33c02c"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
       <COMP relation="Product">
-        <COMPID name="Interaction Sequence diagram" mc="Standard.SequenceDiagram" uid="1db132d9-5719-4a9d-8959-7c96d737a424"/>
+        <COMPID name="Turn Sequence diagram" mc="Standard.SequenceDiagram" uid="1db132d9-5719-4a9d-8959-7c96d737a424"/>
       </COMP>
     </DEPENDENCIES>
   </OBJECT>

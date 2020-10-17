@@ -29,23 +29,6 @@
           </DEPENDENCIES>
         </OBJECT>
       </COMP>
-      <COMP relation="Descriptor">
-        <OBJECT>
-          <ID name="Note" mc="Infrastructure.Note" uid="4e73d1a5-08ff-4f71-9239-e3c18f57c3cf"/>
-          <ATTRIBUTES>
-            <ATT name="Content"><![CDATA[Used by AI players.
-This way, real and AI players interact with the game in the same way.]]></ATT>
-            <ATT name="MimeType"><![CDATA[text/plain]]></ATT>
-            <ATT name="Name"><![CDATA[Note]]></ATT>
-            <ATT name="status">1970354901745664</ATT>
-          </ATTRIBUTES>
-          <DEPENDENCIES>
-            <LINK relation="Model">
-              <FOREIGNID name="description" mc="Infrastructure.NoteType" uid="00000000-0000-3e81-0000-000000000000"/>
-            </LINK>
-          </DEPENDENCIES>
-        </OBJECT>
-      </COMP>
     </DEPENDENCIES>
   </OBJECT>
 </EXT>
