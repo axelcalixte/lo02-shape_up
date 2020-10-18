@@ -15,7 +15,7 @@
     <DEPENDENCIES>
       <COMP relation="OwnedOperation">
         <OBJECT>
-          <ID name="playablePositions" mc="Standard.Operation" uid="1eb8fa63-4516-44b9-bf3d-9481d65c6f13"/>
+          <ID name="getFreePositions" mc="Standard.Operation" uid="1eb8fa63-4516-44b9-bf3d-9481d65c6f13"/>
           <ATTRIBUTES>
             <ATT name="Concurrency">false</ATT>
             <ATT name="Final">false</ATT>
@@ -23,7 +23,7 @@
             <ATT name="Visibility">Public</ATT>
             <ATT name="IsClass">false</ATT>
             <ATT name="IsAbstract">false</ATT>
-            <ATT name="Name"><![CDATA[playablePositions]]></ATT>
+            <ATT name="Name"><![CDATA[getFreePositions]]></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
@@ -46,7 +46,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
+                    <ID name="Coordinates" mc="Standard.Interface" uid="77421912-8dc3-4b69-b072-9f98dadf4ff7"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -85,7 +85,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
+                    <ID name="Coordinates" mc="Standard.Interface" uid="77421912-8dc3-4b69-b072-9f98dadf4ff7"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -107,7 +107,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
+                    <ID name="Coordinates" mc="Standard.Interface" uid="77421912-8dc3-4b69-b072-9f98dadf4ff7"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -153,7 +153,7 @@
               <OBJECT>
                 <ID name="co" mc="Standard.Parameter" uid="33f6e472-f3d5-4a99-8aed-65b2ae06dda1"/>
                 <ATTRIBUTES>
-                  <ATT name="ParameterPassing">Inout</ATT>
+                  <ATT name="ParameterPassing">In</ATT>
                   <ATT name="MultiplicityMin"><![CDATA[1]]></ATT>
                   <ATT name="MultiplicityMax"><![CDATA[1]]></ATT>
                   <ATT name="TypeConstraint"></ATT>
@@ -168,7 +168,7 @@
                 </ATTRIBUTES>
                 <DEPENDENCIES>
                   <LINK relation="Type">
-                    <ID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
+                    <ID name="Coordinates" mc="Standard.Interface" uid="77421912-8dc3-4b69-b072-9f98dadf4ff7"/>
                   </LINK>
                 </DEPENDENCIES>
               </OBJECT>
@@ -191,17 +191,70 @@
             </COMP>
           </DEPENDENCIES>
         </OBJECT>
+        <OBJECT>
+          <ID name="getOccupiedPositions" mc="Standard.Operation" uid="5456663c-1f7b-4c77-8faa-aee406dd9a99"/>
+          <ATTRIBUTES>
+            <ATT name="Concurrency">false</ATT>
+            <ATT name="Final">false</ATT>
+            <ATT name="Passing">MethodOut</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="IsClass">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="Name"><![CDATA[getOccupiedPositions]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="Return">
+              <OBJECT>
+                <ID name="p1" mc="Standard.Parameter" uid="090d0152-142b-495a-a274-fb358fe476a9"/>
+                <ATTRIBUTES>
+                  <ATT name="ParameterPassing">In</ATT>
+                  <ATT name="MultiplicityMin"><![CDATA[0]]></ATT>
+                  <ATT name="MultiplicityMax"><![CDATA[*]]></ATT>
+                  <ATT name="TypeConstraint"></ATT>
+                  <ATT name="DefaultValue"></ATT>
+                  <ATT name="IsOrdered">false</ATT>
+                  <ATT name="IsUnique">false</ATT>
+                  <ATT name="IsException">false</ATT>
+                  <ATT name="IsStream">false</ATT>
+                  <ATT name="Effect">ReadEffect</ATT>
+                  <ATT name="Name"><![CDATA[p1]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="Type">
+                    <ID name="OccupiedPosition" mc="Standard.Class" uid="ee3744cb-cbca-44a1-bf1e-f81e4784ca36"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <COMP relation="DependsOnDependency">
+              <OBJECT>
+                <ID name="" mc="Infrastructure.Dependency" uid="bc1e95f3-a603-4f81-9219-ce2237ae5ba4"/>
+                <ATTRIBUTES>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="DependsOn">
+                    <ID name="OccupiedPosition" mc="Standard.Class" uid="ee3744cb-cbca-44a1-bf1e-f81e4784ca36"/>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+          </DEPENDENCIES>
+        </OBJECT>
       </COMP>
       <COMP relation="DependsOnDependency">
         <OBJECT>
-          <ID name="" mc="Infrastructure.Dependency" uid="5e1e1e4f-331d-4776-91a1-66475b9f1dc8"/>
+          <ID name="" mc="Infrastructure.Dependency" uid="d4ea7952-b93d-45e7-99c9-f326e0c16bd0"/>
           <ATTRIBUTES>
             <ATT name="Name"></ATT>
             <ATT name="status">1970354901745664</ATT>
           </ATTRIBUTES>
           <DEPENDENCIES>
             <LINK relation="DependsOn">
-              <ID name="Coordinate" mc="Standard.Class" uid="79c329b6-0c02-4bb7-8353-0c5c9189517d"/>
+              <ID name="Coordinates" mc="Standard.Interface" uid="77421912-8dc3-4b69-b072-9f98dadf4ff7"/>
             </LINK>
           </DEPENDENCIES>
         </OBJECT>

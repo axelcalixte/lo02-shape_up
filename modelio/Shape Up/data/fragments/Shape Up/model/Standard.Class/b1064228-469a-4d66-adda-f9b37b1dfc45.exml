@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
-<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="RoundBoard" version="4">
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="CircleBoard" version="4">
   <OBJECT>
-    <ID name="RoundBoard" mc="Standard.Class" uid="b1064228-469a-4d66-adda-f9b37b1dfc45"/>
+    <ID name="CircleBoard" mc="Standard.Class" uid="b1064228-469a-4d66-adda-f9b37b1dfc45"/>
     <PID name="shape up" mc="Standard.Package" uid="b765a73e-18b4-442b-b5d4-e41ef59e2854"/>
     <ATTRIBUTES>
       <ATT name="IsActive">false</ATT>
@@ -11,7 +11,7 @@
       <ATT name="IsLeaf">false</ATT>
       <ATT name="IsRoot">false</ATT>
       <ATT name="Visibility">Public</ATT>
-      <ATT name="Name"><![CDATA[RoundBoard]]></ATT>
+      <ATT name="Name"><![CDATA[CircleBoard]]></ATT>
       <ATT name="status">1970354901745664</ATT>
     </ATTRIBUTES>
     <DEPENDENCIES>
