@@ -12,6 +12,8 @@ A variation of it will be used for the AI : there will be something like an
 AI interface with several methods that will be called by the GameController
 when necessary.
 
+Could also be used to implement rule variations.
+
 # Observer pattern
 
 Will be used to notify the UI of game state changes.
