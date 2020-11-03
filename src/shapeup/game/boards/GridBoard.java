@@ -1,7 +1,6 @@
 package shapeup.game.boards;
 
 import shapeup.game.Card;
-import shapeup.util.Tuple;
 
 public class GridBoard implements Board {
   public GridBoard() { }
@@ -22,7 +21,7 @@ public class GridBoard implements Board {
   }
 
   @Override
-  public Tuple<Coordinates, Card> getOccupiedPositions() {
+  public OccupiedPosition[] getOccupiedPositions() {
     return null;
   }
 }
