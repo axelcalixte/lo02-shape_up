@@ -1,18 +1,30 @@
 package shapeup.game.boards;
 
-public class GridCoordinates implements Coordinates {
+public class GridCoordinates {
   /**
    * Package-private because only boards should create coordinates.
    */
-  GridCoordinates() { }
+  protected int x;
+  protected int y;
 
-  @Override
-  public boolean isAdjacentTo(Coordinates other) {
-    return false;
+  GridCoordinates() {
+  this.x = x;
+  this.y = y;
   }
 
-  @Override
-  public boolean equals(Coordinates other) {
-    return false;
+  public boolean isAdjacentTo(GridCoordinates other) {
+    boolean adj = false;
+    if (Math.abs(other.x - this.x) == 1 || Math.abs(other.y - this.y) == 1) {
+      adj = true;
+    }
+    return adj;
+  }
+
+  public boolean equals(GridCoordinates other) {
+    boolean equ = false;
+    if (other.x == this.x && other.y == this.y){
+      equ = true;
+    }
+    return equ;
   }
 }
