@@ -2,6 +2,8 @@ package shapeup.game.boards;
 
 import shapeup.game.Card;
 
+import java.util.Objects;
+
 public class OccupiedPosition {
   public final Coordinates coordinates;
   public final Card card;
@@ -18,8 +20,8 @@ public class OccupiedPosition {
 
     OccupiedPosition that = (OccupiedPosition) o;
 
-    if (coordinates != null ? !coordinates.equals(that.coordinates) : that.coordinates != null) return false;
-    return card != null ? card.equals(that.card) : that.card == null;
+    if (!Objects.equals(coordinates, that.coordinates)) return false;
+    return Objects.equals(card, that.card);
   }
 
   @Override

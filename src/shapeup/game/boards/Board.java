@@ -3,9 +3,10 @@ package shapeup.game.boards;
 import shapeup.game.Card;
 
 public interface Board {
-  void moveCard(GridCoordinates from, GridCoordinates to);
-  void playCard(Card card, GridCoordinates coordinates);
+  String name();
+  void moveCard(Coordinates from, Coordinates to);
+  void playCard(Card card, Coordinates coordinates);
 
-  GridCoordinates[] getFreePositions();
+  Coordinates[] getFreePositions();
   OccupiedPosition[] getOccupiedPositions();
 }
