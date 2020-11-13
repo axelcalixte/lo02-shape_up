@@ -1,11 +1,14 @@
 package shapeup.game;
 
+/**
+ * A Shape Up! game card.
+ */
 public final class Card {
   private final Color color;
   private final Shape shape;
   private final Filledness filledness;
 
-  Card(Color color, Shape shape, Filledness filledness) {
+  public Card(Color color, Shape shape, Filledness filledness) {
     this.color = color;
     this.shape = shape;
     this.filledness = filledness;
@@ -33,5 +36,14 @@ public final class Card {
 
   public Filledness getFilledness() {
     return filledness;
+  }
+
+  @Override
+  public String toString() {
+    return "Card{" +
+            "color=" + color +
+            ", shape=" + shape +
+            ", filledness=" + filledness +
+            '}';
   }
 }
