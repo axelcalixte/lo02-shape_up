@@ -4,9 +4,12 @@ import shapeup.game.Card;
 import shapeup.game.Color;
 import shapeup.game.Filledness;
 import shapeup.game.Shape;
+import shapeup.ui.BoardDisplayer;
+import shapeup.ui.GridBoardDisplayer;
 
 import java.util.*;
 
+// TODO: extract interface
 /**
  * A Shape Up! game board.
  * Implements the standard rules.
@@ -144,6 +147,10 @@ public final class GridBoard {
    */
   public Set<GridCoordinates> getOccupiedPositions() {
     return this.cards.keySet();
+  }
+
+  public BoardDisplayer getDisplayer() {
+    return new GridBoardDisplayer(this);
   }
 
   // TODO: Make public ?

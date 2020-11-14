@@ -1,7 +1,6 @@
 package shapeup.game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public final class Deck {
   private final ArrayList<Card> cards;
@@ -13,5 +12,9 @@ public final class Deck {
 
   public Card drawCard() {
     return null;
+  }
+
+  public int cardsLeft() {
+    return 0;
   }
 }

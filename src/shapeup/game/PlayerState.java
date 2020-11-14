@@ -1,15 +1,17 @@
 package shapeup.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public final class PlayerState {
   private Card victoryCard;
   private int playerID;
-  private Card[] hand;
+  private List<Card> hand;
 
   public PlayerState(int playerID) {
     this.playerID = playerID;
-    this.hand = new Card[3];
+    this.hand = new ArrayList<>();
   }
 
   public void giveCard(Card c) {}
@@ -25,10 +27,10 @@ public final class PlayerState {
   }
 
   public int getPlayerID() {
-    return playerID;
+    return this.playerID;
   }
 
-  public Card[] getHand() {
-    return hand;
+  public List<Card> getHand() {
+    return this.hand;
   }
 }

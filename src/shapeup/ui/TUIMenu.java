@@ -1,24 +1,20 @@
 package shapeup.ui;
 
-import java.awt.*;
-import java.util.LinkedHashMap;
+import shapeup.game.Action;
+
 import java.util.Scanner;
 
 public class TUIMenu {
   private TUIMenu() {}
 
-  public interface MenuAction {
-    String name();
-    void run();
-  }
-
   /**
    * Displays a menu on stdout.
-   * @param title the menu's title
+   *
+   * @param title   the menu's title
    * @param actions the actions the user will choose between
    * @return the chosen action
    */
-  public static MenuAction displayMenu(String title, MenuAction[] actions) {
+  public static Action displayMenu(String title, Action[] actions) {
     // Title display
     for (int i = 0; i < title.length(); ++i) {
       System.out.print('-');
