@@ -1,7 +1,9 @@
 package shapeup.game;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 public final class Deck {
     private final ArrayList<Card> cards = new ArrayList<>();
@@ -24,11 +26,12 @@ public final class Deck {
         Collections.shuffle(this.cards);
     }
 
-    public Card drawCard() {
+    public Optional<Card> drawCard() {
         if (this.cards.size() == 0) {
-            return null;
+            return Optional.empty();
         }
-        return this.cards.remove(this.cards.size() - 1);
+        Card drawnCard = this.cards.remove(this.cards.size() - 1);
+        return Optional.of(drawnCard);
     }
 
     public int cardsLeft() {
@@ -38,17 +41,7 @@ public final class Deck {
     @Override
     public String toString() {
         return "Deck{" +
-                 cards +
+                cards +
                 '}';
-    }
-
-    public static void main(String[] args) {
-        Deck deck = new Deck();
-        Card drawn = deck.drawCard();
-        Card drawn2 = deck.drawCard();
-        System.out.println(drawn);
-        System.out.println(drawn2);
-        System.out.println(deck.cardsLeft());
-        System.out.println(deck);
     }
 }
