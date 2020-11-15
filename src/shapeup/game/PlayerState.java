@@ -14,12 +14,20 @@ public final class PlayerState {
     this.hand = new ArrayList<>();
   }
 
-  public void giveCard(Card c) {}
+  public void giveCard(Card c) {
+    this.hand.add(c);
+  }
 
-  public void giveVictoryCard(Card c) {}
+  public void giveVictoryCard(Card c) {
+    this.victoryCard = c;
+  }
 
   public Optional<Card> takeCard(int idx) {
-    return Optional.empty();
+      if (idx < 0 || idx >= this.hand.size()){
+        return Optional.empty();
+      }
+      Card cardTaken = this.hand.remove(idx);
+      return Optional.of(cardTaken);
   }
 
   public Optional<Card> getVictoryCard() {
