@@ -4,12 +4,17 @@ public class GridCoordinates {
   protected int x;
   protected int y;
 
-  /**
-   * Package-private because only boards should create coordinates.
-   */
-  GridCoordinates(int x, int y) {
+  public GridCoordinates(int x, int y) {
     this.x = x;
     this.y = y;
+  }
+
+  public int getX() {
+    return x;
+  }
+
+  public int getY() {
+    return y;
   }
 
   public boolean isAdjacentTo(GridCoordinates other) {

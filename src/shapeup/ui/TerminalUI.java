@@ -1,9 +1,6 @@
 package shapeup.ui;
 
-import shapeup.game.Action;
-import shapeup.game.Card;
-import shapeup.game.Deck;
-import shapeup.game.PlayerState;
+import shapeup.game.*;
 
 import java.util.LinkedHashMap;
 
@@ -29,12 +26,12 @@ public class TerminalUI implements UI {
     boardDisplayer.terminalDisplay();
     System.out.println("---");
     TerminalUI.deckDisplay(deck);
-    System.out.println("---");
     for (var ps : pss) {
-      if (ps.getPlayerID() == forPlayerID) {
-        System.out.println("Your hand:");
+      if (ps.getPlayerID() == forPlayerID && !ps.getHand().isEmpty()) {
+        System.out.println("---");
+        System.out.println("Votre main :");
         for (var card : ps.getHand()) {
-          TerminalUI.cardDisplay(card);
+          TerminalUI.fancyCardString(card);
         }
         break;
       }
@@ -46,25 +43,6 @@ public class TerminalUI implements UI {
     System.out.printf("%d cartes restantes.\n", deck.cardsLeft());
   }
 
-  private static void cardDisplay(Card card) {
-    switch (card.getFilledness()) {
-      case FILLED -> System.out.print("Filled ");
-      case HOLLOW -> System.out.print("Hollow ");
-    }
-
-    switch (card.getColor()) {
-      case RED -> System.out.print("red ");
-      case GREEN -> System.out.print("green ");
-      case BLUE -> System.out.print("blue ");
-    }
-
-    switch (card.getShape()) {
-      case CIRCLE -> System.out.println("circle.");
-      case SQUARE -> System.out.print("square.");
-      case TRIANGLE -> System.out.print("triangle.");
-    }
-  }
-
   @Override
   public void victoryScreen(int winner, LinkedHashMap<Integer, Integer> scores) {
     System.out.println("---");
@@ -73,5 +51,40 @@ public class TerminalUI implements UI {
             System.out.println("Joueur" + player + " : " + score + ".")
     );
     System.out.println("---");
+  }
+
+  public static final char FILLED_CIRCLE = '\u25cf';
+  public static final char HOLLOW_CIRCLE = '\u25cb';
+
+  public static final char FILLED_SQUARE = '\u25a0';
+  public static final char HOLLOW_SQUARE = '\u25a1';
+
+  public static final char FILLED_TRIANGLE = '\u25b2';
+  public static final char HOLLOW_TRIANGLE = '\u25b3';
+
+  public static String fancyCardString(Card c) {
+    char color = colorToChar(c.getColor());
+    char shape = switch (c.getFilledness()) {
+      case HOLLOW -> switch (c.getShape()) {
+        case CIRCLE -> HOLLOW_CIRCLE;
+        case SQUARE -> HOLLOW_SQUARE;
+        case TRIANGLE -> HOLLOW_TRIANGLE;
+      };
+      case FILLED -> switch (c.getShape()) {
+        case CIRCLE -> FILLED_CIRCLE;
+        case SQUARE -> FILLED_SQUARE;
+        case TRIANGLE -> FILLED_TRIANGLE;
+      };
+    };
+
+    return String.valueOf(color) + shape;
+  }
+
+  public static char colorToChar(Color c) {
+    return switch (c) {
+      case RED -> 'R';
+      case GREEN -> 'G';
+      case BLUE -> 'B';
+    };
   }
 }

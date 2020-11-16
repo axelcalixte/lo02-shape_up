@@ -146,7 +146,7 @@ public final class GridBoard {
    * @return the positions' coordinates.
    */
   public Set<GridCoordinates> getOccupiedPositions() {
-    return this.cards.keySet();
+    return new HashSet<>(this.cards.keySet());
   }
 
   public BoardDisplayer getDisplayer() {
