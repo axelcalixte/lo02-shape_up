@@ -1,6 +1,5 @@
 package shapeup.game;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
@@ -13,12 +12,9 @@ public final class Deck {
     }
 
     public void generateDeck() {
-        for (Shape s : Shape.values()
-        ) {
-            for (Color c : Color.values()
-            ) {
-                for (Filledness f : Filledness.values()
-                ) {
+        for (Shape s : Shape.values()) {
+            for (Color c : Color.values()) {
+                for (Filledness f : Filledness.values()) {
                     this.cards.add(new Card(c, s, f));
                 }
             }
