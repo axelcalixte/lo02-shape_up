@@ -4,6 +4,7 @@ import shapeup.game.Card;
 import shapeup.game.Color;
 import shapeup.game.Filledness;
 import shapeup.game.Shape;
+import shapeup.game.scores.ScoreCounterVisitor;
 import shapeup.ui.BoardDisplayer;
 import shapeup.ui.GridBoardDisplayer;
 
@@ -184,19 +185,23 @@ public final class GridBoard {
     return true;
   }
 
-  private int maxX() {
+  public Map<Card, Integer> acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card[] victoryCards) {
+    return scoreCounter.countGridBoard(this, victoryCards);
+  }
+
+  public int maxX() {
     return this.cards.keySet().stream().mapToInt(card -> card.x).max().orElse(0);
   }
 
-  private int minX() {
+  public int minX() {
     return this.cards.keySet().stream().mapToInt(card -> card.x).min().orElse(0);
   }
 
-  private int maxY() {
+  public int maxY() {
     return this.cards.keySet().stream().mapToInt(card -> card.y).max().orElse(0);
   }
 
-  private int minY() {
+  public int minY() {
     return this.cards.keySet().stream().mapToInt(card -> card.y).min().orElse(0);
   }
 
