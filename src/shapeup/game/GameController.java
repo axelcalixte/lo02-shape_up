@@ -28,6 +28,16 @@ public final class GameController {
   }
 
   public void startGame() {
+      this.deck.drawCard();
+      System.out.println("La carte cachée a été retirée de la pile.\n");
+
+    for (PlayerState ps : this.playerStates) {
+      ps.giveVictoryCard(this.deck.drawCard().get());
+      System.out.println("La carte victoire du joueur n°" + ps.getPlayerID() + " a été attribuée.\n");
+    }
+
+    //TODO: let the players choose who starts
+
     boolean keepPlaying;
     do {
       keepPlaying = this.gameTurn();
@@ -52,7 +62,36 @@ public final class GameController {
    * @param playerID their ID
    */
   private void playerTurn(int playerID) {
-    ui.askPlayersAction(playerID, this.boardDisplayer, this.playerStates, this.deck, new Action[]{
-    });
+    var possibleActions = new Action[]{
+            new Action() {
+              public String name() {
+                return "Placer une carte sur le plateau";
+              }
+
+              public void run() {
+                //TODO: Do you want to move a card before placing your card ?
+                //TODO: Move a card already on the board
+                //TODO: Choose the card you want to play
+                //TODO: Where do you want to place the card
+                //TODO: Place the card
+              }
+            },
+
+            new Action() {
+              public String name() {
+                return "Consulter sa carte victoire";
+              }
+
+              public void run() {
+                for (PlayerState ps : playerStates) {
+                  if (playerID == ps.getPlayerID()) {
+                    System.out.println("Votre carte victoire :\n" + ps.getVictoryCard());
+                  }
+                }
+              }
+            }
+    };
+    var action = ui.askPlayersAction(playerID, this.boardDisplayer, this.playerStates, this.deck, possibleActions);
+    action.run();
   }
 }
