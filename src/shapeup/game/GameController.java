@@ -1,11 +1,11 @@
 package shapeup.game;
 
 import shapeup.game.boards.GridBoard;
-import shapeup.ui.BoardDisplayer;
-import shapeup.ui.GridBoardDisplayer;
-import shapeup.ui.UI;
+import shapeup.game.boards.GridCoordinates;
+import shapeup.ui.*;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public final class GameController {
   private final UI ui;
@@ -14,6 +14,10 @@ public final class GameController {
   private final GridBoard board;
   private final BoardDisplayer boardDisplayer;
   private final Deck deck;
+
+  private GridCoordinates from;
+  private GridCoordinates to;
+  private Card cardToBePlayed;
 
   public GameController(UI ui) {
     this.ui = ui;
@@ -67,18 +71,25 @@ public final class GameController {
    * @param playerID their ID
    */
   private void playerTurn(int playerID) {
+    var that = this;
     var possibleActions = new Action[]{
+            new Action() {
+              public String name() {
+                return "Déplacer une carte du plateau";
+              }
+
+              public void run() {
+                that.moveCard(playerID, false);
+              }
+            },
+
             new Action() {
               public String name() {
                 return "Placer une carte sur le plateau";
               }
 
               public void run() {
-                //TODO: Do you want to move a card before placing your card ?
-                //TODO: Move a card already on the board
-                //TODO: Choose the card you want to play
-                //TODO: Where do you want to place the card
-                //TODO: Place the card
+                that.playCard(playerID, false);
               }
             },
 
@@ -99,5 +110,143 @@ public final class GameController {
     this.updateUI();
     var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
     action.run();
+  }
+
+  /**
+   * Moves a card on a the deck
+   *
+   * @param playerID
+   * @param alreadyPlayedCard
+   */
+  private void moveCard(int playerID, boolean alreadyPlayedCard) {
+    from = new GridCoordinates(-1, -1);
+    to = new GridCoordinates(-1, -1);
+    var possibleActions = new Action[]{
+            new Action() {
+              public String name() {
+                return "Choisir une place occupée par une carte";
+              }
+
+              public void run() {
+                var occupied = board.getOccupiedPositions();
+                while (!occupied.contains(from)) {
+                  for (GridCoordinates gc : occupied) {
+                    System.out.println(gc);
+                  }
+                  int x = (new Scanner(System.in)).nextInt();
+                  int y = (new Scanner(System.in)).nextInt();
+                  from = new GridCoordinates(x, y);
+                }
+              }
+            },
+
+            new Action() {
+              public String name() {
+                return "Choisir une place libre du plateau";
+              }
+
+              public void run() {
+                var playable = board.getPlayablePositions();
+                while (!playable.contains(to)) {
+                  for (GridCoordinates gc : playable) {
+                    System.out.println("gc");
+                  }
+                  int x = (new Scanner(System.in)).nextInt();
+                  int y = (new Scanner(System.in)).nextInt();
+                  to = new GridCoordinates(x, y);
+                }
+
+              }
+            },
+
+            new Action() {
+              public String name() {
+                return "Bouger la carte sélectionnée";
+              }
+
+              public void run() {
+                board.moveCard(from, to);
+              }
+            }
+    };
+    this.updateUI();
+    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
+    action.run();
+
+    if (!alreadyPlayedCard) {
+      this.playCard(playerID, true);
+    }
+  }
+
+  /**
+   * Play a card on the deck
+   *
+   * @param playerID
+   * @param alreadyMovedCard
+   */
+  private void playCard(int playerID, boolean alreadyMovedCard) {
+    var possibleActions = new Action[]{
+            new Action() {
+              public String name() {
+                return "Choisir une carte à jouer";
+              }
+
+              public void run() {
+                for (PlayerState ps : playerStates) {
+                  if (playerID == ps.getPlayerID()) {
+                    while (ps.getHand().) {
+                      for (Card ca : ps.getHand()) {
+                        System.out.println(ca);
+                      }
+                      Color cl;
+                      while (cl != "GREEN" || cl != "BLUE" || cl != "RED") {
+                        System.out.print("Choisir la couleur de votre carte à placer");
+                      }
+                      Shape sh;
+                      Filledness fd;
+                      cardToBePlayed = new Card(cl, sh, fd);
+                    }
+                  }
+                }
+              }
+            },
+
+            new Action() {
+              public String name() {
+                return "Choisir une place libre du plateau";
+              }
+
+              public void run() {
+                var playable = board.getPlayablePositions();
+                while (!playable.contains(to)) {
+                  for (GridCoordinates gc : playable) {
+                    System.out.println("gc");
+                  }
+                  int x = (new Scanner(System.in)).nextInt();
+                  int y = (new Scanner(System.in)).nextInt();
+                  to = new GridCoordinates(x, y);
+                }
+
+              }
+            },
+
+            new Action() {
+              public String name() {
+                return "Jouer la carte sur le plateau";
+              }
+
+              public void run() {
+                board.playCard(cardToBePlayed, to);
+              }
+            }
+    };
+
+    this.updateUI();
+    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
+    action.run();
+
+    if (!alreadyMovedCard) {
+      this.moveCard(playerID, true);
+    }
   }
 }
