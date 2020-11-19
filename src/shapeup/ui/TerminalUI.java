@@ -5,28 +5,33 @@ import shapeup.game.*;
 import java.util.LinkedHashMap;
 
 public class TerminalUI implements UI {
-  private BoardDisplayer boardDisplayer;
+  private GameState gameState = null;
 
   public TerminalUI() {
   }
 
+  /**
+   * Must be called on every change.
+   *
+   * @param gs the new game state.
+   */
   @Override
-  public void notifyOfGameStateChange() {
-    // Useless for the terminal UI for now.
+  public void update(GameState gs) {
+    this.gameState = gs;
   }
 
   @Override
-  public Action askPlayersAction(int playerID, BoardDisplayer boardDisplayer, PlayerState[] pss, Deck deck, Action[] possibleActions) {
-    TerminalUI.drawGame(playerID, boardDisplayer, pss, deck);
+  public Action askPlayersAction(int playerID, BoardDisplayer bd, Action[] possibleActions) {
+    this.drawGame(playerID, bd);
     return TUIMenu.displayMenu("Choisissez votre prochaine action :", possibleActions);
   }
 
-  private static void drawGame(int forPlayerID, BoardDisplayer boardDisplayer, PlayerState[] pss, Deck deck) {
+  private void drawGame(int forPlayerID, BoardDisplayer bd) {
     System.out.println("---");
-    boardDisplayer.terminalDisplay();
+    bd.terminalDisplay();
     System.out.println("---");
-    TerminalUI.deckDisplay(deck);
-    for (var ps : pss) {
+    TerminalUI.deckDisplay(gameState.deck);
+    for (var ps : gameState.playerStates) {
       if (ps.getPlayerID() == forPlayerID && !ps.getHand().isEmpty()) {
         System.out.println("---");
         System.out.println("Votre main :");

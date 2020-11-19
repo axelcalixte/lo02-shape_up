@@ -25,11 +25,16 @@ public final class GameController {
     this.board = new GridBoard();
     this.boardDisplayer = new GridBoardDisplayer(this.board);
     this.deck = new Deck();
+    this.updateUI();
+  }
+
+  public void updateUI() {
+    this.ui.update(new GameState(playerStates, board, deck));
   }
 
   public void startGame() {
-      this.deck.drawCard();
-      System.out.println("La carte cachée a été retirée de la pile.\n");
+    this.deck.drawCard();
+    System.out.println("La carte cachée a été retirée de la pile.\n");
 
     for (PlayerState ps : this.playerStates) {
       ps.giveVictoryCard(this.deck.drawCard().get());
@@ -91,7 +96,8 @@ public final class GameController {
               }
             }
     };
-    var action = ui.askPlayersAction(playerID, this.boardDisplayer, this.playerStates, this.deck, possibleActions);
+    this.updateUI();
+    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
     action.run();
   }
 }
