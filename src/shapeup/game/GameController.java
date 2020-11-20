@@ -59,7 +59,10 @@ public final class GameController {
    * Play out an entire game turn, including all players.
    */
   private void startGameTurn() {
-    this.playerTurn(0);
+    // Drops the call stack. Please kill me.
+    new Thread(() ->
+            this.playerTurn(0)
+    ).start();
   }
 
   /**
@@ -71,6 +74,7 @@ public final class GameController {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 0)) {
       this.finishRound();
+      return;
     }
 
     final var currentPlayerStrategy = new Object() {

@@ -125,7 +125,7 @@ public class TerminalUI implements UI {
       System.out.println("Joueur " + i + " : " + scores.get(i) + ".");
     }
     System.out.println("---");
-    System.out.printf("La carte cachée était %s.", TerminalUI.fancyCardString(hiddenCard));
+    System.out.printf("La carte cachée était %s.\n", TerminalUI.fancyCardString(hiddenCard));
     System.out.println("---");
     onFinish.run();
   }
