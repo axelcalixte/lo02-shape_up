@@ -1,6 +1,6 @@
 package shapeup.game;
 
-public interface Action {
+public interface MenuAction {
   String name();
 
   void run();

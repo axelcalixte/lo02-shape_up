@@ -4,10 +4,12 @@ import shapeup.game.Card;
 import shapeup.game.Color;
 import shapeup.game.Filledness;
 import shapeup.game.Shape;
+import shapeup.game.boards.Coordinates;
 import shapeup.game.boards.GridBoard;
-import shapeup.game.boards.GridCoordinates;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -15,52 +17,48 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
   public static void main(String[] args) {
     var board = new GridBoard();
 
-    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new GridCoordinates(0, 0));
-    board.playCard(new Card(Color.RED, Shape.SQUARE, Filledness.FILLED), new GridCoordinates(1, 0));
-    board.playCard(new Card(Color.RED, Shape.TRIANGLE, Filledness.FILLED), new GridCoordinates(2, 0));
+    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(0, 0));
+    board.playCard(new Card(Color.RED, Shape.SQUARE, Filledness.FILLED), new Coordinates(1, 0));
+    board.playCard(new Card(Color.RED, Shape.TRIANGLE, Filledness.FILLED), new Coordinates(2, 0));
 
-    board.playCard(new Card(Color.GREEN, Shape.CIRCLE, Filledness.FILLED), new GridCoordinates(1, 1));
+    board.playCard(new Card(Color.GREEN, Shape.CIRCLE, Filledness.FILLED), new Coordinates(1, 1));
 
-    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.FILLED), new GridCoordinates(1, 2));
+    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.FILLED), new Coordinates(1, 2));
 
-    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new GridCoordinates(1, 3));
-    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), new GridCoordinates(0, 3));
-    board.playCard(new Card(Color.BLUE, Shape.TRIANGLE, Filledness.HOLLOW), new GridCoordinates(2, 3));
+    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(1, 3));
+    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(0, 3));
+    board.playCard(new Card(Color.BLUE, Shape.TRIANGLE, Filledness.HOLLOW), new Coordinates(2, 3));
 
     var victoryCard1 = new Card(Color.RED, Shape.CIRCLE, Filledness.FILLED);
     var victoryCard2 = new Card(Color.BLUE, Shape.TRIANGLE, Filledness.HOLLOW);
 
-    var scores = board.acceptScoreCounter(new NormalScoreCounter(), new Card[]{victoryCard1, victoryCard2});
+    var score1 = board.acceptScoreCounter(new NormalScoreCounter(), victoryCard1);
+    var score2 = board.acceptScoreCounter(new NormalScoreCounter(), victoryCard2);
 
-    System.out.println(scores);
-    assert scores.get(victoryCard1) == 13;
-    assert scores.get(victoryCard2) == 3;
+    System.out.println(score1 + " " + score2);
+    assert score1 == 13;
+    assert score2 == 3;
   }
 
   @Override
-  public Map<Card, Integer> countGridBoard(GridBoard board, Card[] victoryCards) {
+  public int countGridBoard(GridBoard board, Card victoryCard) {
     var lines = gatherLines(board);
 
-    var result = new HashMap<Card, Integer>();
-    for (var vc : victoryCards) {
-      var shapeScore = lines.stream()
-              .map(line -> countScoreForLine(line, board, vc, Card::getShape, NormalScoreCounter::shapeGroupToScore))
-              .reduce(Integer::sum).get();
-      var fillednessScore = lines.stream()
-              .map(line -> countScoreForLine(line, board, vc, Card::getFilledness, NormalScoreCounter::fillednessGroupToScore))
-              .reduce(Integer::sum).get();
-      var colorScore = lines.stream()
-              .map(line -> countScoreForLine(line, board, vc, Card::getColor, NormalScoreCounter::colorGroupToScore))
-              .reduce(Integer::sum).get();
+    var shapeScore = lines.stream()
+            .map(line -> countScoreForLine(line, board, victoryCard, Card::getShape, NormalScoreCounter::shapeGroupToScore))
+            .reduce(Integer::sum).get();
+    var fillednessScore = lines.stream()
+            .map(line -> countScoreForLine(line, board, victoryCard, Card::getFilledness, NormalScoreCounter::fillednessGroupToScore))
+            .reduce(Integer::sum).get();
+    var colorScore = lines.stream()
+            .map(line -> countScoreForLine(line, board, victoryCard, Card::getColor, NormalScoreCounter::colorGroupToScore))
+            .reduce(Integer::sum).get();
 
-      result.put(vc, shapeScore + fillednessScore + colorScore);
-    }
-
-    return result;
+    return shapeScore + fillednessScore + colorScore;
   }
 
-  private static List<List<GridCoordinates>> gatherLines(GridBoard board) {
-    List<List<GridCoordinates>> lines = new ArrayList<>();
+  private static List<List<Coordinates>> gatherLines(GridBoard board) {
+    List<List<Coordinates>> lines = new ArrayList<>();
 
     int maxX = board.maxX();
     int minX = board.minX();
@@ -70,7 +68,7 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
       var thisColumn = board
               .getOccupiedPositions().stream()
               .filter(coord -> coord.getX() == thisColIdx)
-              .sorted(Comparator.comparingInt(GridCoordinates::getY));
+              .sorted(Comparator.comparingInt(Coordinates::getY));
       lines.add(thisColumn.collect(Collectors.toList()));
     }
 
@@ -82,14 +80,14 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
       var thisRow = board
               .getOccupiedPositions().stream()
               .filter(coord -> coord.getY() == thisRowIdx)
-              .sorted(Comparator.comparingInt(GridCoordinates::getX));
+              .sorted(Comparator.comparingInt(Coordinates::getX));
       lines.add(thisRow.collect(Collectors.toList()));
     }
 
     return lines;
   }
 
-  private static int countScoreForLine(List<GridCoordinates> line, GridBoard board, Card victoryCard, Function<Card, Object> getter, Function<Integer, Integer> groupToScore) {
+  private static int countScoreForLine(List<Coordinates> line, GridBoard board, Card victoryCard, Function<Card, Object> getter, Function<Integer, Integer> groupToScore) {
     var streaks = new ArrayList<Integer>();
 
     streaks.add(1);

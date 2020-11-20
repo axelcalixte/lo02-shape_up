@@ -1,68 +1,65 @@
 package shapeup.game;
 
+import shapeup.game.boards.Coordinates;
 import shapeup.game.boards.GridBoard;
-import shapeup.game.boards.GridCoordinates;
-import shapeup.ui.*;
+import shapeup.game.players.PlayerStrategy;
+import shapeup.game.players.RealPlayer;
+import shapeup.game.scores.NormalScoreCounter;
+import shapeup.game.scores.ScoreCounterVisitor;
+import shapeup.ui.BoardDisplayer;
+import shapeup.ui.UI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class GameController {
-  private final UI ui;
-
+  private final PlayerStrategy[] playerStrategies;
   private final PlayerState[] playerStates;
+
   private final GridBoard board;
-  private final BoardDisplayer boardDisplayer;
   private final Deck deck;
+  private final ScoreCounterVisitor scoreCounter;
+  private Card hiddenCard;
 
-  private GridCoordinates from;
-  private GridCoordinates to;
-  private Card cardToBePlayed;
-
-  public GameController(UI ui) {
-    this.ui = ui;
-    this.playerStates = new PlayerState[]{
-            new PlayerState(0),
-            new PlayerState(1),
-    };
-
+  public GameController(Function<BoardDisplayer, UI> uiMaker) {
     this.board = new GridBoard();
-    this.boardDisplayer = new GridBoardDisplayer(this.board);
-    this.deck = new Deck();
-    this.updateUI();
-  }
 
-  public void updateUI() {
-    this.ui.update(new GameState(playerStates, board, deck));
+    this.deck = new Deck();
+
+    final int nbPlayers = 2;
+
+    this.playerStrategies = new PlayerStrategy[nbPlayers];
+    this.playerStates = new PlayerState[nbPlayers];
+
+    var ui = uiMaker.apply(board.getDisplayer());
+    for (int i = 0; i < nbPlayers; i++) {
+      playerStrategies[i] = new RealPlayer(ui, i);
+      playerStates[i] = new PlayerState(i);
+    }
+
+    this.scoreCounter = new NormalScoreCounter();
   }
 
   public void startGame() {
-    this.deck.drawCard();
-    System.out.println("La carte cachée a été retirée de la pile.\n");
+    hiddenCard = this.deck.drawCard().get();
 
     for (PlayerState ps : this.playerStates) {
       ps.giveVictoryCard(this.deck.drawCard().get());
-      System.out.println("La carte victoire du joueur n°" + ps.getPlayerID() + " a été attribuée.\n");
     }
 
-    //TODO: let the players choose who starts
+    // TODO: let the players choose who starts
 
-    boolean keepPlaying;
-    do {
-      keepPlaying = this.gameTurn();
-    } while (keepPlaying);
+    this.startGameTurn();
   }
 
   /**
    * Play out an entire game turn, including all players.
-   *
-   * @return whether there should be another turn.
    */
-  private boolean gameTurn() {
-    for (var player : this.playerStates) {
-      this.playerTurn(player.getPlayerID());
-    }
-    return deck.cardsLeft() == 0 && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 1);
+  private void startGameTurn() {
+    this.playerTurn(0);
   }
 
   /**
@@ -71,182 +68,112 @@ public final class GameController {
    * @param playerID their ID
    */
   private void playerTurn(int playerID) {
-    var that = this;
-    var possibleActions = new Action[]{
-            new Action() {
-              public String name() {
-                return "Déplacer une carte du plateau";
-              }
+    if (deck.cardsLeft() == 0
+            && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 0)) {
+      this.finishRound();
+    }
 
-              public void run() {
-                that.moveCard(playerID, false);
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Placer une carte sur le plateau";
-              }
-
-              public void run() {
-                that.playCard(playerID, false);
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Consulter sa carte victoire";
-              }
-
-              public void run() {
-                for (PlayerState ps : playerStates) {
-                  if (playerID == ps.getPlayerID()) {
-                    System.out.println("Votre carte victoire :\n" + ps.getVictoryCard());
-                  }
-                }
-              }
-            }
+    final var currentPlayerStrategy = new Object() {
+      PlayerStrategy val;
     };
-    this.updateUI();
-    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
-    action.run();
+    final var currentPlayerState = new Object() {
+      PlayerState val;
+    };
+    for (int i = 0; i < playerStrategies.length; ++i) {
+      if (playerStrategies[i].getPlayerID() == playerID) {
+        currentPlayerStrategy.val = playerStrategies[i];
+        currentPlayerState.val = playerStates[i];
+        break;
+      }
+    }
+
+    if (currentPlayerState.val == null || currentPlayerStrategy.val == null)
+      throw new IllegalArgumentException();
+
+    Runnable onTurnFinished = () -> {
+      if (playerID == playerStates.length - 1)
+        this.startGameTurn();
+      else
+        this.playerTurn(playerID + 1);
+    };
+
+    var drawnCard = deck.drawCard();
+    if (drawnCard.isEmpty() && currentPlayerState.val.getHand().size() == 0) {
+      onTurnFinished.run();
+      return;
+    }
+
+    drawnCard.ifPresent(card ->
+            currentPlayerState.val.giveCard(card));
+
+    this.updateStrategies();
+
+    var alreadyPlayed = new Object() {
+      boolean val = false;
+    };
+    var alreadyMoved = new Object() {
+      boolean val = false;
+    };
+
+    var onPlay = new Object() {
+      Consumer<Coordinates> val;
+    };
+
+    BiConsumer<Coordinates, Coordinates> onMove = (from, to) -> {
+      if (alreadyMoved.val) return;
+      this.board.moveCard(from, to);
+      this.updateStrategies();
+      alreadyMoved.val = true;
+      if (alreadyPlayed.val) {
+        currentPlayerStrategy.val.turnFinished(onTurnFinished);
+      }
+      currentPlayerStrategy.val.canPlay(onPlay.val);
+    };
+
+    onPlay.val = coord -> {
+      if (alreadyPlayed.val) return;
+
+      var toPlay = currentPlayerState.val.takeCard(0).get();
+      this.board.playCard(toPlay, coord);
+      this.updateStrategies();
+
+      alreadyPlayed.val = true;
+      if (alreadyMoved.val) {
+        currentPlayerStrategy.val.turnFinished(onTurnFinished);
+        return;
+      }
+      // If a card can be moved (special case for player 0's first turn).
+      if (board.getOccupiedPositions().size() > 1)
+        currentPlayerStrategy.val.canFinishTurn(onTurnFinished, onMove);
+      else
+        currentPlayerStrategy.val.turnFinished(onTurnFinished);
+    };
+
+    if (board.getOccupiedPositions().size() > 1)
+      currentPlayerStrategy.val.canMoveOrPlay(onPlay.val, onMove);
+    else
+      currentPlayerStrategy.val.canPlay(onPlay.val);
   }
 
-  /**
-   * Moves a card on a the deck
-   *
-   * @param playerID
-   * @param alreadyPlayedCard
-   */
-  private void moveCard(int playerID, boolean alreadyPlayedCard) {
-    from = new GridCoordinates(-1, -1);
-    to = new GridCoordinates(-1, -1);
-    var possibleActions = new Action[]{
-            new Action() {
-              public String name() {
-                return "Choisir une place occupée par une carte";
-              }
+  private void finishRound() {
+    var scores = new ArrayList<Integer>(playerStates.length);
+    for (var pstate : playerStates) {
+      if (pstate.getVictoryCard().isPresent()) {
+        scores.add(scoreCounter.countGridBoard(board, pstate.getVictoryCard().get()));
+      }
+    }
 
-              public void run() {
-                var occupied = board.getOccupiedPositions();
-                while (!occupied.contains(from)) {
-                  for (GridCoordinates gc : occupied) {
-                    System.out.println(gc);
-                  }
-                  int x = (new Scanner(System.in)).nextInt();
-                  int y = (new Scanner(System.in)).nextInt();
-                  from = new GridCoordinates(x, y);
-                }
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Choisir une place libre du plateau";
-              }
-
-              public void run() {
-                var playable = board.getPlayablePositions();
-                while (!playable.contains(to)) {
-                  for (GridCoordinates gc : playable) {
-                    System.out.println("gc");
-                  }
-                  int x = (new Scanner(System.in)).nextInt();
-                  int y = (new Scanner(System.in)).nextInt();
-                  to = new GridCoordinates(x, y);
-                }
-
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Bouger la carte sélectionnée";
-              }
-
-              public void run() {
-                board.moveCard(from, to);
-              }
-            }
-    };
-    this.updateUI();
-    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
-    action.run();
-
-    if (!alreadyPlayedCard) {
-      this.playCard(playerID, true);
+    for (var pstrat : playerStrategies) {
+      pstrat.roundFinished(scores, hiddenCard, () -> {
+      });
     }
   }
 
-  /**
-   * Play a card on the deck
-   *
-   * @param playerID
-   * @param alreadyMovedCard
-   */
-  private void playCard(int playerID, boolean alreadyMovedCard) {
-    var possibleActions = new Action[]{
-            new Action() {
-              public String name() {
-                return "Choisir une carte à jouer";
-              }
-
-              public void run() {
-                for (PlayerState ps : playerStates) {
-                  if (playerID == ps.getPlayerID()) {
-                    while (ps.getHand().) {
-                      for (Card ca : ps.getHand()) {
-                        System.out.println(ca);
-                      }
-                      Color cl;
-                      while (cl != "GREEN" || cl != "BLUE" || cl != "RED") {
-                        System.out.print("Choisir la couleur de votre carte à placer");
-                      }
-                      Shape sh;
-                      Filledness fd;
-                      cardToBePlayed = new Card(cl, sh, fd);
-                    }
-                  }
-                }
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Choisir une place libre du plateau";
-              }
-
-              public void run() {
-                var playable = board.getPlayablePositions();
-                while (!playable.contains(to)) {
-                  for (GridCoordinates gc : playable) {
-                    System.out.println("gc");
-                  }
-                  int x = (new Scanner(System.in)).nextInt();
-                  int y = (new Scanner(System.in)).nextInt();
-                  to = new GridCoordinates(x, y);
-                }
-
-              }
-            },
-
-            new Action() {
-              public String name() {
-                return "Jouer la carte sur le plateau";
-              }
-
-              public void run() {
-                board.playCard(cardToBePlayed, to);
-              }
-            }
-    };
-
-    this.updateUI();
-    var action = ui.askPlayersAction(playerID, this.boardDisplayer, possibleActions);
-    action.run();
-
-    if (!alreadyMovedCard) {
-      this.moveCard(playerID, true);
+  private void updateStrategies() {
+    for (var pstrat : playerStrategies) {
+      pstrat.update(new GameState(playerStates, board, deck));
     }
   }
+
+
 }

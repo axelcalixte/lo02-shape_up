@@ -1,7 +1,7 @@
 package shapeup.ui;
 
+import shapeup.game.boards.Coordinates;
 import shapeup.game.boards.GridBoard;
-import shapeup.game.boards.GridCoordinates;
 
 import javax.swing.*;
 import java.util.HashSet;
@@ -22,22 +22,31 @@ public class GridBoardDisplayer implements BoardDisplayer {
     allPositions.addAll(playablePositions);
 
     // SAFETY: allPositions can't be empty
-    int minX = allPositions.stream().mapToInt(GridCoordinates::getX).min().getAsInt();
-    int maxX = allPositions.stream().mapToInt(GridCoordinates::getX).max().getAsInt();
-    int minY = allPositions.stream().mapToInt(GridCoordinates::getY).min().getAsInt();
-    int maxY = allPositions.stream().mapToInt(GridCoordinates::getY).max().getAsInt();
+    int minX = allPositions.stream().mapToInt(Coordinates::getX).min().getAsInt();
+    int maxX = allPositions.stream().mapToInt(Coordinates::getX).max().getAsInt();
+    int minY = allPositions.stream().mapToInt(Coordinates::getY).min().getAsInt();
+    int maxY = allPositions.stream().mapToInt(Coordinates::getY).max().getAsInt();
+
+    // First row : coordinates
+    System.out.print("|y\\x");
+    for (int col = minX; col <= maxX; col++)
+      System.out.printf("|%3d", col);
+    System.out.println("|");
 
     for (int row = minY; row <= maxY; row++) {
+      // First col : coordinates
+      System.out.printf("|%3d", row);
+
       for (int col = minX; col <= maxX; col++) {
-        var coord = new GridCoordinates(col, row);
+        var coord = new Coordinates(col, row);
 
         if (occupiedPositions.contains(coord)) {
           var card = this.board.getCard(coord).get();
-          System.out.print("|" + TerminalUI.fancyCardString(card));
+          System.out.print("| " + TerminalUI.fancyCardString(card));
         } else if (playablePositions.contains(coord)) {
-          System.out.print("|<>");
+          System.out.print("|< >");
         } else {
-          System.out.print("|  ");
+          System.out.print("|   ");
         }
       }
       System.out.println('|');

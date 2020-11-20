@@ -1,9 +1,12 @@
 package shapeup.ui;
 
-import shapeup.game.Action;
+import shapeup.game.Card;
 import shapeup.game.GameState;
+import shapeup.game.boards.Coordinates;
 
-import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public interface UI {
   /**
@@ -11,7 +14,13 @@ public interface UI {
    */
   void update(GameState gs);
 
-  Action askPlayersAction(int playerID, BoardDisplayer bd, Action[] possibleActions);
+  void moveOrPlay(int playerID, Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove);
 
-  void victoryScreen(int winner, LinkedHashMap<Integer, Integer> scores);
+  void play(int playerID, Consumer<Coordinates> onPlay);
+
+  void canFinishTurn(int playerID, Runnable onFinish, BiConsumer<Coordinates, Coordinates> onMove);
+
+  void turnFinished(int playerID, Runnable onFinish);
+
+  void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish);
 }
