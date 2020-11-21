@@ -29,18 +29,22 @@ public class TUIMenu {
     System.out.print('\n');
 
     for (int i = 0; i < actions.size(); ++i) {
-      System.out.printf("(%d) - %s\n", i, actions.get(i).name());
+      System.out.printf("(%d) - %s\n", i + 1, actions.get(i).name());
     }
 
     // Strange stuff happens if we close this scanner ¯\_(ツ)_/¯.
     // TODO: actually read documentation.
     var scanner = new Scanner(System.in);
     while (true) {
-      System.out.printf("Choisissez [%d-%d]: ", 0, actions.size() - 1);
+      if (actions.size() == 1)
+        System.out.print("Choisissez 1 : ");
+      else
+        System.out.printf("Choisissez [%d-%d] : ", 1, actions.size());
+
       try {
         int choice = scanner.nextInt();
-        if (0 <= choice && choice < actions.size()) {
-          return actions.get(choice);
+        if (1 <= choice && choice <= actions.size()) {
+          return actions.get(choice - 1);
         }
       } catch (Exception ignored) {
       }
