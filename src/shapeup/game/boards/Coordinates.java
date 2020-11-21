@@ -17,12 +17,6 @@ public class Coordinates {
     return y;
   }
 
-  public boolean isAdjacentTo(Coordinates other) {
-    int xDiff = Math.abs(other.x - this.x);
-    int yDiff = Math.abs(other.y - this.y);
-    return xDiff <= 1 && yDiff <= 1 && (xDiff == 1 ^ yDiff == 1);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

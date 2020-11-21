@@ -1,9 +1,7 @@
 package shapeup.game.boards;
 
-import shapeup.game.*;
+import shapeup.game.Card;
 import shapeup.game.scores.ScoreCounterVisitor;
-import shapeup.ui.BoardDisplayer;
-import shapeup.ui.GridBoardDisplayer;
 
 import java.util.*;
 
@@ -13,43 +11,7 @@ import java.util.*;
  * A Shape Up! game board.
  * Implements the standard rules.
  */
-public final class GridBoard {
-  public static void main(String[] args) {
-    var gb = new GridBoard();
-
-    Runnable print = () -> {
-      System.out.println(gb);
-      System.out.println(gb.getOccupiedPositions());
-      System.out.println(gb.getPlayablePositions());
-      System.out.println("-----------------------");
-    };
-
-    print.run();
-
-    gb.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), gb.getPlayablePositions().iterator().next());
-
-    print.run();
-
-    gb.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), gb.getPlayablePositions().iterator().next());
-
-    print.run();
-
-    gb.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), gb.getPlayablePositions().iterator().next());
-
-    print.run();
-
-    var d = new Deck();
-    var b = new GridBoard();
-
-    b.playCard(d.drawCard().get(), new Coordinates(0, 0));
-    b.moveCard(new Coordinates(0, 0), new Coordinates(0, -1));
-    b.playCard(d.drawCard().get(), new Coordinates(0, -2));
-    b.playCard(d.drawCard().get(), new Coordinates(-1, -2));
-    System.out.println(b);
-    b.moveCard(new Coordinates(0, -1), new Coordinates(0, 0));
-    System.out.println(b);
-  }
-
+public final class GridBoard implements Board {
   /**
    * MUST be greater than <pre>maxWidth</pre>
    */
@@ -79,6 +41,7 @@ public final class GridBoard {
    * @param to   the end position.
    * @throws IllegalArgumentException when there is no card at <pre>from</pre> or <pre>to</pre> is an illegal position.
    */
+  @Override
   public void moveCard(Coordinates from, Coordinates to) {
     if (!this.isMovable(from, to)) {
       throw new IllegalArgumentException();
@@ -94,6 +57,7 @@ public final class GridBoard {
    * @param coordinates where it should be put.
    * @throws IllegalArgumentException when the move is illegal.
    */
+  @Override
   public void playCard(Card card, Coordinates coordinates) {
     if (!this.isPlayable(coordinates))
       throw new IllegalArgumentException();
@@ -107,6 +71,7 @@ public final class GridBoard {
    * @param coordinates where.
    * @return the card, or <pre>Optional.empty()</pre> if there is no card.
    */
+  @Override
   public Optional<Card> getCard(Coordinates coordinates) {
     return Optional.ofNullable(this.cards.get(coordinates));
   }
@@ -116,6 +81,7 @@ public final class GridBoard {
    *
    * @return the positions' coordinates.
    */
+  @Override
   public Set<Coordinates> getPlayablePositions() {
     var freePositions = new HashSet<Coordinates>();
 
@@ -144,6 +110,7 @@ public final class GridBoard {
    *
    * @return the positions' coordinates.
    */
+  @Override
   public Set<Coordinates> getMovablePositions(Coordinates from) {
     var freePositions = new HashSet<Coordinates>();
 
@@ -168,12 +135,9 @@ public final class GridBoard {
    *
    * @return the positions' coordinates.
    */
+  @Override
   public Set<Coordinates> getOccupiedPositions() {
     return new HashSet<>(this.cards.keySet());
-  }
-
-  public BoardDisplayer getDisplayer() {
-    return new GridBoardDisplayer(this);
   }
 
   private boolean isPlayable(Coordinates coordinates) {
@@ -194,7 +158,7 @@ public final class GridBoard {
       return false;
 
     // Must be adjacent to an existing card
-    if (cards.entrySet().stream().noneMatch(entry -> entry.getKey().isAdjacentTo(coordinates)))
+    if (cards.entrySet().stream().noneMatch(entry -> adjacent(entry.getKey(), coordinates)))
       return false;
 
     // Musn't be out of bound
@@ -216,6 +180,13 @@ public final class GridBoard {
     return true;
   }
 
+  public static boolean adjacent(Coordinates a, Coordinates b) {
+    int xDiff = Math.abs(a.x - b.x);
+    int yDiff = Math.abs(a.y - b.y);
+    return xDiff <= 1 && yDiff <= 1 && (xDiff == 1 ^ yDiff == 1);
+  }
+
+  @Override
   public int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard) {
     return scoreCounter.countGridBoard(this, victoryCard);
   }

@@ -99,7 +99,7 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
       var currentCard = board.getCard(currentCoord).get();
 
       var isPartOfLastStreak =
-              lastCoord.isAdjacentTo(currentCoord)
+              GridBoard.adjacent(lastCoord, currentCoord)
                       && getter.apply(lastCard).equals(getter.apply(currentCard))
                       && getter.apply(currentCard).equals(getter.apply(victoryCard));
 

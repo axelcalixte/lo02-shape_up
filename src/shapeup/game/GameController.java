@@ -1,7 +1,7 @@
 package shapeup.game;
 
+import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
-import shapeup.game.boards.GridBoard;
 import shapeup.game.players.PlayerStrategy;
 import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
@@ -14,18 +14,19 @@ import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class GameController {
   private final PlayerStrategy[] playerStrategies;
   private final PlayerState[] playerStates;
 
-  private final GridBoard board;
+  private final Board board;
   private final Deck deck;
   private final ScoreCounterVisitor scoreCounter;
   private Card hiddenCard;
 
-  public GameController(Function<BoardDisplayer, UI> uiMaker) {
-    this.board = new GridBoard();
+  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor) {
+    this.board = boardConstructor.get();
 
     this.deck = new Deck();
 
@@ -34,7 +35,7 @@ public final class GameController {
     this.playerStrategies = new PlayerStrategy[nbPlayers];
     this.playerStates = new PlayerState[nbPlayers];
 
-    var ui = uiMaker.apply(board.getDisplayer());
+    var ui = uiConstructor.apply(new BoardDisplayer(this.board));
     for (int i = 0; i < nbPlayers; i++) {
       playerStrategies[i] = new RealPlayer(ui, i);
       playerStates[i] = new PlayerState(i);
@@ -163,7 +164,8 @@ public final class GameController {
     var scores = new ArrayList<Integer>(playerStates.length);
     for (var pstate : playerStates) {
       if (pstate.getVictoryCard().isPresent()) {
-        scores.add(scoreCounter.countGridBoard(board, pstate.getVictoryCard().get()));
+
+        scores.add(board.acceptScoreCounter(scoreCounter, pstate.getVictoryCard().get()));
       }
     }
 

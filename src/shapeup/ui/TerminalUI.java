@@ -190,7 +190,7 @@ public class TerminalUI implements UI {
 
     TUIMenu.displayMenu(
             String.format("Coordonnées en %s", kind),
-            choices.distinct().map(c -> new MenuAction() {
+            choices.distinct().sorted().map(c -> new MenuAction() {
               public String name() {
                 return String.valueOf(c);
               }
@@ -200,6 +200,7 @@ public class TerminalUI implements UI {
               }
             }).collect(Collectors.toList())
     ).run();
+
     return coord.val;
   }
 
