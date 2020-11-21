@@ -100,13 +100,18 @@ public class TerminalUI implements UI {
             .run();
   }
 
+  private static final Scanner scanner = new Scanner(System.in);
+
   @Override
   public void turnFinished(int playerID, Runnable onFinish) {
     drawGame(playerID);
     System.out.println("---");
     System.out.printf("Tour du joueur %d terminé. Appuyez sur entrée.\n", playerID);
     System.out.println("---");
-    (new Scanner(System.in)).nextLine();
+
+    // Strange stuff happens if we close this scanner.
+    scanner.nextLine();
+
     onFinish.run();
   }
 

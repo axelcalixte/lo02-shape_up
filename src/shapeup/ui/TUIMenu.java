@@ -32,6 +32,8 @@ public class TUIMenu {
       System.out.printf("(%d) - %s\n", i, actions.get(i).name());
     }
 
+    // Strange stuff happens if we close this scanner ¯\_(ツ)_/¯.
+    // TODO: actually read documentation.
     var scanner = new Scanner(System.in);
     while (true) {
       System.out.printf("Choisissez [%d-%d]: ", 0, actions.size() - 1);
