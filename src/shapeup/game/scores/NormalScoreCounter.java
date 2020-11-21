@@ -118,30 +118,43 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
   }
 
   private static int shapeGroupToScore(int shapeGroup) {
-    return switch (shapeGroup) {
-      case 2 -> 1;
-      case 3 -> 2;
-      case 4 -> 3;
-      case 5 -> 4;
-      default -> 0;
-    };
+    switch (shapeGroup) {
+      case 2:
+        return 1;
+      case 3:
+        return 2;
+      case 4:
+        return 3;
+      case 5:
+        return 4;
+      default:
+        return 0;
+    }
   }
 
   private static int fillednessGroupToScore(int shapeGroup) {
-    return switch (shapeGroup) {
-      case 3 -> 3;
-      case 4 -> 4;
-      case 5 -> 5;
-      default -> 0;
-    };
+    switch (shapeGroup) {
+      case 3:
+        return 3;
+      case 4:
+        return 4;
+      case 5:
+        return 5;
+      default:
+        return 0;
+    }
   }
 
   private static int colorGroupToScore(int shapeGroup) {
-    return switch (shapeGroup) {
-      case 3 -> 4;
-      case 4 -> 5;
-      case 5 -> 6;
-      default -> 0;
-    };
+    switch (shapeGroup) {
+      case 3:
+        return 4;
+      case 4:
+        return 5;
+      case 5:
+        return 6;
+      default:
+        return 0;
+    }
   }
 }

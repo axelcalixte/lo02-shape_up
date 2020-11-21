@@ -242,27 +242,50 @@ public class TerminalUI implements UI {
 
   public static String fancyCardString(Card c) {
     char color = colorToChar(c.getColor());
-    char shape = switch (c.getFilledness()) {
-      case HOLLOW -> switch (c.getShape()) {
-        case CIRCLE -> HOLLOW_CIRCLE;
-        case SQUARE -> HOLLOW_SQUARE;
-        case TRIANGLE -> HOLLOW_TRIANGLE;
-      };
-      case FILLED -> switch (c.getShape()) {
-        case CIRCLE -> FILLED_CIRCLE;
-        case SQUARE -> FILLED_SQUARE;
-        case TRIANGLE -> FILLED_TRIANGLE;
-      };
-    };
+
+    char shape = ' ';
+    switch (c.getFilledness()) {
+      case HOLLOW:
+        switch (c.getShape()) {
+          case CIRCLE:
+            shape = HOLLOW_CIRCLE;
+            break;
+          case SQUARE:
+            shape = HOLLOW_SQUARE;
+            break;
+          case TRIANGLE:
+            shape = HOLLOW_TRIANGLE;
+            break;
+        }
+        break;
+      case FILLED:
+        switch (c.getShape()) {
+          case CIRCLE:
+            shape = FILLED_CIRCLE;
+            break;
+          case SQUARE:
+            shape = FILLED_SQUARE;
+            break;
+          case TRIANGLE:
+            shape = FILLED_TRIANGLE;
+            break;
+        }
+        break;
+    }
 
     return String.valueOf(color) + shape;
   }
 
   public static char colorToChar(Color c) {
-    return switch (c) {
-      case RED -> 'R';
-      case GREEN -> 'G';
-      case BLUE -> 'B';
-    };
+    switch (c) {
+      case RED:
+        return 'R';
+      case GREEN:
+        return 'G';
+      case BLUE:
+        return 'B';
+      default:
+        throw new IllegalArgumentException();
+    }
   }
 }
