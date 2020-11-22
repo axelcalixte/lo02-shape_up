@@ -16,7 +16,7 @@ public interface PlayerStrategy {
 
   void canPlay(Consumer<Coordinates> onPlay);
 
-  void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> continue_);
+  void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> proceed);
 
   void turnFinished(Runnable onFinish);
 
