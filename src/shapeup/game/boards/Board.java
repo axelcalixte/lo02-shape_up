@@ -2,6 +2,7 @@ package shapeup.game.boards;
 
 import shapeup.game.Card;
 import shapeup.game.scores.ScoreCounterVisitor;
+import shapeup.ui.BoardDisplayer;
 
 import java.util.Optional;
 import java.util.Set;
@@ -20,4 +21,6 @@ public interface Board {
   Set<Coordinates> getOccupiedPositions();
 
   int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard);
+
+  BoardDisplayer displayer();
 }

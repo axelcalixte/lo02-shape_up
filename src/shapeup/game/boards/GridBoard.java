@@ -2,6 +2,7 @@ package shapeup.game.boards;
 
 import shapeup.game.Card;
 import shapeup.game.scores.ScoreCounterVisitor;
+import shapeup.ui.BoardDisplayer;
 
 import java.util.*;
 
@@ -189,6 +190,11 @@ public final class GridBoard implements Board {
   @Override
   public int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard) {
     return scoreCounter.countGridBoard(this, victoryCard);
+  }
+
+  @Override
+  public BoardDisplayer displayer() {
+    return new BoardDisplayer(this);
   }
 
   public int maxX() {

@@ -8,9 +8,19 @@ import java.util.HashSet;
 
 public class BoardDisplayer {
   private final Board board;
+  private final Integer xSize;
+  private final Integer ySize;
 
   public BoardDisplayer(Board board) {
     this.board = board;
+    this.xSize = null;
+    this.ySize = null;
+  }
+
+  public BoardDisplayer(Board board, int xSize, int ySize) {
+    this.board = board;
+    this.xSize = xSize;
+    this.ySize = ySize;
   }
 
   public void terminalDisplay() {
@@ -20,11 +30,19 @@ public class BoardDisplayer {
     var allPositions = new HashSet<>(occupiedPositions);
     allPositions.addAll(playablePositions);
 
-    // SAFETY: allPositions can't be empty
-    int minX = allPositions.stream().mapToInt(Coordinates::getX).min().getAsInt();
-    int maxX = allPositions.stream().mapToInt(Coordinates::getX).max().getAsInt();
-    int minY = allPositions.stream().mapToInt(Coordinates::getY).min().getAsInt();
-    int maxY = allPositions.stream().mapToInt(Coordinates::getY).max().getAsInt();
+    int minX, maxX, minY, maxY;
+    if (xSize == null || ySize == null) {
+      // SAFETY: allPositions can't be empty
+      minX = allPositions.stream().mapToInt(Coordinates::getX).min().getAsInt();
+      maxX = allPositions.stream().mapToInt(Coordinates::getX).max().getAsInt();
+      minY = allPositions.stream().mapToInt(Coordinates::getY).min().getAsInt();
+      maxY = allPositions.stream().mapToInt(Coordinates::getY).max().getAsInt();
+    } else {
+      minX = 0;
+      maxX = this.xSize;
+      minY = 0;
+      maxY = this.ySize;
+    }
 
     // First row : coordinates
     System.out.print("|y\\x");

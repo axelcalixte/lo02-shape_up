@@ -2,6 +2,7 @@ package shapeup.game.boards;
 
 import shapeup.game.Card;
 import shapeup.game.scores.ScoreCounterVisitor;
+import shapeup.ui.BoardDisplayer;
 
 import java.util.*;
 
@@ -91,6 +92,11 @@ public class CircleBoard implements Board {
   @Override
   public int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard) {
     return 0;
+  }
+
+  @Override
+  public BoardDisplayer displayer() {
+    return new BoardDisplayer(this, CircleBoard.SIZE, CircleBoard.SIZE);
   }
 
   private boolean isPlayable(Coordinates coordinates) {

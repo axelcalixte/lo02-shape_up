@@ -35,7 +35,7 @@ public final class GameController {
     this.playerStrategies = new PlayerStrategy[nbPlayers];
     this.playerStates = new PlayerState[nbPlayers];
 
-    var ui = uiConstructor.apply(new BoardDisplayer(this.board));
+    var ui = uiConstructor.apply(this.board.displayer());
     for (int i = 0; i < nbPlayers; i++) {
       playerStrategies[i] = new RealPlayer(ui, i);
       playerStates[i] = new PlayerState(i);
