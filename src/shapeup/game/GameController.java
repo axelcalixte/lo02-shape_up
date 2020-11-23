@@ -37,19 +37,18 @@ public final class GameController {
     this.playerStates = new PlayerState[nbPlayers];
 
     var ui = uiConstructor.apply(this.board.displayer());
-    if (withAI){
+
+    if (withAI) {
       playerStrategies[0] = new RealPlayer(ui, 0);
       playerStates[0] = new PlayerState(0);
       playerStrategies[1] = new BasicAI(1);
       playerStates[1] = new PlayerState(1);
-
     } else {
       for (int i = 0; i < nbPlayers; i++) {
         playerStrategies[i] = new RealPlayer(ui, i);
         playerStates[i] = new PlayerState(i);
       }
     }
-
 
     this.scoreCounter = new NormalScoreCounter();
   }
@@ -67,7 +66,7 @@ public final class GameController {
   }
 
   /**
-   * Play out an entire game turn, including all players.
+   * Play out an entire game turn, for all players.
    */
   private void startGameTurn() {
     // Drops the call stack. Please kill me.

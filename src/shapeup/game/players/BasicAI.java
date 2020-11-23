@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 public class BasicAI implements PlayerStrategy {
   private GameState gs;
   private final int playerID;
-  private final typeOfAI type = typeOfAI.BASIC;
 
   public BasicAI(int playerID) {
     this.playerID = playerID;
@@ -30,7 +29,7 @@ public class BasicAI implements PlayerStrategy {
   @Override
   public void canMoveOrPlay(Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
     var from = gs.board.getOccupiedPositions().iterator().next();
-    var to = gs.board.getPlayablePositions().iterator().next();
+    var to = gs.board.getMovablePositions(from).iterator().next();
     onMove.accept(from, to);
   }
 
