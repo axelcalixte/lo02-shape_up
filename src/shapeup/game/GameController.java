@@ -12,7 +12,6 @@ import shapeup.ui.UI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -86,86 +85,76 @@ public final class GameController {
       return;
     }
 
-    final var currentPlayerStrategy = new Object() {
-      PlayerStrategy val;
-    };
-    final var currentPlayerState = new Object() {
-      PlayerState val;
-    };
-    for (int i = 0; i < playerStrategies.length; ++i) {
-      if (playerStrategies[i].getPlayerID() == playerID) {
-        currentPlayerStrategy.val = playerStrategies[i];
-        currentPlayerState.val = playerStates[i];
-        break;
-      }
-    }
-
-    if (currentPlayerState.val == null || currentPlayerStrategy.val == null)
-      throw new IllegalArgumentException();
-
-    Runnable onTurnFinished = () -> {
-      if (playerID == playerStates.length - 1)
-        this.startGameTurn();
-      else
-        this.playerTurn(playerID + 1);
-    };
+    var currentPlayerStrategy = playerStrategies[playerID];
+    var currentPlayerState = playerStates[playerID];
 
     var drawnCard = deck.drawCard();
-    if (drawnCard.isEmpty() && currentPlayerState.val.getHand().size() == 0) {
-      onTurnFinished.run();
+    if (drawnCard.isEmpty() && currentPlayerState.getHand().size() == 0) {
+      this.onTurnFinished(playerID);
       return;
     }
 
-    drawnCard.ifPresent(card ->
-            currentPlayerState.val.giveCard(card));
+    this.updateStrategies();
+
+    drawnCard.ifPresent(currentPlayerState::giveCard);
 
     this.updateStrategies();
 
-    var alreadyPlayed = new Object() {
-      boolean val = false;
-    };
-    var alreadyMoved = new Object() {
-      boolean val = false;
-    };
-
-    var onPlay = new Object() {
-      BiConsumer<Card, Coordinates> val;
-    };
-
-    BiConsumer<Coordinates, Coordinates> onMove = (from, to) -> {
-      if (alreadyMoved.val) return;
-      this.board.moveCard(from, to);
-      this.updateStrategies();
-      alreadyMoved.val = true;
-      if (alreadyPlayed.val) {
-        currentPlayerStrategy.val.turnFinished(onTurnFinished);
-      }
-      currentPlayerStrategy.val.canPlay(onPlay.val);
-    };
-
-    onPlay.val = (card, coord) -> {
-      if (alreadyPlayed.val) return;
-
-      currentPlayerState.val.getHand().remove(card);
-      this.board.playCard(card, coord);
-      this.updateStrategies();
-
-      alreadyPlayed.val = true;
-      if (alreadyMoved.val) {
-        currentPlayerStrategy.val.turnFinished(onTurnFinished);
-        return;
-      }
-      // If a card can be moved (special case for player 0's first turn).
-      if (board.getOccupiedPositions().size() > 1)
-        currentPlayerStrategy.val.canFinishTurn(onTurnFinished, onMove);
-      else
-        currentPlayerStrategy.val.turnFinished(onTurnFinished);
-    };
-
     if (board.getOccupiedPositions().size() > 1)
-      currentPlayerStrategy.val.canMoveOrPlay(onPlay.val, onMove);
+      currentPlayerStrategy.canMoveOrPlay(
+              (card, coordinates) -> this.onPlay(playerID, card, coordinates, false),
+              (from, to) -> this.onMove(playerID, from, to, false)
+      );
     else
-      currentPlayerStrategy.val.canPlay(onPlay.val);
+      currentPlayerStrategy.canPlay(
+              (card, coordinates) -> this.onPlay(playerID, card, coordinates, false)
+      );
+  }
+
+  private void onPlay(int playerID, Card card, Coordinates coordinates, boolean alreadyMoved) {
+    var currentPlayerState = this.playerStates[playerID];
+    var currentPlayerStrategy = this.playerStrategies[playerID];
+
+    currentPlayerState.getHand().remove(card);
+    this.board.playCard(card, coordinates);
+
+    this.updateStrategies();
+
+    if (alreadyMoved) {
+      currentPlayerStrategy.turnFinished(
+              () -> this.onTurnFinished(playerID)
+      );
+    } else {
+      // If a card can be moved.
+      if (board.getOccupiedPositions().size() > 1)
+        currentPlayerStrategy.canFinishTurn(
+                () -> this.onTurnFinished(playerID),
+                (from, to) -> this.onMove(playerID, from, to, true)
+        );
+        // Special case for player 0's first turn.
+      else
+        currentPlayerStrategy.turnFinished(() -> this.onTurnFinished(playerID));
+    }
+  }
+
+  private void onMove(int playerID, Coordinates from, Coordinates to, boolean alreadyPlayed) {
+    var currentPlayerStrategy = this.playerStrategies[playerID];
+
+    this.board.moveCard(from, to);
+
+    this.updateStrategies();
+
+    if (alreadyPlayed)
+      currentPlayerStrategy.turnFinished(() -> this.onTurnFinished(playerID));
+    else
+      currentPlayerStrategy.canPlay((card, coordinates) -> this.onPlay(playerID, card, coordinates, true));
+  }
+
+  void onTurnFinished(int playerID) {
+    if (playerID == playerStates.length - 1)
+      this.startGameTurn();
+    else
+      this.playerTurn(playerID + 1);
   }
 
   private void finishRound() {
