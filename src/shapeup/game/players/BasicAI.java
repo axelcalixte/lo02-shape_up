@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 public class BasicAI implements PlayerStrategy {
   private GameState gs;
   private final int playerID;
+  private final typeOfAI type = typeOfAI.BASIC;
 
   public BasicAI(int playerID) {
     this.playerID = playerID;

@@ -23,7 +23,15 @@ public class ShapeUp {
               }
 
               public void run() {
-                new GameController(TerminalUI::new, GridBoard::new).startGame();
+                new GameController(TerminalUI::new, GridBoard::new, false).startGame();
+              }
+            }, new MenuAction() {
+              public String name() {
+                return "Commencer une partie à 1 joueur contre une IA, règles classiques, plateau classique.";
+              }
+
+              public void run() {
+                new GameController(TerminalUI::new, GridBoard::new, true).startGame();
               }
             }, new MenuAction() {
               public String name() {
@@ -31,9 +39,17 @@ public class ShapeUp {
               }
 
               public void run() {
-                new GameController(TerminalUI::new, CircleBoard::new).startGame();
+                new GameController(TerminalUI::new, CircleBoard::new, false).startGame();
               }
-            }, new MenuAction() {
+            }, /* hella bugged new MenuAction() {
+              public String name() {
+                return "Commencer une partie à 1 joueur contre une IA, règles classiques, plateau circulaire.";
+              }
+
+              public void run() {
+                new GameController(TerminalUI::new, CircleBoard::new, true).startGame();
+              }
+            },*/ new MenuAction() {
               public String name() {
                 return "Quitter";
               }

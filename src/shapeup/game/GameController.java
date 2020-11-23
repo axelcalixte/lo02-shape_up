@@ -2,6 +2,7 @@ package shapeup.game;
 
 import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
+import shapeup.game.players.BasicAI;
 import shapeup.game.players.PlayerStrategy;
 import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
@@ -25,7 +26,7 @@ public final class GameController {
   private final ScoreCounterVisitor scoreCounter;
   private Card hiddenCard;
 
-  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor) {
+  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor, boolean withAI) {
     this.board = boardConstructor.get();
 
     this.deck = new Deck();
@@ -36,10 +37,19 @@ public final class GameController {
     this.playerStates = new PlayerState[nbPlayers];
 
     var ui = uiConstructor.apply(this.board.displayer());
-    for (int i = 0; i < nbPlayers; i++) {
-      playerStrategies[i] = new RealPlayer(ui, i);
-      playerStates[i] = new PlayerState(i);
+    if (withAI){
+      playerStrategies[0] = new RealPlayer(ui, 0);
+      playerStates[0] = new PlayerState(0);
+      playerStrategies[1] = new BasicAI(1);
+      playerStates[1] = new PlayerState(1);
+
+    } else {
+      for (int i = 0; i < nbPlayers; i++) {
+        playerStrategies[i] = new RealPlayer(ui, i);
+        playerStates[i] = new PlayerState(i);
+      }
     }
+
 
     this.scoreCounter = new NormalScoreCounter();
   }
