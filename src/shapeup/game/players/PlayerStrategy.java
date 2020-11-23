@@ -6,15 +6,14 @@ import shapeup.game.boards.Coordinates;
 
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public interface PlayerStrategy {
   void update(GameState up);
   int getPlayerID();
 
-  void canMoveOrPlay(Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove);
+  void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove);
 
-  void canPlay(Consumer<Coordinates> onPlay);
+  void canPlay(BiConsumer<Card, Coordinates> onPlay);
 
   void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> proceed);
 

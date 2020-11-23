@@ -7,7 +7,6 @@ import shapeup.ui.UI;
 
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class RealPlayer implements PlayerStrategy {
   private final UI ui;
@@ -29,12 +28,12 @@ public class RealPlayer implements PlayerStrategy {
   }
 
   @Override
-  public void canMoveOrPlay(Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
+  public void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
     ui.moveOrPlay(playerID, onPlay, onMove);
   }
 
   @Override
-  public void canPlay(Consumer<Coordinates> onPlay) {
+  public void canPlay(BiConsumer<Card, Coordinates> onPlay) {
     ui.play(playerID, onPlay);
   }
 

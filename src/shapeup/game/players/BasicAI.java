@@ -6,7 +6,6 @@ import shapeup.game.boards.Coordinates;
 
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class BasicAI implements PlayerStrategy {
   private GameState gs;
@@ -27,16 +26,16 @@ public class BasicAI implements PlayerStrategy {
   }
 
   @Override
-  public void canMoveOrPlay(Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
+  public void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
     var from = gs.board.getOccupiedPositions().iterator().next();
     var to = gs.board.getMovablePositions(from).iterator().next();
     onMove.accept(from, to);
   }
 
   @Override
-  public void canPlay(Consumer<Coordinates> onPlay) {
+  public void canPlay(BiConsumer<Card, Coordinates> onPlay) {
     var to = gs.board.getPlayablePositions().iterator().next();
-    onPlay.accept(to);
+    onPlay.accept(gs.playerStates[playerID].getHand().get(0), to);
   }
 
   @Override

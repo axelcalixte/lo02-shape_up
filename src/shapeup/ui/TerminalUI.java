@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,7 +30,7 @@ public class TerminalUI implements UI {
   }
 
   @Override
-  public void moveOrPlay(int playerID, Consumer<Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
+  public void moveOrPlay(int playerID, BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
     executePlayersAction(playerID, Arrays.asList(
             new MenuAction() {
               public String name() {
@@ -39,7 +38,9 @@ public class TerminalUI implements UI {
               }
 
               public void run() {
-                onPlay.accept(askPlay());
+                var card = askCardInHand(playerID);
+                var playPosition = askPlayPosition();
+                onPlay.accept(card, playPosition);
               }
             },
             new MenuAction() {
@@ -48,7 +49,7 @@ public class TerminalUI implements UI {
               }
 
               public void run() {
-                var move = askMove();
+                var move = askMovePositions();
                 onMove.accept(move[0], move[1]);
               }
             }
@@ -56,7 +57,7 @@ public class TerminalUI implements UI {
   }
 
   @Override
-  public void play(int playerID, Consumer<Coordinates> onPlay) {
+  public void play(int playerID, BiConsumer<Card, Coordinates> onPlay) {
     executePlayersAction(playerID, Collections.singletonList(
             new MenuAction() {
               public String name() {
@@ -64,7 +65,9 @@ public class TerminalUI implements UI {
               }
 
               public void run() {
-                onPlay.accept(askPlay());
+                var card = askCardInHand(playerID);
+                var playPosition = askPlayPosition();
+                onPlay.accept(card, playPosition);
               }
             }
     ));
@@ -82,7 +85,7 @@ public class TerminalUI implements UI {
                       }
 
                       public void run() {
-                        var move = askMove();
+                        var move = askMovePositions();
                         onMove.accept(move[0], move[1]);
                       }
                     },
@@ -140,7 +143,7 @@ public class TerminalUI implements UI {
     TUIMenu.displayMenu("Choisissez votre prochaine action :", possibleActions).run();
   }
 
-  private Coordinates askPlay() {
+  private Coordinates askPlayPosition() {
     int xCoords = askCoords(
             "x",
             gameState.board.getPlayablePositions().stream().map(Coordinates::getX)
@@ -154,7 +157,33 @@ public class TerminalUI implements UI {
     return new Coordinates(xCoords, yCoords);
   }
 
-  private Coordinates[] askMove() {
+  private Card askCardInHand(int playerID) {
+    var hand = gameState.playerStates[playerID].getHand();
+    if (hand.size() == 1) return hand.get(0);
+
+    var card = new Object() {
+      Card val = null;
+    };
+
+    TUIMenu.displayMenu(
+            "Choisissez une carte :",
+            hand.stream()
+                    .map(c -> new MenuAction() {
+                      public String name() {
+                        return TerminalUI.fancyCardString(c);
+                      }
+
+                      public void run() {
+                        card.val = c;
+                      }
+                    })
+                    .collect(Collectors.toList())
+    ).run();
+
+    return card.val;
+  }
+
+  private Coordinates[] askMovePositions() {
     var occupiedPositions = gameState.board.getOccupiedPositions();
     int xSource = askCoords(
             "x de la source",

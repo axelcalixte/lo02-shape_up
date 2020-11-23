@@ -13,7 +13,6 @@ import shapeup.ui.UI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -130,7 +129,7 @@ public final class GameController {
     };
 
     var onPlay = new Object() {
-      Consumer<Coordinates> val;
+      BiConsumer<Card, Coordinates> val;
     };
 
     BiConsumer<Coordinates, Coordinates> onMove = (from, to) -> {
@@ -144,11 +143,11 @@ public final class GameController {
       currentPlayerStrategy.val.canPlay(onPlay.val);
     };
 
-    onPlay.val = coord -> {
+    onPlay.val = (card, coord) -> {
       if (alreadyPlayed.val) return;
 
-      var toPlay = currentPlayerState.val.takeCard(0).get();
-      this.board.playCard(toPlay, coord);
+      currentPlayerState.val.getHand().remove(card);
+      this.board.playCard(card, coord);
       this.updateStrategies();
 
       alreadyPlayed.val = true;
