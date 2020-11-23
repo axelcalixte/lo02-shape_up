@@ -39,9 +39,9 @@ public class BoardDisplayer {
       maxY = allPositions.stream().mapToInt(Coordinates::getY).max().getAsInt();
     } else {
       minX = 0;
-      maxX = this.xSize;
+      maxX = this.xSize - 1;
       minY = 0;
-      maxY = this.ySize;
+      maxY = this.ySize - 1;
     }
 
     // First row : coordinates
