@@ -6,6 +6,8 @@ import shapeup.ui.BoardDisplayer;
 
 import java.util.*;
 
+import static java.lang.Math.abs;
+
 /**
  * x == part of the board
  * <pre>
@@ -129,15 +131,18 @@ public class CircleBoard implements Board {
     if (isCenter(a)) return inFirstCircle(b);
     if (isCenter(b)) return inFirstCircle(a);
 
-    int xDiff = Math.abs(a.x - b.x);
-    int yDiff = Math.abs(a.y - b.y);
+    int xDiff = abs(a.x - b.x);
+    int yDiff = abs(a.y - b.y);
 
     // Check for line/column adjacency.
     if (GridBoard.adjacent(a, b))
       return true;
 
     // Check for diagonal adjacency.
-    if (xDiff == 1 && yDiff == 1)
+    boolean bothInADiagonal;
+    bothInADiagonal = abs(a.x - CENTER) == abs(a.y - CENTER) && abs(b.x - CENTER) == abs(b.y - CENTER);
+    boolean diagonallyAdjacent = xDiff == 1 && yDiff == 1;
+    if (bothInADiagonal && diagonallyAdjacent)
       return true;
 
     // Check for second circle adjacency.
@@ -145,8 +150,8 @@ public class CircleBoard implements Board {
             && inSecondCircle(b)
             && (xDiff == 2 && yDiff == 0 || xDiff == 0 && yDiff == 2))
       return true;
-
-    else return false;
+    else
+      return false;
   }
 
   private static boolean isCenter(Coordinates coordinates) {
@@ -155,13 +160,13 @@ public class CircleBoard implements Board {
 
   private static boolean inFirstCircle(Coordinates coordinates) {
     return !isCenter(coordinates)
-            && Math.abs(coordinates.x - CircleBoard.CENTER) <= 1
-            && Math.abs(coordinates.y - CircleBoard.CENTER) <= 1;
+            && abs(coordinates.x - CircleBoard.CENTER) <= 1
+            && abs(coordinates.y - CircleBoard.CENTER) <= 1;
   }
 
   private static boolean inSecondCircle(Coordinates coordinates) {
-    final int x = Math.abs(coordinates.x - CircleBoard.CENTER);
-    final int y = Math.abs(coordinates.y - CircleBoard.CENTER);
+    final int x = abs(coordinates.x - CircleBoard.CENTER);
+    final int y = abs(coordinates.y - CircleBoard.CENTER);
 
     if (isCenter(coordinates)) return false;
     if (inFirstCircle(coordinates)) return false;
