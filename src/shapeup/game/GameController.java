@@ -67,7 +67,7 @@ public final class GameController {
    * Play out an entire game turn, for all players.
    */
   private void startGameTurn() {
-    // Drops the call stack. Please kill me.
+    // Drops the call stack.
     new Thread(() ->
             this.playerTurn(0)
     ).start();

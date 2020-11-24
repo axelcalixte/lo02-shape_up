@@ -159,7 +159,7 @@ public final class GridBoard implements Board {
       return false;
 
     // Must be adjacent to an existing card
-    if (cards.entrySet().stream().noneMatch(entry -> adjacent(entry.getKey(), coordinates)))
+    if (cards.keySet().stream().noneMatch(c -> adjacent(c, coordinates)))
       return false;
 
     // Musn't be out of bound
@@ -168,11 +168,13 @@ public final class GridBoard implements Board {
     int maxY = maxY(cards);
     int minY = minY(cards);
 
-    int xSize = maxX - minX;
-    int ySize = maxY - minY;
+    // Add one to include every line.
+    // Ex : if maxX == 1 and minX == 0, xSize should be 2, not 1.
+    int xSize = maxX - minX + 1;
+    int ySize = maxY - minY + 1;
 
-    int newXSize = Math.max(xSize, Math.max(maxX - coordinates.x, coordinates.x - minX));
-    int newYSize = Math.max(ySize, Math.max(maxY - coordinates.y, coordinates.y - minY));
+    int newXSize = Math.max(xSize, 1 + Math.max(maxX - coordinates.x, coordinates.x - minX));
+    int newYSize = Math.max(ySize, 1 + Math.max(maxY - coordinates.y, coordinates.y - minY));
 
     if (newXSize > maxLength || newYSize > maxLength) return false;
 
