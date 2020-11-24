@@ -1,66 +1,129 @@
 package shapeup;
 
 import shapeup.game.GameController;
-import shapeup.game.MenuAction;
+import shapeup.game.SupplierAction;
+import shapeup.game.boards.Board;
 import shapeup.game.boards.CircleBoard;
 import shapeup.game.boards.GridBoard;
+import shapeup.game.players.PlayerType;
+import shapeup.ui.BoardDisplayer;
 import shapeup.ui.TUIMenu;
 import shapeup.ui.TerminalUI;
+import shapeup.ui.UI;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ShapeUp {
   public static void main(String[] args) {
-    mainMenu().run();
+    var uiCtor = uiType();
+
+    var playerTypes = new ArrayList<PlayerType>(3);
+    for (int i = 0; i < 2; i++) {
+      playerTypes.add(playerType(i));
+    }
+    if (thirdPlayer())
+      playerTypes.add(playerType(2));
+
+    var boardCtor = boardType();
+
+    new GameController(uiCtor, boardCtor, playerTypes).startRound();
   }
 
-  public static MenuAction mainMenu() {
-    return TUIMenu.displayMenu(
-            "Shape Up !",
-            List.of(new MenuAction() {
+  public static Function<BoardDisplayer, UI> uiType() {
+    return TUIMenu.displayValueMenu(
+            "Shape Up! Choisissez le type d'interface :",
+            List.of(
+                    new SupplierAction<Function<BoardDisplayer, UI>>() {
                       public String name() {
-                        return "Commencer une partie à 2 joueurs, règles classiques, plateau classique.";
+                        return "Ligne de commande";
                       }
 
-                      public void run() {
-                        new GameController(TerminalUI::new, GridBoard::new, false).startGame();
+                      public Function<BoardDisplayer, UI> get() {
+                        return TerminalUI::new;
+                      }
+                    }
+            )
+    );
+  }
+
+  public static PlayerType playerType(int playerID) {
+    return TUIMenu.displayValueMenu(
+            String.format("Choisissez le type de joueur pour le joueur %d :", playerID),
+            List.of(
+                    new SupplierAction<PlayerType>() {
+                      public String name() {
+                        return "Joueur réel";
+                      }
+
+                      public PlayerType get() {
+                        return PlayerType.REAL_PLAYER;
                       }
                     },
-                    new MenuAction() {
+                    new SupplierAction<PlayerType>() {
                       public String name() {
-                        return "Commencer une partie à 1 joueur contre une IA, règles classiques, plateau classique.";
+                        return "IA basique";
                       }
 
-                      public void run() {
-                        new GameController(TerminalUI::new, GridBoard::new, true).startGame();
+                      public PlayerType get() {
+                        return PlayerType.BASIC_AI;
+                      }
+                    }
+            )
+    );
+  }
+
+  public static boolean thirdPlayer() {
+    return TUIMenu.displayValueMenu(
+            "Troisième joueur ?",
+            List.of(
+                    new SupplierAction<Boolean>() {
+                      public String name() {
+                        return "Oui";
+                      }
+
+                      public Boolean get() {
+                        return true;
                       }
                     },
-                    new MenuAction() {
+                    new SupplierAction<Boolean>() {
                       public String name() {
-                        return "Commencer une partie à 2 joueurs, règles classiques, plateau circulaire.";
+                        return "Non";
                       }
 
-                      public void run() {
-                        new GameController(TerminalUI::new, CircleBoard::new, false).startGame();
+                      public Boolean get() {
+                        return false;
+                      }
+                    }
+            )
+    );
+  }
+
+  public static Supplier<Board> boardType() {
+    return TUIMenu.displayValueMenu(
+            "Type de plateau :",
+            List.of(
+                    new SupplierAction<Supplier<Board>>() {
+                      public String name() {
+                        return "Classique";
+                      }
+
+                      public Supplier<Board> get() {
+                        return GridBoard::new;
                       }
                     },
-                    new MenuAction() {
+                    new SupplierAction<Supplier<Board>>() {
                       public String name() {
-                        return "Commencer une partie à 1 joueur contre une IA, règles classiques, plateau circulaire.";
+                        return "Circulaire";
                       }
 
-                      public void run() {
-                        new GameController(TerminalUI::new, CircleBoard::new, true).startGame();
+                      public Supplier<Board> get() {
+                        return CircleBoard::new;
                       }
-                    },
-                    new MenuAction() {
-                      public String name() {
-                        return "Quitter";
-                      }
-
-                      public void run() {
-                      }
-                    })
+                    }
+            )
     );
   }
 }

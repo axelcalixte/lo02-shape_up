@@ -1,9 +1,11 @@
 package shapeup.ui;
 
 import shapeup.game.MenuAction;
+import shapeup.game.SupplierAction;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class TUIMenu {
   private TUIMenu() {
@@ -51,5 +53,30 @@ public class TUIMenu {
 
       System.out.printf("\nChoix invalide. Doit être un entier entre %d et %d compris.\n", 0, actions.size() - 1);
     }
+  }
+
+  public static <T> T displayValueMenu(String title, List<SupplierAction<T>> actions) {
+    var t = new Object() {
+      T val = null;
+    };
+
+    TUIMenu.displayMenu(
+            title,
+            actions.stream()
+                    .map(action ->
+                            new MenuAction() {
+                              public String name() {
+                                return action.name();
+                              }
+
+                              public void run() {
+                                t.val = action.get();
+                              }
+                            }
+                    )
+                    .collect(Collectors.toList())
+    ).run();
+
+    return t.val;
   }
 }

@@ -4,6 +4,7 @@ import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
 import shapeup.game.players.BasicAI;
 import shapeup.game.players.PlayerStrategy;
+import shapeup.game.players.PlayerType;
 import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
 import shapeup.game.scores.ScoreCounterVisitor;
@@ -12,6 +13,7 @@ import shapeup.ui.UI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -24,34 +26,35 @@ public final class GameController {
   private final ScoreCounterVisitor scoreCounter;
   private Card hiddenCard;
 
-  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor, boolean withAI) {
+  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor, List<PlayerType> playerTypes) {
     this.board = boardConstructor.get();
 
     this.deck = new Deck();
 
-    final int nbPlayers = 2;
+    final int nbPlayers = playerTypes.size();
+    if (nbPlayers < 2 || nbPlayers > 3)
+      throw new IllegalArgumentException("2 or 3 players");
 
     this.playerStrategies = new PlayerStrategy[nbPlayers];
     this.playerStates = new PlayerState[nbPlayers];
 
     var ui = uiConstructor.apply(this.board.displayer());
 
-    if (withAI) {
-      playerStrategies[0] = new RealPlayer(ui, 0);
-      playerStates[0] = new PlayerState(0);
-      playerStrategies[1] = new BasicAI(1);
-      playerStates[1] = new PlayerState(1);
-    } else {
-      for (int i = 0; i < nbPlayers; i++) {
-        playerStrategies[i] = new RealPlayer(ui, i);
-        playerStates[i] = new PlayerState(i);
+    for (int i = 0; i < playerTypes.size(); i++) {
+      playerStates[i] = new PlayerState(i);
+      switch (playerTypes.get(i)) {
+        case BASIC_AI:
+          playerStrategies[i] = new BasicAI(i);
+          break;
+        case REAL_PLAYER:
+          playerStrategies[i] = new RealPlayer(ui, i);
       }
     }
 
     this.scoreCounter = new NormalScoreCounter();
   }
 
-  public void startGame() {
+  public void startRound() {
     hiddenCard = this.deck.drawCard().get();
 
     for (PlayerState ps : this.playerStates) {
