@@ -26,6 +26,15 @@ public final class GameController {
   private final ScoreCounterVisitor scoreCounter;
   private Card hiddenCard;
 
+  /**
+   * Used to display scores at the end of AI-only games
+   */
+  private final UI ui;
+  /**
+   * Used to display scores at the end of AI-only games
+   */
+  private final boolean aiOnlyGame;
+
   public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor, List<PlayerType> playerTypes) {
     this.board = boardConstructor.get();
 
@@ -38,7 +47,9 @@ public final class GameController {
     this.playerStrategies = new PlayerStrategy[nbPlayers];
     this.playerStates = new PlayerState[nbPlayers];
 
-    var ui = uiConstructor.apply(this.board.displayer());
+    this.ui = uiConstructor.apply(this.board.displayer());
+
+    this.aiOnlyGame = playerTypes.stream().noneMatch(playerType -> playerType == PlayerType.REAL_PLAYER);
 
     for (int i = 0; i < playerTypes.size(); i++) {
       playerStates[i] = new PlayerState(i);
@@ -55,9 +66,11 @@ public final class GameController {
   }
 
   public void startRound() {
+    //noinspection OptionalGetWithoutIsPresent
     hiddenCard = this.deck.drawCard().get();
 
     for (PlayerState ps : this.playerStates) {
+      //noinspection OptionalGetWithoutIsPresent
       ps.giveVictoryCard(this.deck.drawCard().get());
     }
 
@@ -171,6 +184,12 @@ public final class GameController {
 
     for (var pstrat : playerStrategies) {
       pstrat.roundFinished(scores, hiddenCard, () -> {
+      });
+    }
+
+    if (this.aiOnlyGame) {
+      this.ui.update(new GameState(playerStates, board, deck));
+      this.ui.roundFinished(scores, hiddenCard, () -> {
       });
     }
   }
