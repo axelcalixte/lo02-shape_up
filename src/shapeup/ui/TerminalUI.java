@@ -127,10 +127,17 @@ public class TerminalUI implements UI {
     }
 
     System.out.println("---");
+    bd.terminalDisplay();
+    System.out.println("---");
     System.out.printf("Le joueur %d a gagné ce round.\n", maxScoreIdx);
 
     for (int i = 0; i < scores.size(); i++) {
-      System.out.println("Joueur " + i + " : " + scores.get(i) + ".");
+      System.out.printf(
+              "Joueur %d : %d points, carte victoire %s.\n",
+              i,
+              scores.get(i),
+              TerminalUI.fancyCardString(gameState.playerStates[i].getVictoryCard().get())
+      );
     }
     System.out.println("---");
     System.out.printf("La carte cachée était %s.\n", TerminalUI.fancyCardString(hiddenCard));
