@@ -22,5 +22,7 @@ public interface Board {
 
   int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard);
 
+  boolean areAdjacent(Coordinates a, Coordinates b);
+
   BoardDisplayer displayer();
 }

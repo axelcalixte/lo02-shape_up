@@ -195,6 +195,11 @@ public final class GridBoard implements Board {
   }
 
   @Override
+  public boolean areAdjacent(Coordinates a, Coordinates b) {
+    return adjacent(a, b);
+  }
+
+  @Override
   public BoardDisplayer displayer() {
     return new BoardDisplayer(this);
   }

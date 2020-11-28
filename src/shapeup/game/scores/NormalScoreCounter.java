@@ -4,6 +4,8 @@ import shapeup.game.Card;
 import shapeup.game.Color;
 import shapeup.game.Filledness;
 import shapeup.game.Shape;
+import shapeup.game.boards.Board;
+import shapeup.game.boards.CircleBoard;
 import shapeup.game.boards.Coordinates;
 import shapeup.game.boards.GridBoard;
 
@@ -42,8 +44,20 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
 
   @Override
   public int countGridBoard(GridBoard board, Card victoryCard) {
-    var lines = gatherLines(board);
+    var lines = gatherGridboardLines(board);
 
+    return countBoard(board, victoryCard, lines);
+  }
+
+  @Override
+  public int countCircleBoard(CircleBoard board, Card victoryCard) {
+    var lines = gatherCircleBoardLines(board);
+
+    return countBoard(board, victoryCard, lines);
+  }
+
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  private int countBoard(Board board, Card victoryCard, List<List<Coordinates>> lines) {
     var shapeScore = lines.stream()
             .map(line -> countScoreForLine(line, board, victoryCard, Card::getShape, NormalScoreCounter::shapeGroupToScore))
             .reduce(Integer::sum).get();
@@ -57,7 +71,69 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
     return shapeScore + fillednessScore + colorScore;
   }
 
-  private static List<List<Coordinates>> gatherLines(GridBoard board) {
+  /**
+   * Gathers all the rows and columns into a list of lines.
+   *
+   * @param board the board whose lines should be retrieved.
+   * @return the lines.
+   */
+  private static List<List<Coordinates>> gatherCircleBoardLines(CircleBoard board) {
+    final var firstCircle = new ArrayList<Coordinates>();
+    final var secondCircle = new ArrayList<Coordinates>();
+    final var centerColumn = new ArrayList<Coordinates>();
+    final var centerRow = new ArrayList<Coordinates>();
+    // Top-left to bottom-right
+    final var diagonalTlToBr = new ArrayList<Coordinates>();
+    // Bottom-left to top-right
+    final var diagonalBlToTr = new ArrayList<Coordinates>();
+
+    final int maxIdx = CircleBoard.SIZE - 1;
+
+    var occupiedPositions = board.getOccupiedPositions();
+    for (var op : occupiedPositions) {
+      if (CircleBoard.inFirstCircle(op))
+        firstCircle.add(op);
+
+      if (CircleBoard.inSecondCircle(op))
+        secondCircle.add(op);
+
+      if (op.getX() == CircleBoard.CENTER)
+        centerColumn.add(op);
+
+      if (op.getY() == CircleBoard.CENTER)
+        centerRow.add(op);
+
+      if (op.getX() == op.getY())
+        diagonalTlToBr.add(op);
+
+      if (maxIdx - op.getX() == op.getY() || op.getX() == maxIdx - op.getY())
+        diagonalBlToTr.add(op);
+    }
+
+    firstCircle.sort(Comparator.comparingDouble(CircleBoard::angle));
+    secondCircle.sort(Comparator.comparingDouble(CircleBoard::angle));
+    centerColumn.sort(Comparator.comparingInt(Coordinates::getY));
+    centerRow.sort(Comparator.comparingInt(Coordinates::getX));
+    diagonalBlToTr.sort(Comparator.comparingInt(Coordinates::getX));
+    diagonalTlToBr.sort(Comparator.comparingInt(Coordinates::getX));
+
+    return List.of(
+            firstCircle,
+            secondCircle,
+            centerColumn,
+            centerRow,
+            diagonalTlToBr,
+            diagonalBlToTr
+    );
+  }
+
+  /**
+   * Gathers all the rows and columns into a list of lines.
+   *
+   * @param board the board whose lines should be retrieved.
+   * @return the lines.
+   */
+  private static List<List<Coordinates>> gatherGridboardLines(GridBoard board) {
     List<List<Coordinates>> lines = new ArrayList<>();
 
     int maxX = board.maxX();
@@ -87,7 +163,24 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
     return lines;
   }
 
-  private static int countScoreForLine(List<Coordinates> line, GridBoard board, Card victoryCard, Function<Card, Object> getter, Function<Integer, Integer> groupToScore) {
+  /**
+   * Count the score for the specified line of cards, victory card, and card attribute.
+   *
+   * @param line         the cards that should be counted.
+   * @param board        the board the cards are part of, used for coord -> card and its adjacency impl.
+   * @param victoryCard  the victory card.
+   * @param getter       used to retrieve the attribute to be compared in each card.
+   * @param groupToScore used to convert the size of a card group to a score.
+   * @return the score for this line.
+   */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  private static int countScoreForLine(
+          List<Coordinates> line,
+          Board board,
+          Card victoryCard,
+          Function<Card, Object> getter,
+          Function<Integer, Integer> groupToScore
+  ) {
     var streaks = new ArrayList<Integer>();
 
     streaks.add(1);
@@ -99,7 +192,7 @@ public class NormalScoreCounter implements ScoreCounterVisitor {
       var currentCard = board.getCard(currentCoord).get();
 
       var isPartOfLastStreak =
-              GridBoard.adjacent(lastCoord, currentCoord)
+              board.areAdjacent(lastCoord, currentCoord)
                       && getter.apply(lastCard).equals(getter.apply(currentCard))
                       && getter.apply(currentCard).equals(getter.apply(victoryCard));
 

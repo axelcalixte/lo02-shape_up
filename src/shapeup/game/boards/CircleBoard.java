@@ -19,8 +19,8 @@ import static java.lang.Math.abs;
  * </pre>
  */
 public class CircleBoard implements Board {
-  protected static final int SIZE = 5;
-  protected static final int CENTER = 2;
+  public static final int SIZE = 5;
+  public static final int CENTER = SIZE / 2;
 
   /**
    * The cards currently in play.
@@ -90,10 +90,14 @@ public class CircleBoard implements Board {
     return new HashSet<>(this.cards.keySet());
   }
 
-  // TODO: add visitCircleBoard to ScoreCounterVisitor
   @Override
   public int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard) {
-    return 0;
+    return scoreCounter.countCircleBoard(this, victoryCard);
+  }
+
+  @Override
+  public boolean areAdjacent(Coordinates a, Coordinates b) {
+    return adjacent(a, b);
   }
 
   @Override
@@ -154,17 +158,17 @@ public class CircleBoard implements Board {
       return false;
   }
 
-  private static boolean isCenter(Coordinates coordinates) {
+  public static boolean isCenter(Coordinates coordinates) {
     return coordinates.x == CircleBoard.CENTER && coordinates.y == CircleBoard.CENTER;
   }
 
-  private static boolean inFirstCircle(Coordinates coordinates) {
+  public static boolean inFirstCircle(Coordinates coordinates) {
     return !isCenter(coordinates)
             && abs(coordinates.x - CircleBoard.CENTER) <= 1
             && abs(coordinates.y - CircleBoard.CENTER) <= 1;
   }
 
-  private static boolean inSecondCircle(Coordinates coordinates) {
+  public static boolean inSecondCircle(Coordinates coordinates) {
     final int x = abs(coordinates.x - CircleBoard.CENTER);
     final int y = abs(coordinates.y - CircleBoard.CENTER);
 
@@ -173,5 +177,24 @@ public class CircleBoard implements Board {
     if (x > 2 || y > 2) return false;
     if (x == 1 || y == 1) return false;
     return true;
+  }
+
+  public static double angle(Coordinates coordinates) {
+    double x = coordinates.x - CENTER;
+    double y = coordinates.y - CENTER;
+
+    // https://fr.wikipedia.org/wiki/Coordonn%C3%A9es_polaires#Conversion_entre_syst%C3%A8me_polaire_et_cart%C3%A9sien
+    if (x > 0 && y >= 0)
+      return Math.atan(y / x);
+    else if (x > 0 && y < 0)
+      return Math.atan(y / x) + 2 * Math.PI;
+    else if (x < 0)
+      return Math.atan(y / x) + Math.PI;
+    else if (x == 0 && y > 0)
+      return Math.PI / 2;
+    else if (x == 0 && y < 0)
+      return 3 * Math.PI / 2;
+    else // x == 0 && y == 0
+      return 0;
   }
 }
