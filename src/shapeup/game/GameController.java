@@ -17,14 +17,21 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Main controller class.
+ * {@code startRound} should be called after constructing it.
+ * Currently doesn't support starting several rounds with the same controller object.
+ */
 public final class GameController {
   private final PlayerStrategy[] playerStrategies;
   private final PlayerState[] playerStates;
 
   private final Board board;
   private final Deck deck;
-  private final ScoreCounterVisitor scoreCounter;
   private Card hiddenCard;
+
+  private final boolean advancedShapeUp;
+  private final ScoreCounterVisitor scoreCounter;
 
   /**
    * Used to display scores at the end of AI-only games
@@ -35,8 +42,20 @@ public final class GameController {
    */
   private final boolean aiOnlyGame;
 
-  public GameController(Function<BoardDisplayer, UI> uiConstructor, Supplier<Board> boardConstructor, List<PlayerType> playerTypes) {
+  /**
+   * Constructs a GameController.
+   *
+   * @param uiConstructor    used to get a user interface.
+   * @param boardConstructor used to get a board.
+   * @param playerTypes      the types of players playing the game (AI/real).
+   * @param advancedShapeUp  whether the "Advanced Shape Up!" rules should be used.
+   */
+  public GameController(Function<BoardDisplayer, UI> uiConstructor,
+                        Supplier<Board> boardConstructor,
+                        List<PlayerType> playerTypes,
+                        boolean advancedShapeUp) {
     this.board = boardConstructor.get();
+    this.advancedShapeUp = advancedShapeUp;
 
     this.deck = new Deck();
 
@@ -67,14 +86,17 @@ public final class GameController {
 
   public void startRound() {
     //noinspection OptionalGetWithoutIsPresent
-    hiddenCard = this.deck.drawCard().get();
+    hiddenCard = deck.drawCard().get();
 
     for (PlayerState ps : this.playerStates) {
-      //noinspection OptionalGetWithoutIsPresent
-      ps.giveVictoryCard(this.deck.drawCard().get());
+      if (advancedShapeUp)
+        for (int i = 0; i < 3; i++)
+          //noinspection OptionalGetWithoutIsPresent
+          ps.giveCard(deck.drawCard().get());
+      else
+        //noinspection OptionalGetWithoutIsPresent
+        ps.giveVictoryCard(deck.drawCard().get());
     }
-
-    // TODO: let the players choose who starts
 
     this.startGameTurn();
   }
@@ -95,13 +117,19 @@ public final class GameController {
    * @param playerID their ID
    */
   private void playerTurn(int playerID) {
+    if (advancedShapeUp)
+      advancedPlayerTurnStart(playerID);
+    else
+      simplePlayerTurnStart(playerID);
+  }
+
+  private void simplePlayerTurnStart(int playerID) {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 0)) {
       this.finishRound();
       return;
     }
 
-    var currentPlayerStrategy = playerStrategies[playerID];
     var currentPlayerState = playerStates[playerID];
 
     var drawnCard = deck.drawCard();
@@ -116,10 +144,28 @@ public final class GameController {
 
     this.updateStrategies();
 
+    commonTurnEnd(playerID);
+  }
+
+  private void advancedPlayerTurnStart(int playerID) {
+    if (deck.cardsLeft() == 0
+            && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() == 1)) {
+      this.finishRound();
+      return;
+    }
+
+    commonTurnEnd(playerID);
+  }
+
+  private void commonTurnEnd(int playerID) {
+    updateStrategies();
+
+    var currentPlayerStrategy = playerStrategies[playerID];
+
     if (board.getOccupiedPositions().size() > 1)
       currentPlayerStrategy.canMoveOrPlay(
-              (card, coordinates) -> this.onPlay(playerID, card, coordinates, false),
-              (from, to) -> this.onMove(playerID, from, to, false)
+              (card, coordinates) -> onPlay(playerID, card, coordinates, false),
+              (from, to) -> onMove(playerID, from, to, false)
       );
     else
       currentPlayerStrategy.canPlay(
@@ -167,19 +213,25 @@ public final class GameController {
   }
 
   void onTurnFinished(int playerID) {
+    if (advancedShapeUp)
+      deck.drawCard().ifPresent(c -> {
+        updateStrategies();
+        playerStates[playerID].giveCard(c);
+        updateStrategies();
+      });
+
     if (playerID == playerStates.length - 1)
-      this.startGameTurn();
+      startGameTurn();
     else
-      this.playerTurn(playerID + 1);
+      playerTurn(playerID + 1);
   }
 
   private void finishRound() {
     var scores = new ArrayList<Integer>(playerStates.length);
     for (var pstate : playerStates) {
-      if (pstate.getVictoryCard().isPresent()) {
+      var victoryCard = pstate.getVictoryCard();
 
-        scores.add(board.acceptScoreCounter(scoreCounter, pstate.getVictoryCard().get()));
-      }
+      victoryCard.ifPresent(card -> scores.add(board.acceptScoreCounter(scoreCounter, card)));
     }
 
     for (var pstrat : playerStrategies) {
@@ -199,6 +251,4 @@ public final class GameController {
       pstrat.update(new GameState(playerStates, board, deck));
     }
   }
-
-
 }

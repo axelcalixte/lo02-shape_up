@@ -21,22 +21,23 @@ public class ShapeUp {
     var uiCtor = uiType();
 
     var playerTypes = new ArrayList<PlayerType>(3);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
       playerTypes.add(playerType(i));
-    }
     if (thirdPlayer())
       playerTypes.add(playerType(2));
 
     var boardCtor = boardType();
 
-    new GameController(uiCtor, boardCtor, playerTypes).startRound();
+    boolean advanced = advancedShapeUp();
+
+    new GameController(uiCtor, boardCtor, playerTypes, advanced).startRound();
   }
 
   public static Function<BoardDisplayer, UI> uiType() {
     return TUIMenu.displayValueMenu(
             "Shape Up! Choisissez le type d'interface :",
             List.of(
-                    new SupplierAction<Function<BoardDisplayer, UI>>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Ligne de commande";
                       }
@@ -53,7 +54,7 @@ public class ShapeUp {
     return TUIMenu.displayValueMenu(
             String.format("Choisissez le type de joueur pour le joueur %d :", playerID),
             List.of(
-                    new SupplierAction<PlayerType>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Joueur réel";
                       }
@@ -62,7 +63,7 @@ public class ShapeUp {
                         return PlayerType.REAL_PLAYER;
                       }
                     },
-                    new SupplierAction<PlayerType>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "IA basique";
                       }
@@ -79,7 +80,7 @@ public class ShapeUp {
     return TUIMenu.displayValueMenu(
             "Troisième joueur ?",
             List.of(
-                    new SupplierAction<Boolean>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Oui";
                       }
@@ -88,7 +89,7 @@ public class ShapeUp {
                         return true;
                       }
                     },
-                    new SupplierAction<Boolean>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Non";
                       }
@@ -105,7 +106,7 @@ public class ShapeUp {
     return TUIMenu.displayValueMenu(
             "Type de plateau :",
             List.of(
-                    new SupplierAction<Supplier<Board>>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Classique";
                       }
@@ -114,13 +115,39 @@ public class ShapeUp {
                         return GridBoard::new;
                       }
                     },
-                    new SupplierAction<Supplier<Board>>() {
+                    new SupplierAction<>() {
                       public String name() {
                         return "Circulaire";
                       }
 
                       public Supplier<Board> get() {
                         return CircleBoard::new;
+                      }
+                    }
+            )
+    );
+  }
+
+  public static boolean advancedShapeUp() {
+    return TUIMenu.displayValueMenu(
+            "Utiliser les règles Advanced Shape Up! ?",
+            List.of(
+                    new SupplierAction<>() {
+                      public String name() {
+                        return "Oui";
+                      }
+
+                      public Boolean get() {
+                        return true;
+                      }
+                    },
+                    new SupplierAction<>() {
+                      public String name() {
+                        return "Non";
+                      }
+
+                      public Boolean get() {
+                        return false;
                       }
                     }
             )
