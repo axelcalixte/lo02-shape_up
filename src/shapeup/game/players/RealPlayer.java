@@ -4,9 +4,10 @@ import shapeup.game.Card;
 import shapeup.game.GameState;
 import shapeup.game.boards.Coordinates;
 import shapeup.ui.UI;
+import shapeup.util.Tuple;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.concurrent.CompletableFuture;
 
 public class RealPlayer implements PlayerStrategy {
   private final UI ui;
@@ -28,27 +29,48 @@ public class RealPlayer implements PlayerStrategy {
   }
 
   @Override
-  public void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
-    ui.moveOrPlay(playerID, onPlay, onMove);
+  public CompletableFuture<MovedOrPlayed> canMoveOrPlay() {
+    var future = new CompletableFuture<MovedOrPlayed>();
+    ui.moveOrPlay(
+            playerID,
+            (from, to) -> future.complete(MovedOrPlayed.moved(from, to)),
+            (coord, card) -> future.complete(MovedOrPlayed.played(coord, card))
+    );
+    return future;
   }
 
   @Override
-  public void canPlay(BiConsumer<Card, Coordinates> onPlay) {
-    ui.play(playerID, onPlay);
+  public CompletableFuture<Tuple<Card, Coordinates>> canPlay() {
+    var future = new CompletableFuture<Tuple<Card, Coordinates>>();
+    ui.play(playerID, (card, coord) -> future.complete(new Tuple<>(card, coord)));
+    return future;
   }
 
   @Override
-  public void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> move) {
-    ui.canFinishTurn(playerID, finish, move);
+  public CompletableFuture<Tuple<Coordinates, Coordinates>> canMove() {
+    var future = new CompletableFuture<Tuple<Coordinates, Coordinates>>();
+    ui.move(playerID, (from, to) -> future.complete(new Tuple<>(from, to)));
+    return future;
   }
 
   @Override
-  public void turnFinished(Runnable onFinish) {
-    ui.turnFinished(playerID, onFinish);
+  public CompletableFuture<Boolean> canFinishTurn() {
+    var future = new CompletableFuture<Boolean>();
+    ui.canFinishTurn(playerID, future::complete);
+    return future;
   }
 
   @Override
-  public void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish) {
-    ui.roundFinished(scores, hiddenCard, onFinish);
+  public CompletableFuture<Void> turnFinished() {
+    var future = new CompletableFuture<Void>();
+    ui.turnFinished(playerID, () -> future.complete(null));
+    return future;
+  }
+
+  @Override
+  public CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard) {
+    var future = new CompletableFuture<Void>();
+    ui.roundFinished(scores, hiddenCard, () -> future.complete(null));
+    return future;
   }
 }

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +31,7 @@ public class TerminalUI implements UI {
   }
 
   @Override
-  public void moveOrPlay(int playerID, BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
+  public void moveOrPlay(int playerID, BiConsumer<Coordinates, Coordinates> onMove, BiConsumer<Coordinates, Card> onPlay) {
     executePlayersAction(playerID, Arrays.asList(
             new MenuAction() {
               public String name() {
@@ -40,12 +41,12 @@ public class TerminalUI implements UI {
               public void run() {
                 var card = askCardInHand(playerID);
                 var playPosition = askPlayPosition();
-                onPlay.accept(card, playPosition);
+                onPlay.accept(playPosition, card);
               }
             },
             new MenuAction() {
               public String name() {
-                return "Deplacer une carte";
+                return "Déplacer une carte";
               }
 
               public void run() {
@@ -74,28 +75,43 @@ public class TerminalUI implements UI {
   }
 
   @Override
-  public void canFinishTurn(int playerID, Runnable onFinish, BiConsumer<Coordinates, Coordinates> onMove) {
+  public void move(int playerID, BiConsumer<Coordinates, Coordinates> onMove) {
+    executePlayersAction(playerID, Collections.singletonList(
+            new MenuAction() {
+              public String name() {
+                return "Déplacer une carte";
+              }
+
+              public void run() {
+                var move = askMovePositions();
+                onMove.accept(move[0], move[1]);
+              }
+            }
+    ));
+  }
+
+  @Override
+  public void canFinishTurn(int playerID, Consumer<Boolean> onShouldFinish) {
     drawGame(playerID);
     TUIMenu.displayMenu(
-            "Continuer ce tour ?",
+            "Finir ce tour ?",
             Arrays.asList(
                     new MenuAction() {
                       public String name() {
-                        return "Oui (bouger une carte)";
+                        return "Oui";
                       }
 
                       public void run() {
-                        var move = askMovePositions();
-                        onMove.accept(move[0], move[1]);
+                        onShouldFinish.accept(true);
                       }
                     },
                     new MenuAction() {
                       public String name() {
-                        return "Non";
+                        return "Non (bouger une carte)";
                       }
 
                       public void run() {
-                        turnFinished(playerID, onFinish);
+                        onShouldFinish.accept(false);
                       }
                     }
             )
@@ -127,7 +143,7 @@ public class TerminalUI implements UI {
     }
 
     System.out.println("---");
-    bd.terminalDisplay();
+    bd.terminalDisplay(gameState.board);
     System.out.println("---");
     System.out.printf("Le joueur %d a gagné ce round.\n", maxScoreIdx);
 
@@ -253,7 +269,7 @@ public class TerminalUI implements UI {
     System.out.println("---");
     System.out.println("Joueur " + playerID);
     System.out.println("---");
-    bd.terminalDisplay();
+    bd.terminalDisplay(gameState.board);
     System.out.println("---");
     TerminalUI.deckDisplay(gameState.deck);
     for (var ps : gameState.playerStates) {

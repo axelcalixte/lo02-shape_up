@@ -30,7 +30,7 @@ public class ShapeUp {
 
     boolean advanced = advancedShapeUp();
 
-    new GameController(uiCtor, boardCtor, playerTypes, advanced).startRound();
+    new GameController(uiCtor, boardCtor, playerTypes, advanced).startGame();
   }
 
   public static Function<BoardDisplayer, UI> uiType() {

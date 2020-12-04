@@ -3,21 +3,25 @@ package shapeup.game.players;
 import shapeup.game.Card;
 import shapeup.game.GameState;
 import shapeup.game.boards.Coordinates;
+import shapeup.util.Tuple;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.concurrent.CompletableFuture;
 
 public interface PlayerStrategy {
   void update(GameState up);
+
   int getPlayerID();
 
-  void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove);
+  CompletableFuture<MovedOrPlayed> canMoveOrPlay();
 
-  void canPlay(BiConsumer<Card, Coordinates> onPlay);
+  CompletableFuture<Tuple<Card, Coordinates>> canPlay();
 
-  void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> proceed);
+  CompletableFuture<Tuple<Coordinates, Coordinates>> canMove();
 
-  void turnFinished(Runnable onFinish);
+  CompletableFuture<Boolean> canFinishTurn();
 
-  void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish);
+  CompletableFuture<Void> turnFinished();
+
+  CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard);
 }

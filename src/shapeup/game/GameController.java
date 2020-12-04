@@ -14,22 +14,24 @@ import shapeup.ui.UI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
  * Main controller class.
- * {@code startRound} should be called after constructing it.
+ * {@code startGame} should be called after constructing it.
  * Currently doesn't support starting several rounds with the same controller object.
  */
 public final class GameController {
   private final PlayerStrategy[] playerStrategies;
-  private final PlayerState[] playerStates;
 
-  private final Board board;
-  private final Deck deck;
+  private PlayerState[] playerStates;
+  private Deck deck;
+  private Board board;
   private Card hiddenCard;
 
+  private final Supplier<Board> boardConstructor;
   private final boolean advancedShapeUp;
   private final ScoreCounterVisitor scoreCounter;
 
@@ -54,24 +56,20 @@ public final class GameController {
                         Supplier<Board> boardConstructor,
                         List<PlayerType> playerTypes,
                         boolean advancedShapeUp) {
-    this.board = boardConstructor.get();
+    this.boardConstructor = boardConstructor;
     this.advancedShapeUp = advancedShapeUp;
-
-    this.deck = new Deck();
 
     final int nbPlayers = playerTypes.size();
     if (nbPlayers < 2 || nbPlayers > 3)
       throw new IllegalArgumentException("2 or 3 players");
 
     this.playerStrategies = new PlayerStrategy[nbPlayers];
-    this.playerStates = new PlayerState[nbPlayers];
 
-    this.ui = uiConstructor.apply(this.board.displayer());
+    this.ui = uiConstructor.apply(boardConstructor.get().displayer());
 
     this.aiOnlyGame = playerTypes.stream().noneMatch(playerType -> playerType == PlayerType.REAL_PLAYER);
 
-    for (int i = 0; i < playerTypes.size(); i++) {
-      playerStates[i] = new PlayerState(i);
+    for (int i = 0; i < nbPlayers; i++) {
       switch (playerTypes.get(i)) {
         case BASIC_AI:
           playerStrategies[i] = new BasicAI(i);
@@ -84,11 +82,29 @@ public final class GameController {
     this.scoreCounter = new NormalScoreCounter();
   }
 
-  public void startRound() {
+  private void cleanGameState() {
+    board = boardConstructor.get();
+    deck = new Deck();
+
+    final int nbPlayer = playerStrategies.length;
+
+    playerStates = new PlayerState[nbPlayer];
+    for (int i = 0; i < nbPlayer; i++) {
+      playerStates[i] = new PlayerState(i);
+    }
+  }
+
+  // in preparation of multi-round games
+  public void startGame() {
+    cleanGameState();
+    playRound();
+  }
+
+  private void playRound() {
     //noinspection OptionalGetWithoutIsPresent
     hiddenCard = deck.drawCard().get();
 
-    for (PlayerState ps : this.playerStates) {
+    for (PlayerState ps : playerStates) {
       if (advancedShapeUp)
         for (int i = 0; i < 3; i++)
           //noinspection OptionalGetWithoutIsPresent
@@ -98,44 +114,111 @@ public final class GameController {
         ps.giveVictoryCard(deck.drawCard().get());
     }
 
-    this.startGameTurn();
+    boolean keepPlaying;
+    do {
+      keepPlaying = this.gameTurn();
+    } while (keepPlaying);
+
+    var scores = new ArrayList<Integer>(playerStates.length);
+    for (var pstate : playerStates) {
+      var victoryCard = pstate.getVictoryCard();
+
+      victoryCard.ifPresent(card -> scores.add(board.acceptScoreCounter(scoreCounter, card)));
+    }
+
+    // Wait for all players
+    CompletableFuture.allOf(
+            Arrays.stream(playerStrategies)
+                    .map((strat) -> strat.roundFinished(scores, hiddenCard))
+                    .toArray(CompletableFuture[]::new)
+    ).join();
+
+    if (this.aiOnlyGame) {
+      this.ui.update(new GameState(playerStates, board, deck));
+      this.ui.roundFinished(scores, hiddenCard, () -> {
+      });
+    }
   }
 
   /**
    * Play out an entire game turn, for all players.
+   *
+   * @return whether to play the next turn
    */
-  private void startGameTurn() {
-    // Drops the call stack.
-    new Thread(() ->
-            this.playerTurn(0)
-    ).start();
+  private boolean gameTurn() {
+    for (var ps : playerStates) {
+      var keepPlaying = this.playerTurn(ps.getPlayerID());
+      if (!keepPlaying) return false;
+    }
+
+    return true;
   }
 
   /**
    * Play out a player's turn.
    *
    * @param playerID their ID
+   * @return whether to keep playing the current round
    */
-  private void playerTurn(int playerID) {
+  private boolean playerTurn(int playerID) {
+    boolean keepPlaying = advancedShapeUp ?
+            advancedPlayerTurnStart() :
+            simplePlayerTurnStart(playerID);
+
+    if (!keepPlaying) return false;
+
+    updateStrategies();
+
+    var currentPlayerStrategy = playerStrategies[playerID];
+
+    var canMove = board.getOccupiedPositions().size() > 1;
+    // For first & second turns
+    if (canMove) {
+      var nextMove = currentPlayerStrategy.canMoveOrPlay().join();
+
+      nextMove
+              .ifMoved((from, to) -> {
+                move(from, to);
+
+                if (currentPlayerStrategy.canFinishTurn().join()) return;
+
+                var played = currentPlayerStrategy.canPlay().join();
+                play(playerID, played.a, played.b);
+              })
+              .ifPlayed((card, coord) -> {
+                play(playerID, card, coord);
+
+                if (currentPlayerStrategy.canFinishTurn().join()) return;
+
+                var moved = currentPlayerStrategy.canMove().join();
+                move(moved.a, moved.b);
+              });
+    } else {
+      var played = currentPlayerStrategy.canPlay().join();
+      play(playerID, played.a, played.b);
+    }
+
     if (advancedShapeUp)
-      advancedPlayerTurnStart(playerID);
-    else
-      simplePlayerTurnStart(playerID);
+      deck.drawCard().ifPresent(c -> {
+        updateStrategies();
+        playerStates[playerID].giveCard(c);
+        updateStrategies();
+      });
+
+    return true;
   }
 
-  private void simplePlayerTurnStart(int playerID) {
+  private boolean simplePlayerTurnStart(int playerID) {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 0)) {
-      this.finishRound();
-      return;
+      return false;
     }
 
     var currentPlayerState = playerStates[playerID];
 
     var drawnCard = deck.drawCard();
     if (drawnCard.isEmpty() && currentPlayerState.getHand().size() == 0) {
-      this.onTurnFinished(playerID);
-      return;
+      return false;
     }
 
     this.updateStrategies();
@@ -144,106 +227,29 @@ public final class GameController {
 
     this.updateStrategies();
 
-    commonTurnEnd(playerID);
+    return true;
   }
 
-  private void advancedPlayerTurnStart(int playerID) {
+  private boolean advancedPlayerTurnStart() {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() == 1)) {
-      this.finishRound();
-      return;
+      return false;
     }
 
-    commonTurnEnd(playerID);
+    return true;
   }
 
-  private void commonTurnEnd(int playerID) {
-    updateStrategies();
-
-    var currentPlayerStrategy = playerStrategies[playerID];
-
-    if (board.getOccupiedPositions().size() > 1)
-      currentPlayerStrategy.canMoveOrPlay(
-              (card, coordinates) -> onPlay(playerID, card, coordinates, false),
-              (from, to) -> onMove(playerID, from, to, false)
-      );
-    else
-      currentPlayerStrategy.canPlay(
-              (card, coordinates) -> this.onPlay(playerID, card, coordinates, false)
-      );
-  }
-
-  private void onPlay(int playerID, Card card, Coordinates coordinates, boolean alreadyMoved) {
-    var currentPlayerState = this.playerStates[playerID];
-    var currentPlayerStrategy = this.playerStrategies[playerID];
-
-    currentPlayerState.getHand().remove(card);
-    this.board.playCard(card, coordinates);
+  private void play(int playerID, Card card, Coordinates coord) {
+    playerStates[playerID].getHand().remove(card);
+    this.board.playCard(card, coord);
 
     this.updateStrategies();
-
-    if (alreadyMoved) {
-      currentPlayerStrategy.turnFinished(
-              () -> this.onTurnFinished(playerID)
-      );
-    } else {
-      // If a card can be moved.
-      if (board.getOccupiedPositions().size() > 1)
-        currentPlayerStrategy.canFinishTurn(
-                () -> this.onTurnFinished(playerID),
-                (from, to) -> this.onMove(playerID, from, to, true)
-        );
-        // Special case for player 0's first turn.
-      else
-        currentPlayerStrategy.turnFinished(() -> this.onTurnFinished(playerID));
-    }
   }
 
-  private void onMove(int playerID, Coordinates from, Coordinates to, boolean alreadyPlayed) {
-    var currentPlayerStrategy = this.playerStrategies[playerID];
-
+  private void move(Coordinates from, Coordinates to) {
     this.board.moveCard(from, to);
 
     this.updateStrategies();
-
-    if (alreadyPlayed)
-      currentPlayerStrategy.turnFinished(() -> this.onTurnFinished(playerID));
-    else
-      currentPlayerStrategy.canPlay((card, coordinates) -> this.onPlay(playerID, card, coordinates, true));
-  }
-
-  void onTurnFinished(int playerID) {
-    if (advancedShapeUp)
-      deck.drawCard().ifPresent(c -> {
-        updateStrategies();
-        playerStates[playerID].giveCard(c);
-        updateStrategies();
-      });
-
-    if (playerID == playerStates.length - 1)
-      startGameTurn();
-    else
-      playerTurn(playerID + 1);
-  }
-
-  private void finishRound() {
-    var scores = new ArrayList<Integer>(playerStates.length);
-    for (var pstate : playerStates) {
-      var victoryCard = pstate.getVictoryCard();
-
-      victoryCard.ifPresent(card -> scores.add(board.acceptScoreCounter(scoreCounter, card)));
-    }
-
-    for (var pstrat : playerStrategies) {
-      pstrat.roundFinished(scores, hiddenCard, () -> {
-      });
-    }
-
-    if (this.aiOnlyGame) {
-      this.ui.update(new GameState(playerStates, board, deck));
-      this.ui.roundFinished(scores, hiddenCard, () -> {
-      });
-    }
   }
 
   private void updateStrategies() {

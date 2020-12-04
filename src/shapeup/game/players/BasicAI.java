@@ -3,9 +3,10 @@ package shapeup.game.players;
 import shapeup.game.Card;
 import shapeup.game.GameState;
 import shapeup.game.boards.Coordinates;
+import shapeup.util.Tuple;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.concurrent.CompletableFuture;
 
 public class BasicAI implements PlayerStrategy {
   private GameState gs;
@@ -26,30 +27,39 @@ public class BasicAI implements PlayerStrategy {
   }
 
   @Override
-  public void canMoveOrPlay(BiConsumer<Card, Coordinates> onPlay, BiConsumer<Coordinates, Coordinates> onMove) {
+  public CompletableFuture<MovedOrPlayed> canMoveOrPlay() {
+    var to = gs.board.getPlayablePositions().iterator().next();
+    var card = gs.playerStates[playerID].getHand().get(0);
+    return CompletableFuture.completedFuture(MovedOrPlayed.played(to, card));
+  }
+
+  @Override
+  public CompletableFuture<Tuple<Card, Coordinates>> canPlay() {
+    var to = gs.board.getPlayablePositions().iterator().next();
+    var card = gs.playerStates[playerID].getHand().get(0);
+    return CompletableFuture.completedFuture(new Tuple<>(card, to));
+  }
+
+  @Override
+  public CompletableFuture<Tuple<Coordinates, Coordinates>> canMove() {
     var from = gs.board.getOccupiedPositions().iterator().next();
     var to = gs.board.getMovablePositions(from).iterator().next();
-    onMove.accept(from, to);
+
+    return CompletableFuture.completedFuture(new Tuple<>(from, to));
   }
 
   @Override
-  public void canPlay(BiConsumer<Card, Coordinates> onPlay) {
-    var to = gs.board.getPlayablePositions().iterator().next();
-    onPlay.accept(gs.playerStates[playerID].getHand().get(0), to);
+  public CompletableFuture<Boolean> canFinishTurn() {
+    return CompletableFuture.completedFuture(true);
   }
 
   @Override
-  public void canFinishTurn(Runnable finish, BiConsumer<Coordinates, Coordinates> proceed) {
-    finish.run();
+  public CompletableFuture<Void> turnFinished() {
+    return CompletableFuture.completedFuture(null);
   }
 
   @Override
-  public void turnFinished(Runnable onFinish) {
-    onFinish.run();
-  }
-
-  @Override
-  public void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish) {
-    onFinish.run();
+  public CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard) {
+    return CompletableFuture.completedFuture(null);
   }
 }

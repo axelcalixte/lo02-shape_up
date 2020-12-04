@@ -7,25 +7,22 @@ import javax.swing.*;
 import java.util.HashSet;
 
 public class BoardDisplayer {
-  private final Board board;
   private final Integer xSize;
   private final Integer ySize;
 
   public BoardDisplayer(Board board) {
-    this.board = board;
     this.xSize = null;
     this.ySize = null;
   }
 
   public BoardDisplayer(Board board, int xSize, int ySize) {
-    this.board = board;
     this.xSize = xSize;
     this.ySize = ySize;
   }
 
-  public void terminalDisplay() {
-    var occupiedPositions = this.board.getOccupiedPositions();
-    var playablePositions = this.board.getPlayablePositions();
+  public void terminalDisplay(Board board) {
+    var occupiedPositions = board.getOccupiedPositions();
+    var playablePositions = board.getPlayablePositions();
 
     var allPositions = new HashSet<>(occupiedPositions);
     allPositions.addAll(playablePositions);
@@ -58,7 +55,7 @@ public class BoardDisplayer {
         var coord = new Coordinates(col, row);
 
         if (occupiedPositions.contains(coord)) {
-          var card = this.board.getCard(coord).get();
+          var card = board.getCard(coord).get();
           System.out.print("| " + TerminalUI.fancyCardString(card));
         } else if (playablePositions.contains(coord)) {
           System.out.print("|< >");
