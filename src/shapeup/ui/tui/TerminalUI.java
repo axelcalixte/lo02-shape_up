@@ -1,12 +1,11 @@
-package shapeup.ui;
+package shapeup.ui.tui;
 
 import shapeup.game.*;
+import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
+import shapeup.ui.UI;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -14,10 +13,8 @@ import java.util.stream.Stream;
 
 public class TerminalUI implements UI {
   private GameState gameState = null;
-  private final BoardDisplayer bd;
 
-  public TerminalUI(BoardDisplayer bd) {
-    this.bd = bd;
+  public TerminalUI() {
   }
 
   /**
@@ -143,7 +140,7 @@ public class TerminalUI implements UI {
     }
 
     System.out.println("---");
-    bd.terminalDisplay(gameState.board);
+    boardDisplay(gameState.board);
     System.out.println("---");
     System.out.printf("Le joueur %d a gagné ce round.\n", maxScoreIdx);
 
@@ -168,6 +165,41 @@ public class TerminalUI implements UI {
     System.out.printf("La carte cachée était %s.\n", TerminalUI.fancyCardString(hiddenCard));
     System.out.println("---");
     onFinish.run();
+  }
+
+  private void boardDisplay(Board board) {
+    var occupiedPositions = board.getOccupiedPositions();
+    var playablePositions = board.getPlayablePositions();
+
+    int minX = board.displayMinX();
+    int maxX = board.displayMaxX();
+    int minY = board.displayMinY();
+    int maxY = board.displayMaxY();
+
+    // First row : coordinates
+    System.out.print("|y\\x");
+    for (int col = minX; col <= maxX; col++)
+      System.out.printf("|%3d", col);
+    System.out.println("|");
+
+    for (int row = minY; row <= maxY; row++) {
+      // First col : coordinates
+      System.out.printf("|%3d", row);
+
+      for (int col = minX; col <= maxX; col++) {
+        var coord = new Coordinates(col, row);
+
+        if (occupiedPositions.contains(coord)) {
+          var card = board.getCard(coord).get();
+          System.out.print("| " + TerminalUI.fancyCardString(card));
+        } else if (playablePositions.contains(coord)) {
+          System.out.print("|< >");
+        } else {
+          System.out.print("|   ");
+        }
+      }
+      System.out.println('|');
+    }
   }
 
   private void executePlayersAction(int playerID, List<MenuAction> possibleActions) {
@@ -269,7 +301,7 @@ public class TerminalUI implements UI {
     System.out.println("---");
     System.out.println("Joueur " + playerID);
     System.out.println("---");
-    bd.terminalDisplay(gameState.board);
+    boardDisplay(gameState.board);
     System.out.println("---");
     TerminalUI.deckDisplay(gameState.deck);
     for (var ps : gameState.playerStates) {
@@ -313,30 +345,19 @@ public class TerminalUI implements UI {
     char shape = ' ';
     switch (c.getFilledness()) {
       case HOLLOW:
-        switch (c.getShape()) {
-          case CIRCLE:
-            shape = HOLLOW_CIRCLE;
-            break;
-          case SQUARE:
-            shape = HOLLOW_SQUARE;
-            break;
-          case TRIANGLE:
-            shape = HOLLOW_TRIANGLE;
-            break;
-        }
+        shape = switch (c.getShape()) {
+          case CIRCLE -> HOLLOW_CIRCLE;
+          case SQUARE -> HOLLOW_SQUARE;
+          case TRIANGLE -> HOLLOW_TRIANGLE;
+        };
         break;
       case FILLED:
-        switch (c.getShape()) {
-          case CIRCLE:
-            shape = FILLED_CIRCLE;
-            break;
-          case SQUARE:
-            shape = FILLED_SQUARE;
-            break;
-          case TRIANGLE:
-            shape = FILLED_TRIANGLE;
-            break;
-        }
+        shape = switch (c.getShape()) {
+          case CIRCLE -> FILLED_CIRCLE;
+          case SQUARE -> FILLED_SQUARE;
+          case TRIANGLE -> FILLED_TRIANGLE;
+          default -> shape;
+        };
         break;
     }
 
@@ -344,15 +365,11 @@ public class TerminalUI implements UI {
   }
 
   public static char colorToChar(Color c) {
-    switch (c) {
-      case RED:
-        return 'R';
-      case GREEN:
-        return 'G';
-      case BLUE:
-        return 'B';
-      default:
-        throw new IllegalArgumentException();
-    }
+    return switch (c) {
+      case RED -> 'R';
+      case GREEN -> 'G';
+      case BLUE -> 'B';
+      default -> throw new IllegalArgumentException();
+    };
   }
 }

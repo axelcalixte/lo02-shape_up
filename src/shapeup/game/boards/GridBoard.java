@@ -2,7 +2,6 @@ package shapeup.game.boards;
 
 import shapeup.game.Card;
 import shapeup.game.scores.ScoreCounterVisitor;
-import shapeup.ui.BoardDisplayer;
 
 import java.util.*;
 
@@ -199,9 +198,30 @@ public final class GridBoard implements Board {
     return adjacent(a, b);
   }
 
+  private Set<Coordinates> occupiedOrPlayablePositions() {
+    var allPositions = new HashSet<>(getOccupiedPositions());
+    allPositions.addAll(getPlayablePositions());
+    return allPositions;
+  }
+
   @Override
-  public BoardDisplayer displayer() {
-    return new BoardDisplayer(this);
+  public int displayMinX() {
+    return occupiedOrPlayablePositions().stream().mapToInt(Coordinates::getX).min().getAsInt();
+  }
+
+  @Override
+  public int displayMaxX() {
+    return occupiedOrPlayablePositions().stream().mapToInt(Coordinates::getX).max().getAsInt();
+  }
+
+  @Override
+  public int displayMinY() {
+    return occupiedOrPlayablePositions().stream().mapToInt(Coordinates::getY).min().getAsInt();
+  }
+
+  @Override
+  public int displayMaxY() {
+    return occupiedOrPlayablePositions().stream().mapToInt(Coordinates::getY).max().getAsInt();
   }
 
   public int maxX() {

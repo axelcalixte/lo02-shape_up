@@ -1,4 +1,4 @@
-package shapeup.ui;
+package shapeup.ui.tui;
 
 import shapeup.game.MenuAction;
 import shapeup.game.SupplierAction;

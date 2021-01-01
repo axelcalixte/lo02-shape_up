@@ -8,14 +8,12 @@ import shapeup.game.players.PlayerType;
 import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
 import shapeup.game.scores.ScoreCounterVisitor;
-import shapeup.ui.BoardDisplayer;
 import shapeup.ui.UI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -23,7 +21,7 @@ import java.util.function.Supplier;
  * {@code startGame} should be called after constructing it.
  * Currently doesn't support starting several rounds with the same controller object.
  */
-public final class GameController {
+public final class Game {
   private final PlayerStrategy[] playerStrategies;
 
   private PlayerState[] playerStates;
@@ -52,10 +50,10 @@ public final class GameController {
    * @param playerTypes      the types of players playing the game (AI/real).
    * @param advancedShapeUp  whether the "Advanced Shape Up!" rules should be used.
    */
-  public GameController(Function<BoardDisplayer, UI> uiConstructor,
-                        Supplier<Board> boardConstructor,
-                        List<PlayerType> playerTypes,
-                        boolean advancedShapeUp) {
+  public Game(Supplier<UI> uiConstructor,
+              Supplier<Board> boardConstructor,
+              List<PlayerType> playerTypes,
+              boolean advancedShapeUp) {
     this.boardConstructor = boardConstructor;
     this.advancedShapeUp = advancedShapeUp;
 
@@ -65,21 +63,20 @@ public final class GameController {
 
     this.playerStrategies = new PlayerStrategy[nbPlayers];
 
-    this.ui = uiConstructor.apply(boardConstructor.get().displayer());
+    this.ui = uiConstructor.get();
 
     this.aiOnlyGame = playerTypes.stream().noneMatch(playerType -> playerType == PlayerType.REAL_PLAYER);
 
     for (int i = 0; i < nbPlayers; i++) {
       switch (playerTypes.get(i)) {
-        case BASIC_AI:
-          playerStrategies[i] = new BasicAI(i);
-          break;
-        case REAL_PLAYER:
-          playerStrategies[i] = new RealPlayer(ui, i);
+        case BASIC_AI -> playerStrategies[i] = new BasicAI(i);
+        case REAL_PLAYER -> playerStrategies[i] = new RealPlayer(ui, i);
       }
     }
 
     this.scoreCounter = new NormalScoreCounter();
+    cleanGameState();
+    this.updateStrategies();
   }
 
   private void cleanGameState() {
@@ -205,6 +202,7 @@ public final class GameController {
         updateStrategies();
       });
 
+    currentPlayerStrategy.turnFinished().join();
     return true;
   }
 

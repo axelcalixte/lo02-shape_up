@@ -1,39 +1,38 @@
 package shapeup;
 
-import shapeup.game.GameController;
+import shapeup.game.Game;
 import shapeup.game.SupplierAction;
 import shapeup.game.boards.Board;
 import shapeup.game.boards.CircleBoard;
 import shapeup.game.boards.GridBoard;
 import shapeup.game.players.PlayerType;
-import shapeup.ui.BoardDisplayer;
-import shapeup.ui.TUIMenu;
-import shapeup.ui.TerminalUI;
 import shapeup.ui.UI;
+import shapeup.ui.gui.GraphicalUI;
+import shapeup.ui.tui.TUIMenu;
+import shapeup.ui.tui.TerminalUI;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ShapeUp {
   public static void main(String[] args) {
-    var uiCtor = uiType();
-
-    var playerTypes = new ArrayList<PlayerType>(3);
-    for (int i = 0; i < 2; i++)
-      playerTypes.add(playerType(i));
-    if (thirdPlayer())
-      playerTypes.add(playerType(2));
-
-    var boardCtor = boardType();
-
-    boolean advanced = advancedShapeUp();
-
-    new GameController(uiCtor, boardCtor, playerTypes, advanced).startGame();
+//    var uiCtor = uiType();
+//
+//    var playerTypes = new ArrayList<PlayerType>(3);
+//    for (int i = 0; i < 2; i++)
+//      playerTypes.add(playerType(i));
+//    if (thirdPlayer())
+//      playerTypes.add(playerType(2));
+//
+//    var boardCtor = boardType();
+//
+//    boolean advanced = advancedShapeUp();
+//
+//    new GameController(uiCtor, boardCtor, playerTypes, advanced).startGame();
+    new Game(GraphicalUI::new, GridBoard::new, List.of(PlayerType.REAL_PLAYER, PlayerType.REAL_PLAYER), false).startGame();
   }
 
-  public static Function<BoardDisplayer, UI> uiType() {
+  public static Supplier<UI> uiType() {
     return TUIMenu.displayValueMenu(
             "Shape Up! Choisissez le type d'interface :",
             List.of(
@@ -42,8 +41,17 @@ public class ShapeUp {
                         return "Ligne de commande";
                       }
 
-                      public Function<BoardDisplayer, UI> get() {
+                      public Supplier<UI> get() {
                         return TerminalUI::new;
+                      }
+                    },
+                    new SupplierAction<>() {
+                      public String name() {
+                        return "Graphique";
+                      }
+
+                      public Supplier<UI> get() {
+                        return GraphicalUI::new;
                       }
                     }
             )
