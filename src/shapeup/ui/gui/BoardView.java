@@ -19,7 +19,6 @@ public class BoardView extends JPanel {
   private final HashMap<Coordinates, JPanel> cardViews;
   private final HashMap<Coordinates, JPanel> playableViews;
   private final HashMap<Coordinates, JPanel> movableViews;
-  private final HashMap<Coordinates, JPanel> emptySquareViews;
 
   public BoardView() {
     super();
@@ -29,7 +28,6 @@ public class BoardView extends JPanel {
     cardViews = new HashMap<>();
     playableViews = new HashMap<>();
     movableViews = new HashMap<>();
-    emptySquareViews = new HashMap<>();
   }
 
   public void setDisplayPlayable(boolean displayPlayable) {
@@ -58,7 +56,7 @@ public class BoardView extends JPanel {
     int maxYSquare = board.displayMaxY();
 
     int xSquares = maxXSquare - minXSquare + 1;
-    int ySquares = maxYSquare - minXSquare + 1;
+    int ySquares = maxYSquare - minYSquare + 1;
 
     var occupiedPositions = board.getOccupiedPositions();
     var playablePositions = displayPlayable ? board.getPlayablePositions() : null;
@@ -66,7 +64,6 @@ public class BoardView extends JPanel {
 
     removeAll();
     cardViews.clear();
-    emptySquareViews.clear();
     movableViews.clear();
     playableViews.clear();
     setLayout(new GridLayout(ySquares, xSquares));
@@ -90,7 +87,6 @@ public class BoardView extends JPanel {
         } else {
           squareView = new JPanel();
           squareView.setBackground(Color.BLACK);
-          emptySquareViews.put(currentSquare, squareView);
         }
         add(squareView);
       }

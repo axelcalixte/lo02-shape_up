@@ -6,7 +6,8 @@ import shapeup.game.boards.Coordinates;
 import shapeup.ui.UI;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -18,22 +19,28 @@ public class GraphicalUI implements UI {
   private static String SELECT_MAIN = "sélectionnez une carte dans votre main.";
   private static String SELECT_PLATEAU = "sélectionnez une carte sur le plateau.";
 
-  private final JPanel choicePanel;
-  private final JLabel currentPlayer;
-  private final JLabel helpMessage;
-  private final BoardView boardView;
-  private final HandView handView;
-  private final DeckView deckView;
-  private final CardView victoryCard;
+  private final JFrame frame;
+  private JPanel mainPanel;
+  private JPanel choicePanel;
+  private JLabel currentPlayer;
+  private JLabel helpMessage;
+  private BoardView boardView;
+  private HandView handView;
+  private DeckView deckView;
+  private CardView victoryCard;
 
-  private final ArrayList<String> messages;
+  private ArrayList<String> messages;
 
   private GameState gameState;
 
   public GraphicalUI() {
-    var frame = new JFrame("Shape Up!");
+    frame = new JFrame("Shape Up!");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    var mainPanel = new JPanel();
+    setup();
+  }
+
+  private void setup() {
+    mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     frame.add(mainPanel);
 
@@ -224,6 +231,32 @@ public class GraphicalUI implements UI {
 
   @Override
   public void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish) {
+    mainPanel.removeAll();
+    mainPanel.revalidate();
 
+    var hiddenCardPanel = new JPanel();
+    hiddenCardPanel.setLayout(new BoxLayout(hiddenCardPanel, BoxLayout.LINE_AXIS));
+    hiddenCardPanel.add(new JLabel("Carte cachée : "));
+    hiddenCardPanel.add(new CardView(hiddenCard));
+    mainPanel.add(hiddenCardPanel);
+
+    for (int i = 0; i < gameState.playerStates.length; ++i) {
+      var ps = gameState.playerStates[i];
+      var panel = new JPanel();
+      panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+      panel.add(new JLabel("Joueur " + i + " - score : " + scores.get(i) + ". "));
+      panel.add(new JLabel("Carte victoire : "));
+      panel.add(new CardView(ps.getVictoryCard().get()));
+      mainPanel.add(panel);
+    }
+
+    mainPanel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        setup();
+        onFinish.run();
+      }
+    });
   }
 }

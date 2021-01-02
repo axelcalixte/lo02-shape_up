@@ -52,9 +52,9 @@ public class CardView extends JPanel {
         int topX = size.width / 2;
         int topY = margin;
         int bottomLeftX = margin;
-        int bottomLeftY = size.height - doubleMargin;
-        int bottomRightX = size.width - doubleMargin;
-        int bottomRightY = size.height - doubleMargin;
+        int bottomLeftY = size.height - margin;
+        int bottomRightX = size.width - margin;
+        int bottomRightY = size.height - margin;
 
         if (filled)
           graphics.fillPolygon(new int[]{topX, bottomLeftX, bottomRightX}, new int[]{topY, bottomLeftY, bottomRightY}, 3);

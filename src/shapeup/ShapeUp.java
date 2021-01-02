@@ -11,25 +11,26 @@ import shapeup.ui.gui.GraphicalUI;
 import shapeup.ui.tui.TUIMenu;
 import shapeup.ui.tui.TerminalUI;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ShapeUp {
   public static void main(String[] args) {
-//    var uiCtor = uiType();
-//
-//    var playerTypes = new ArrayList<PlayerType>(3);
-//    for (int i = 0; i < 2; i++)
-//      playerTypes.add(playerType(i));
-//    if (thirdPlayer())
-//      playerTypes.add(playerType(2));
-//
-//    var boardCtor = boardType();
-//
-//    boolean advanced = advancedShapeUp();
-//
-//    new GameController(uiCtor, boardCtor, playerTypes, advanced).startGame();
-    new Game(GraphicalUI::new, GridBoard::new, List.of(PlayerType.REAL_PLAYER, PlayerType.REAL_PLAYER), false).startGame();
+    var uiCtor = uiType();
+
+    var playerTypes = new ArrayList<PlayerType>(3);
+    for (int i = 0; i < 2; i++)
+      playerTypes.add(playerType(i));
+    if (thirdPlayer())
+      playerTypes.add(playerType(2));
+
+    var boardCtor = boardType();
+
+    boolean advanced = advancedShapeUp();
+
+    new Game(uiCtor, boardCtor, playerTypes, advanced).startGame();
+//    new Game(GraphicalUI::new, GridBoard::new, List.of(PlayerType.REAL_PLAYER, PlayerType.REAL_PLAYER), false).startGame();
   }
 
   public static Supplier<UI> uiType() {
