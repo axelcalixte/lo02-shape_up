@@ -73,4 +73,11 @@ public class RealPlayer implements PlayerStrategy {
     ui.roundFinished(scores, hiddenCard, () -> future.complete(null));
     return future;
   }
+
+  @Override
+  public CompletableFuture<Void> gameFinished(List<Integer> scores) {
+    var future = new CompletableFuture<Void>();
+    ui.gameFinished(scores, () -> future.complete(null));
+    return future;
+  }
 }

@@ -14,10 +14,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class GraphicalUI implements UI {
-  private static String SELECT_MAIN_PLATEAU = "sélectionnez une carte dans votre main ou sur le plateau.";
-  private static String SELECT_CASE = "sélectionnez une case.";
-  private static String SELECT_MAIN = "sélectionnez une carte dans votre main.";
-  private static String SELECT_PLATEAU = "sélectionnez une carte sur le plateau.";
+  private static final String SELECT_MAIN_PLATEAU = "sélectionnez une carte dans votre main ou sur le plateau.";
+  private static final String SELECT_CASE = "sélectionnez une case.";
+  private static final String SELECT_MAIN = "sélectionnez une carte dans votre main.";
+  private static final String SELECT_PLATEAU = "sélectionnez une carte sur le plateau.";
 
   private final JFrame frame;
   private JPanel mainPanel;
@@ -40,9 +40,13 @@ public class GraphicalUI implements UI {
   }
 
   private void setup() {
-    mainPanel = new JPanel();
-    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-    frame.add(mainPanel);
+    if (mainPanel == null) {
+      mainPanel = new JPanel();
+      mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+      frame.add(mainPanel);
+    } else {
+      mainPanel.removeAll();
+    }
 
     // Board Panel
     boardView = new BoardView();
@@ -80,6 +84,7 @@ public class GraphicalUI implements UI {
 
     messages = new ArrayList<>();
     replaceMessage("Bienvenue !");
+    frame.revalidate();
   }
 
   private void pushMessage(String message) {
@@ -232,7 +237,6 @@ public class GraphicalUI implements UI {
   @Override
   public void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish) {
     mainPanel.removeAll();
-    mainPanel.revalidate();
 
     var hiddenCardPanel = new JPanel();
     hiddenCardPanel.setLayout(new BoxLayout(hiddenCardPanel, BoxLayout.LINE_AXIS));
@@ -250,11 +254,36 @@ public class GraphicalUI implements UI {
       mainPanel.add(panel);
     }
 
+    mainPanel.revalidate();
+
     mainPanel.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
         setup();
+        onFinish.run();
+      }
+    });
+  }
+
+  @Override
+  public void gameFinished(List<Integer> scores, Runnable onFinish) {
+    mainPanel.removeAll();
+
+    for (int i = 0; i < gameState.playerStates.length; ++i) {
+      var ps = gameState.playerStates[i];
+      var panel = new JPanel();
+      panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+      panel.add(new JLabel("Joueur " + i + " - score : " + scores.get(i) + ". "));
+      mainPanel.add(panel);
+    }
+
+    mainPanel.revalidate();
+
+    mainPanel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
         onFinish.run();
       }
     });

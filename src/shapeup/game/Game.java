@@ -9,6 +9,9 @@ import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
 import shapeup.game.scores.ScoreCounterVisitor;
 import shapeup.ui.UI;
+import shapeup.ui.UIType;
+import shapeup.ui.gui.GraphicalUI;
+import shapeup.ui.tui.TerminalUI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +39,7 @@ public final class Game {
   /**
    * Used to display scores at the end of AI-only games
    */
-  private final UI ui;
+  private final UI aiOnlyUI;
   /**
    * Used to display scores at the end of AI-only games
    */
@@ -45,14 +48,14 @@ public final class Game {
   /**
    * Constructs a GameController.
    *
-   * @param uiConstructor    used to get a user interface.
    * @param boardConstructor used to get a board.
    * @param playerTypes      the types of players playing the game (AI/real).
+   * @param uiTypes          the ui type for each player.
    * @param advancedShapeUp  whether the "Advanced Shape Up!" rules should be used.
    */
-  public Game(Supplier<UI> uiConstructor,
-              Supplier<Board> boardConstructor,
+  public Game(Supplier<Board> boardConstructor,
               List<PlayerType> playerTypes,
+              List<UIType> uiTypes,
               boolean advancedShapeUp) {
     this.boardConstructor = boardConstructor;
     this.advancedShapeUp = advancedShapeUp;
@@ -63,14 +66,30 @@ public final class Game {
 
     this.playerStrategies = new PlayerStrategy[nbPlayers];
 
-    this.ui = uiConstructor.get();
+    this.aiOnlyUI = new TerminalUI();
 
     this.aiOnlyGame = playerTypes.stream().noneMatch(playerType -> playerType == PlayerType.REAL_PLAYER);
 
+    GraphicalUI gui = null;
+    TerminalUI tui = null;
     for (int i = 0; i < nbPlayers; i++) {
       switch (playerTypes.get(i)) {
         case BASIC_AI -> playerStrategies[i] = new BasicAI(i);
-        case REAL_PLAYER -> playerStrategies[i] = new RealPlayer(ui, i);
+        case REAL_PLAYER -> {
+          UI ui;
+          switch (uiTypes.get(i)) {
+            case GUI -> {
+              if (gui == null) gui = new GraphicalUI();
+              ui = gui;
+            }
+            case TUI -> {
+              if (tui == null) tui = new TerminalUI();
+              ui = tui;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + uiTypes.get(i));
+          }
+          playerStrategies[i] = new RealPlayer(ui, i);
+        }
       }
     }
 
@@ -91,13 +110,37 @@ public final class Game {
     }
   }
 
-  // in preparation of multi-round games
-  public void startGame() {
-    cleanGameState();
-    playRound();
+  /**
+   * Plays out an entire game of Shape Up.
+   *
+   * @param nbRounds the number of rounds.
+   */
+  public void startGame(int nbRounds) {
+    var scores = new Integer[playerStates.length];
+
+    for (int i = 0; i < nbRounds; i++) {
+      cleanGameState();
+      var newScores = playRound();
+      for (int player = 0; player < newScores.size(); player++) {
+        if (scores[player] == null) scores[player] = 0;
+        scores[player] += newScores.get(player);
+      }
+    }
+
+    // Wait for all players.
+    CompletableFuture.allOf(
+            Arrays.stream(playerStrategies)
+                    .map((strat) -> strat.gameFinished(Arrays.asList(scores)))
+                    .toArray(CompletableFuture[]::new)
+    ).join();
   }
 
-  private void playRound() {
+  /**
+   * Plays out an entire round of Shape Up.
+   *
+   * @return the scores for this round.
+   */
+  private List<Integer> playRound() {
     //noinspection OptionalGetWithoutIsPresent
     hiddenCard = deck.drawCard().get();
 
@@ -131,10 +174,12 @@ public final class Game {
     ).join();
 
     if (this.aiOnlyGame) {
-      this.ui.update(new GameState(playerStates, board, deck));
-      this.ui.roundFinished(scores, hiddenCard, () -> {
+      this.aiOnlyUI.update(new GameState(playerStates, board, deck));
+      this.aiOnlyUI.roundFinished(scores, hiddenCard, () -> {
       });
     }
+
+    return scores;
   }
 
   /**
@@ -154,8 +199,8 @@ public final class Game {
   /**
    * Play out a player's turn.
    *
-   * @param playerID their ID
-   * @return whether to keep playing the current round
+   * @param playerID their ID.
+   * @return whether to keep playing the current round.
    */
   private boolean playerTurn(int playerID) {
     boolean keepPlaying = advancedShapeUp ?

@@ -62,4 +62,9 @@ public class BasicAI implements PlayerStrategy {
   public CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard) {
     return CompletableFuture.completedFuture(null);
   }
+
+  @Override
+  public CompletableFuture<Void> gameFinished(List<Integer> scores) {
+    return CompletableFuture.completedFuture(null);
+  }
 }

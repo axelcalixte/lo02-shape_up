@@ -25,4 +25,6 @@ public interface UI {
   void turnFinished(int playerID, Runnable onFinishConfirmed);
 
   void roundFinished(List<Integer> scores, Card hiddenCard, Runnable onFinish);
+
+  void gameFinished(List<Integer> scores, Runnable onFinish);
 }

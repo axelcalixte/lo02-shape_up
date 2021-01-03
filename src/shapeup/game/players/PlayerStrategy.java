@@ -24,4 +24,6 @@ public interface PlayerStrategy {
   CompletableFuture<Void> turnFinished();
 
   CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard);
+
+  CompletableFuture<Void> gameFinished(List<Integer> scores);
 }

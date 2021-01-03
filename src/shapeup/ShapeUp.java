@@ -6,44 +6,51 @@ import shapeup.game.boards.Board;
 import shapeup.game.boards.CircleBoard;
 import shapeup.game.boards.GridBoard;
 import shapeup.game.players.PlayerType;
-import shapeup.ui.UI;
-import shapeup.ui.gui.GraphicalUI;
+import shapeup.ui.UIType;
 import shapeup.ui.tui.TUIMenu;
-import shapeup.ui.tui.TerminalUI;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class ShapeUp {
   public static void main(String[] args) {
-    var uiCtor = uiType();
-
     var playerTypes = new ArrayList<PlayerType>(3);
-    for (int i = 0; i < 2; i++)
-      playerTypes.add(playerType(i));
-    if (thirdPlayer())
-      playerTypes.add(playerType(2));
+    var uiTypes = new ArrayList<UIType>(3);
+    for (int i = 0; i < 2; i++) {
+      var playerType = playerType(i);
+      playerTypes.add(playerType);
+      if (playerType == PlayerType.REAL_PLAYER) uiTypes.add(uiType(i));
+      else uiTypes.add(UIType.TUI);
+    }
+    if (thirdPlayer()) {
+      var playerType = playerType(2);
+      playerTypes.add(playerType);
+      if (playerType == PlayerType.REAL_PLAYER) uiTypes.add(uiType(2));
+      else uiTypes.add(UIType.TUI);
+    }
 
     var boardCtor = boardType();
-
     boolean advanced = advancedShapeUp();
+    int nbRounds = numberOfRounds();
 
-    new Game(uiCtor, boardCtor, playerTypes, advanced).startGame();
+    new Game(boardCtor, playerTypes, uiTypes, advanced).startGame(nbRounds);
 //    new Game(GraphicalUI::new, GridBoard::new, List.of(PlayerType.REAL_PLAYER, PlayerType.REAL_PLAYER), false).startGame();
   }
 
-  public static Supplier<UI> uiType() {
+  public static UIType uiType(int playerID) {
     return TUIMenu.displayValueMenu(
-            "Shape Up! Choisissez le type d'interface :",
+            String.format("Shape Up! Choisissez le type d'interface pour le joueur %d :", playerID),
             List.of(
                     new SupplierAction<>() {
                       public String name() {
                         return "Ligne de commande";
                       }
 
-                      public Supplier<UI> get() {
-                        return TerminalUI::new;
+                      public UIType get() {
+                        return UIType.TUI;
                       }
                     },
                     new SupplierAction<>() {
@@ -51,8 +58,8 @@ public class ShapeUp {
                         return "Graphique";
                       }
 
-                      public Supplier<UI> get() {
-                        return GraphicalUI::new;
+                      public UIType get() {
+                        return UIType.GUI;
                       }
                     }
             )
@@ -161,5 +168,16 @@ public class ShapeUp {
                     }
             )
     );
+  }
+
+  public static int numberOfRounds() {
+    System.out.print("Entrez le nombre de rounds de cette partie : ");
+    while (true) {
+      try {
+        int rounds = new Scanner(System.in).nextInt();
+        if (rounds > 0) return rounds;
+      } catch (Exception ignored) {}
+      System.out.println("Entrez un entier supérieur à 0 : ");
+    }
   }
 }

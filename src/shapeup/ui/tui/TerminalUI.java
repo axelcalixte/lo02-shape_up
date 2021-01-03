@@ -167,6 +167,18 @@ public class TerminalUI implements UI {
     onFinish.run();
   }
 
+  @Override
+  public void gameFinished(List<Integer> scores, Runnable onFinish) {
+    for (int i = 0; i < scores.size(); i++) {
+      System.out.printf(
+              "Joueur %d : %d points",
+              i,
+              scores.get(i)
+      );
+    }
+    onFinish.run();
+  }
+
   private void boardDisplay(Board board) {
     var occupiedPositions = board.getOccupiedPositions();
     var playablePositions = board.getPlayablePositions();
@@ -356,7 +368,6 @@ public class TerminalUI implements UI {
           case CIRCLE -> FILLED_CIRCLE;
           case SQUARE -> FILLED_SQUARE;
           case TRIANGLE -> FILLED_TRIANGLE;
-          default -> shape;
         };
         break;
     }
@@ -369,7 +380,6 @@ public class TerminalUI implements UI {
       case RED -> 'R';
       case GREEN -> 'G';
       case BLUE -> 'B';
-      default -> throw new IllegalArgumentException();
     };
   }
 }
