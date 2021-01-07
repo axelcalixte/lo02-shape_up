@@ -8,10 +8,10 @@ import shapeup.game.players.PlayerType;
 import shapeup.game.players.RealPlayer;
 import shapeup.game.scores.NormalScoreCounter;
 import shapeup.game.scores.ScoreCounterVisitor;
-import shapeup.ui.UI;
+import shapeup.ui.UIController;
 import shapeup.ui.UIType;
-import shapeup.ui.gui.GraphicalUI;
-import shapeup.ui.tui.TerminalUI;
+import shapeup.ui.gui.GraphicalUIController;
+import shapeup.ui.tui.TerminalUIController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public final class Game {
   /**
    * Used to display scores at the end of AI-only games
    */
-  private final UI aiOnlyUI;
+  private final UIController aiOnlyUIController;
   /**
    * Used to display scores at the end of AI-only games
    */
@@ -66,29 +66,29 @@ public final class Game {
 
     this.playerStrategies = new PlayerStrategy[nbPlayers];
 
-    this.aiOnlyUI = new TerminalUI();
+    this.aiOnlyUIController = new TerminalUIController();
 
     this.aiOnlyGame = playerTypes.stream().noneMatch(playerType -> playerType == PlayerType.REAL_PLAYER);
 
-    GraphicalUI gui = null;
-    TerminalUI tui = null;
+    GraphicalUIController gui = null;
+    TerminalUIController tui = null;
     for (int i = 0; i < nbPlayers; i++) {
       switch (playerTypes.get(i)) {
         case BASIC_AI -> playerStrategies[i] = new BasicAI(i);
         case REAL_PLAYER -> {
-          UI ui;
+          UIController uiController;
           switch (uiTypes.get(i)) {
             case GUI -> {
-              if (gui == null) gui = new GraphicalUI();
-              ui = gui;
+              if (gui == null) gui = new GraphicalUIController();
+              uiController = gui;
             }
             case TUI -> {
-              if (tui == null) tui = new TerminalUI();
-              ui = tui;
+              if (tui == null) tui = new TerminalUIController();
+              uiController = tui;
             }
             default -> throw new IllegalStateException("Unexpected value: " + uiTypes.get(i));
           }
-          playerStrategies[i] = new RealPlayer(ui, i);
+          playerStrategies[i] = new RealPlayer(uiController, i);
         }
       }
     }
@@ -174,8 +174,8 @@ public final class Game {
     ).join();
 
     if (this.aiOnlyGame) {
-      this.aiOnlyUI.update(new GameState(playerStates, board, deck));
-      this.aiOnlyUI.roundFinished(scores, hiddenCard, () -> {
+      this.aiOnlyUIController.update(new GameState(playerStates, board, deck));
+      this.aiOnlyUIController.roundFinished(scores, hiddenCard, () -> {
       });
     }
 

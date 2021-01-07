@@ -3,24 +3,24 @@ package shapeup.game.players;
 import shapeup.game.Card;
 import shapeup.game.GameState;
 import shapeup.game.boards.Coordinates;
-import shapeup.ui.UI;
+import shapeup.ui.UIController;
 import shapeup.util.Tuple;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RealPlayer implements PlayerStrategy {
-  private final UI ui;
+  private final UIController uiController;
   private final int playerID;
 
-  public RealPlayer(UI ui, int playerID) {
-    this.ui = ui;
+  public RealPlayer(UIController uiController, int playerID) {
+    this.uiController = uiController;
     this.playerID = playerID;
   }
 
   @Override
   public void update(GameState gs) {
-    ui.update(gs);
+    uiController.update(gs);
   }
 
   @Override
@@ -31,7 +31,7 @@ public class RealPlayer implements PlayerStrategy {
   @Override
   public CompletableFuture<MovedOrPlayed> canMoveOrPlay() {
     var future = new CompletableFuture<MovedOrPlayed>();
-    ui.moveOrPlay(
+    uiController.moveOrPlay(
             playerID,
             (from, to) -> future.complete(MovedOrPlayed.moved(from, to)),
             (coord, card) -> future.complete(MovedOrPlayed.played(coord, card))
@@ -42,42 +42,42 @@ public class RealPlayer implements PlayerStrategy {
   @Override
   public CompletableFuture<Tuple<Card, Coordinates>> canPlay() {
     var future = new CompletableFuture<Tuple<Card, Coordinates>>();
-    ui.play(playerID, (card, coord) -> future.complete(new Tuple<>(card, coord)));
+    uiController.play(playerID, (card, coord) -> future.complete(new Tuple<>(card, coord)));
     return future;
   }
 
   @Override
   public CompletableFuture<Tuple<Coordinates, Coordinates>> canMove() {
     var future = new CompletableFuture<Tuple<Coordinates, Coordinates>>();
-    ui.move(playerID, (from, to) -> future.complete(new Tuple<>(from, to)));
+    uiController.move(playerID, (from, to) -> future.complete(new Tuple<>(from, to)));
     return future;
   }
 
   @Override
   public CompletableFuture<Boolean> canFinishTurn() {
     var future = new CompletableFuture<Boolean>();
-    ui.canFinishTurn(playerID, future::complete);
+    uiController.canFinishTurn(playerID, future::complete);
     return future;
   }
 
   @Override
   public CompletableFuture<Void> turnFinished() {
     var future = new CompletableFuture<Void>();
-    ui.turnFinished(playerID, () -> future.complete(null));
+    uiController.turnFinished(playerID, () -> future.complete(null));
     return future;
   }
 
   @Override
   public CompletableFuture<Void> roundFinished(List<Integer> scores, Card hiddenCard) {
     var future = new CompletableFuture<Void>();
-    ui.roundFinished(scores, hiddenCard, () -> future.complete(null));
+    uiController.roundFinished(scores, hiddenCard, () -> future.complete(null));
     return future;
   }
 
   @Override
   public CompletableFuture<Void> gameFinished(List<Integer> scores) {
     var future = new CompletableFuture<Void>();
-    ui.gameFinished(scores, () -> future.complete(null));
+    uiController.gameFinished(scores, () -> future.complete(null));
     return future;
   }
 }

@@ -3,7 +3,7 @@ package shapeup.ui.gui;
 import shapeup.game.Card;
 import shapeup.game.GameState;
 import shapeup.game.boards.Coordinates;
-import shapeup.ui.UI;
+import shapeup.ui.UIController;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class GraphicalUI implements UI {
+public class GraphicalUIController implements UIController {
   private static final String SELECT_MAIN_PLATEAU = "sélectionnez une carte dans votre main ou sur le plateau.";
   private static final String SELECT_CASE = "sélectionnez une case.";
   private static final String SELECT_MAIN = "sélectionnez une carte dans votre main.";
@@ -33,7 +33,7 @@ public class GraphicalUI implements UI {
 
   private GameState gameState;
 
-  public GraphicalUI() {
+  public GraphicalUIController() {
     frame = new JFrame("Shape Up!");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setup();
@@ -124,6 +124,8 @@ public class GraphicalUI implements UI {
   @Override
   public void update(GameState gs) {
     gameState = gs;
+    boardView.update(gs.board);
+    deckView.update(gameState.deck);
   }
 
   @Override

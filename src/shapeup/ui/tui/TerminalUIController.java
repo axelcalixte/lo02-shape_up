@@ -3,7 +3,7 @@ package shapeup.ui.tui;
 import shapeup.game.*;
 import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
-import shapeup.ui.UI;
+import shapeup.ui.UIController;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TerminalUI implements UI {
+public class TerminalUIController implements UIController {
   private GameState gameState = null;
 
-  public TerminalUI() {
+  public TerminalUIController() {
   }
 
   /**
@@ -155,14 +155,14 @@ public class TerminalUI implements UI {
       if (ps.getVictoryCard().isPresent()) {
         System.out.printf(
                 ", carte victoire %s.\n",
-                TerminalUI.fancyCardString(ps.getVictoryCard().get())
+                TerminalUIController.fancyCardString(ps.getVictoryCard().get())
         );
       } else {
         System.out.println(".");
       }
     }
     System.out.println("---");
-    System.out.printf("La carte cachée était %s.\n", TerminalUI.fancyCardString(hiddenCard));
+    System.out.printf("La carte cachée était %s.\n", TerminalUIController.fancyCardString(hiddenCard));
     System.out.println("---");
     onFinish.run();
   }
@@ -171,7 +171,7 @@ public class TerminalUI implements UI {
   public void gameFinished(List<Integer> scores, Runnable onFinish) {
     for (int i = 0; i < scores.size(); i++) {
       System.out.printf(
-              "Joueur %d : %d points",
+              "Joueur %d : %d points\n",
               i,
               scores.get(i)
       );
@@ -203,7 +203,7 @@ public class TerminalUI implements UI {
 
         if (occupiedPositions.contains(coord)) {
           var card = board.getCard(coord).get();
-          System.out.print("| " + TerminalUI.fancyCardString(card));
+          System.out.print("| " + TerminalUIController.fancyCardString(card));
         } else if (playablePositions.contains(coord)) {
           System.out.print("|< >");
         } else {
@@ -246,7 +246,7 @@ public class TerminalUI implements UI {
             hand.stream()
                     .map(c -> new MenuAction() {
                       public String name() {
-                        return TerminalUI.fancyCardString(c);
+                        return TerminalUIController.fancyCardString(c);
                       }
 
                       public void run() {
@@ -315,7 +315,7 @@ public class TerminalUI implements UI {
     System.out.println("---");
     boardDisplay(gameState.board);
     System.out.println("---");
-    TerminalUI.deckDisplay(gameState.deck);
+    TerminalUIController.deckDisplay(gameState.deck);
     for (var ps : gameState.playerStates) {
       if (ps.getPlayerID() == playerID) {
 
@@ -323,14 +323,14 @@ public class TerminalUI implements UI {
           System.out.println("---");
           System.out.println("Votre main :");
           for (var card : ps.getHand()) {
-            System.out.println(TerminalUI.fancyCardString(card));
+            System.out.println(TerminalUIController.fancyCardString(card));
           }
         }
 
         ps.getVictoryCard().ifPresent(card -> {
           System.out.println("---");
           System.out.println("Votre carte victoire :");
-          System.out.println(TerminalUI.fancyCardString(card));
+          System.out.println(TerminalUIController.fancyCardString(card));
         });
         break;
       }
