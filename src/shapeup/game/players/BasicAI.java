@@ -8,6 +8,14 @@ import shapeup.util.Tuple;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * A class representing a very basic AI to play against.
+ * <p>
+ *   The basic AI is will always play its first accessible card
+ *   to the first position available on the board.
+ * </p>
+ * @see shapeup.game.players.PlayerStrategy
+ */
 public class BasicAI implements PlayerStrategy {
   private GameState gs;
   private final int playerID;
