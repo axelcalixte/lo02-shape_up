@@ -3,7 +3,6 @@ package shapeup.ui.gui;
 import shapeup.game.Deck;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class DeckView extends JPanel {
   JLabel label;

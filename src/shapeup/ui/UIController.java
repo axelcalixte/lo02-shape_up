@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public interface UI {
+public interface UIController {
   /**
    * A change happened in the game state and the UI should reflect it.
    */
