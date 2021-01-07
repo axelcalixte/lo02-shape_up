@@ -40,6 +40,7 @@ public final class Game {
    * Used to display scores at the end of AI-only games
    */
   private final UIController aiOnlyUIController;
+
   /**
    * Used to display scores at the end of AI-only games
    */
@@ -98,6 +99,9 @@ public final class Game {
     this.updateStrategies();
   }
 
+  /**
+   * Initialize the board, the deck and the players for the game.
+   */
   private void cleanGameState() {
     board = boardConstructor.get();
     deck = new Deck();
@@ -251,6 +255,12 @@ public final class Game {
     return true;
   }
 
+  /**
+   * Allows the start of a new turn for a player.
+   *
+   * @param playerID an int representing the player whose turn might start.
+   * @return true if a new turn needs to be started for a player; false otherwise.
+   */
   private boolean simplePlayerTurnStart(int playerID) {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() <= 0)) {
@@ -273,6 +283,11 @@ public final class Game {
     return true;
   }
 
+  /**
+   * Allows the start of a new turn in advanced Shape Up!
+   *
+   * @return true if a new advanced Shape Up! turn can be started; false otherwise.
+   */
   private boolean advancedPlayerTurnStart() {
     if (deck.cardsLeft() == 0
             && Arrays.stream(this.playerStates).allMatch(ps -> ps.getHand().size() == 1)) {
@@ -282,6 +297,13 @@ public final class Game {
     return true;
   }
 
+  /**
+   * Places a player card on the board at the given coordinates.
+   *
+   * @param playerID - an int representing a player.
+   * @param card     - a card to be played.
+   * @param coord    - a coordinate where the card is to be played on the deck.
+   */
   private void play(int playerID, Card card, Coordinates coord) {
     playerStates[playerID].getHand().remove(card);
     this.board.playCard(card, coord);
@@ -289,12 +311,21 @@ public final class Game {
     this.updateStrategies();
   }
 
+  /**
+   * Moves a card from a coordinate to another on the board.
+   *
+   * @param from - a coordinate from where to take the card on the board.
+   * @param to   - a coordinate where to put the card on the board.
+   */
   private void move(Coordinates from, Coordinates to) {
     this.board.moveCard(from, to);
 
     this.updateStrategies();
   }
 
+  /**
+   * Updates the state of the game including players, board and the deck.
+   */
   private void updateStrategies() {
     for (var pstrat : playerStrategies) {
       pstrat.update(new GameState(playerStates, board, deck));
