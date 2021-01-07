@@ -10,11 +10,14 @@ import shapeup.ui.UIType;
 import shapeup.ui.tui.TUIMenu;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
+
+/**
+ * The ShapeUp class holds the main method which starts the program.
+ */
 public class ShapeUp {
   public static void main(String[] args) {
     var playerTypes = new ArrayList<PlayerType>(3);
@@ -37,9 +40,14 @@ public class ShapeUp {
     int nbRounds = numberOfRounds();
 
     new Game(boardCtor, playerTypes, uiTypes, advanced).startGame(nbRounds);
-//    new Game(GraphicalUI::new, GridBoard::new, List.of(PlayerType.REAL_PLAYER, PlayerType.REAL_PLAYER), false).startGame();
   }
 
+  /**
+   * Asks for a player's choice of interface to play on.
+   *
+   * @param playerID - an int representing a player.
+   * @return the choice of interface for the player.
+   */
   public static UIType uiType(int playerID) {
     return TUIMenu.displayValueMenu(
             String.format("Shape Up! Choisissez le type d'interface pour le joueur %d :", playerID),
@@ -66,6 +74,12 @@ public class ShapeUp {
     );
   }
 
+  /**
+   * Asks for a player's type.
+   *
+   * @param playerID - an int representing a player
+   * @return the PlayerType
+   */
   public static PlayerType playerType(int playerID) {
     return TUIMenu.displayValueMenu(
             String.format("Choisissez le type de joueur pour le joueur %d :", playerID),
@@ -92,6 +106,11 @@ public class ShapeUp {
     );
   }
 
+  /**
+   * Asks if the game needs to include a third player.
+   *
+   * @return true if a third player is included; false otherwise.
+   */
   public static boolean thirdPlayer() {
     return TUIMenu.displayValueMenu(
             "Troisième joueur ?",
@@ -118,6 +137,11 @@ public class ShapeUp {
     );
   }
 
+  /**
+   * Asks for the board type to be played on during the entire game.
+   *
+   * @return a new instance of a GridBoard or CircleBoard.
+   */
   public static Supplier<Board> boardType() {
     return TUIMenu.displayValueMenu(
             "Type de plateau :",
@@ -144,6 +168,11 @@ public class ShapeUp {
     );
   }
 
+  /**
+   * Asks for the use of advanced Shape Up! game rules.
+   *
+   * @return true if the rules are to be used; false if not.
+   */
   public static boolean advancedShapeUp() {
     return TUIMenu.displayValueMenu(
             "Utiliser les règles Advanced Shape Up! ?",
@@ -170,13 +199,19 @@ public class ShapeUp {
     );
   }
 
+  /**
+   * Asks for the number of rounds for a Shape Up! game.
+   *
+   * @return an int representing the number of rounds to be played.
+   */
   public static int numberOfRounds() {
     System.out.print("Entrez le nombre de rounds de cette partie : ");
     while (true) {
       try {
         int rounds = new Scanner(System.in).nextInt();
         if (rounds > 0) return rounds;
-      } catch (Exception ignored) {}
+      } catch (Exception ignored) {
+      }
       System.out.println("Entrez un entier supérieur à 0 : ");
     }
   }
