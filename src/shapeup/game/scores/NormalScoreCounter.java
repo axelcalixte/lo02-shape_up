@@ -16,31 +16,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class NormalScoreCounter implements ScoreCounterVisitor {
-  public static void main(String[] args) {
-    var board = new GridBoard();
-
-    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(0, 0));
-    board.playCard(new Card(Color.RED, Shape.SQUARE, Filledness.FILLED), new Coordinates(1, 0));
-    board.playCard(new Card(Color.RED, Shape.TRIANGLE, Filledness.FILLED), new Coordinates(2, 0));
-
-    board.playCard(new Card(Color.GREEN, Shape.CIRCLE, Filledness.FILLED), new Coordinates(1, 1));
-
-    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.FILLED), new Coordinates(1, 2));
-
-    board.playCard(new Card(Color.RED, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(1, 3));
-    board.playCard(new Card(Color.BLUE, Shape.CIRCLE, Filledness.HOLLOW), new Coordinates(0, 3));
-    board.playCard(new Card(Color.BLUE, Shape.TRIANGLE, Filledness.HOLLOW), new Coordinates(2, 3));
-
-    var victoryCard1 = new Card(Color.RED, Shape.CIRCLE, Filledness.FILLED);
-    var victoryCard2 = new Card(Color.BLUE, Shape.TRIANGLE, Filledness.HOLLOW);
-
-    var score1 = board.acceptScoreCounter(new NormalScoreCounter(), victoryCard1);
-    var score2 = board.acceptScoreCounter(new NormalScoreCounter(), victoryCard2);
-
-    System.out.println(score1 + " " + score2);
-    assert score1 == 13;
-    assert score2 == 3;
-  }
 
   @Override
   public int countGridBoard(GridBoard board, Card victoryCard) {
