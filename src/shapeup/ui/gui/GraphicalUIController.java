@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * The {@link UIController} for the GUI.
+ */
 public class GraphicalUIController implements UIController {
   private static final String SELECT_MAIN_PLATEAU = "sélectionnez une carte dans votre main ou sur le plateau.";
   private static final String SELECT_CASE = "sélectionnez une case.";
@@ -29,16 +32,25 @@ public class GraphicalUIController implements UIController {
   private DeckView deckView;
   private CardView victoryCard;
 
+  /**
+   * A stack of messages to display in the message zone. This way, displaying temporary messages is easy.
+   */
   private ArrayList<String> messages;
 
   private GameState gameState;
 
+  /**
+   * Constructs a new {@link GraphicalUIController}.
+   */
   public GraphicalUIController() {
     frame = new JFrame("Shape Up!");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setup();
   }
 
+  /**
+   * UI setup.
+   */
   private void setup() {
     if (mainPanel == null) {
       mainPanel = new JPanel();
@@ -87,11 +99,19 @@ public class GraphicalUIController implements UIController {
     frame.revalidate();
   }
 
+  /**
+   * Pushes a message onto the stack.
+   *
+   * @param message the message
+   */
   private void pushMessage(String message) {
     messages.add(message);
     helpMessage.setText(message);
   }
 
+  /**
+   * Pops the last message from the stack, sets an empty message if the stack is/was empty.
+   */
   private void popMessage() {
     if (messages.size() == 0) {
       helpMessage.setText("");
@@ -108,6 +128,11 @@ public class GraphicalUIController implements UIController {
     helpMessage.setText(messages.get(messages.size() - 1));
   }
 
+  /**
+   * Equivalent to {@link GraphicalUIController#popMessage} the {@link GraphicalUIController#pushMessage}.
+   *
+   * @param message the message
+   */
   private void replaceMessage(String message) {
     popMessage();
     pushMessage(message);

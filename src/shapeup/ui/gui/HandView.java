@@ -10,10 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * View for a Shape Up! player's hand.
+ */
 public class HandView extends JPanel {
   private final HashMap<CardView, Card> cards;
   private final JPanel cardsPanel;
 
+  /**
+   * Constructs a new empty {@link HandView}.
+   */
   public HandView() {
     setPreferredSize(new Dimension(600, 100));
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -25,6 +31,11 @@ public class HandView extends JPanel {
     add(cardsPanel);
   }
 
+  /**
+   * Updates the hand and re-renders the view.
+   *
+   * @param hand the new hand
+   */
   public void update(List<Card> hand) {
     cardsPanel.removeAll();
     cards.clear();
@@ -37,6 +48,10 @@ public class HandView extends JPanel {
     }
   }
 
+  /**
+   * @param onCardClick the listener
+   * @see BoardView#setOneShotCardListener
+   */
   public void setOneShotCardListener(Consumer<Card> onCardClick) {
     for (var entry : cards.entrySet()) {
       entry.getKey().addMouseListener(new MouseAdapter() {
@@ -50,6 +65,9 @@ public class HandView extends JPanel {
     }
   }
 
+  /**
+   * @see BoardView#removeCardListener
+   */
   public void removeCardListener() {
     for (var cardview : cards.keySet())
       for (var ml : cardview.getMouseListeners())

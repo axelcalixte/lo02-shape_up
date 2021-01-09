@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class for displaying menues on the terminal.
+ */
 public class TUIMenu {
   private TUIMenu() {
   }
 
   /**
-   * Displays a menu on stdout.
+   * Displays a menu on stdout, allowing the user to choose between several actions.
    *
    * @param title   the menu's title
    * @param actions the actions the user will choose between
@@ -35,7 +38,7 @@ public class TUIMenu {
     }
 
     // Strange stuff happens if we close this scanner ¯\_(ツ)_/¯.
-    // TODO: actually read documentation.
+    // TODO: actually read the documentation.
     var scanner = new Scanner(System.in);
     while (true) {
       if (actions.size() == 1)
@@ -55,6 +58,13 @@ public class TUIMenu {
     }
   }
 
+  /**
+   * Displays a menu on stdout, allowing the user to choose between several values.
+   *
+   * @param title   the menu's title
+   * @param actions the actions providing the values the user will choose between
+   * @return the chosen value
+   */
   public static <T> T displayValueMenu(String title, List<SupplierAction<T>> actions) {
     var t = new Object() {
       T val = null;

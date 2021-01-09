@@ -5,22 +5,32 @@ import shapeup.game.boards.Board;
 import shapeup.game.boards.Coordinates;
 import shapeup.ui.UIController;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The {@link UIController} for the TUI.
+ * The TUI doesn't neatly fit the MVC pattern, so this is more of a Controller-View.
+ */
 public class TerminalUIController implements UIController {
   private GameState gameState = null;
 
+  /**
+   * Constructs a new {@link TerminalUIController}
+   */
   public TerminalUIController() {
   }
 
   /**
    * Must be called on every change.
    *
-   * @param gs the new game state.
+   * @param gs the new game state
    */
   @Override
   public void update(GameState gs) {
@@ -116,6 +126,7 @@ public class TerminalUIController implements UIController {
             .run();
   }
 
+  // Using the same scanner for the program's duration saves resources.
   private static final Scanner scanner = new Scanner(System.in);
 
   @Override
@@ -351,6 +362,12 @@ public class TerminalUIController implements UIController {
   public static final char FILLED_TRIANGLE = '\u25b2';
   public static final char HOLLOW_TRIANGLE = '\u25b3';
 
+  /**
+   * {@link Card#toString}, but for in-game display.
+   *
+   * @param c the card
+   * @return a string representation of the card
+   */
   public static String fancyCardString(Card c) {
     char color = colorToChar(c.getColor());
 
@@ -375,6 +392,12 @@ public class TerminalUIController implements UIController {
     return String.valueOf(color) + shape;
   }
 
+  /**
+   * Card color to character.
+   *
+   * @param c the color
+   * @return one of 'R', 'G', and 'B'
+   */
   public static char colorToChar(Color c) {
     return switch (c) {
       case RED -> 'R';

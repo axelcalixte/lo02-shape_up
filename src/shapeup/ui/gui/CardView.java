@@ -5,14 +5,27 @@ import shapeup.game.Card;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * View for a Shape Up! card.
+ */
 public class CardView extends JPanel {
   private Card card;
 
+  /**
+   * Constructs a new {@link CardView} for the given card.
+   *
+   * @param card the card
+   */
   public CardView(Card card) {
     this.card = card;
     invalidate();
   }
 
+  /**
+   * Sets the displayed card and updates the view.
+   *
+   * @param card the card
+   */
   public void setCard(Card card) {
     this.card = card;
     revalidate();
@@ -74,6 +87,12 @@ public class CardView extends JPanel {
     }
   }
 
+  /**
+   * Converts a Shape Up! {@link shapeup.game.Color} to an AWT {@link Color}.
+   *
+   * @param color the Shape Up! color
+   * @return an AWT color
+   */
   static Color color2Color(shapeup.game.Color color) {
     return switch (color) {
       case RED -> Color.RED;

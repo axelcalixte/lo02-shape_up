@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * View for a Shape Up! board.
+ */
 public class BoardView extends JPanel {
   private Board board;
   private boolean displayPlayable;
@@ -20,6 +23,9 @@ public class BoardView extends JPanel {
   private final HashMap<Coordinates, JPanel> playableViews;
   private final HashMap<Coordinates, JPanel> movableViews;
 
+  /**
+   * Constructs a new {@link BoardView}.
+   */
   public BoardView() {
     super();
     setBackground(Color.BLACK);
@@ -30,16 +36,34 @@ public class BoardView extends JPanel {
     movableViews = new HashMap<>();
   }
 
+  /**
+   * Whether playable positions should be highlighted.
+   * Re-renders the board to reflect the change.
+   *
+   * @param displayPlayable whether playable positions should be displayed
+   */
   public void setDisplayPlayable(boolean displayPlayable) {
     this.displayPlayable = displayPlayable;
     render();
   }
 
+  /**
+   * Makes the positions {@code displayMovableFrom} can be moved to highlighted.
+   * Call with null to stop highlighting these positions.
+   * Re-renders the board to reflect the change.
+   *
+   * @param displayMovableFrom the position
+   */
   public void setDisplayMovableFrom(Coordinates displayMovableFrom) {
     this.displayMovableFrom = displayMovableFrom;
     render();
   }
 
+  /**
+   * Notify this view of changes and re-renders it.
+   *
+   * @param board the new board
+   */
   public void update(Board board) {
     this.board = board;
     render();
@@ -94,26 +118,50 @@ public class BoardView extends JPanel {
 
   }
 
+  /**
+   * Sets a listener that will be called and removed when a card is clicked.
+   *
+   * @param listener the listener
+   */
   public void setOneShotCardListener(Consumer<Coordinates> listener) {
     setOneShotMouseListeners(cardViews, listener);
   }
 
+  /**
+   * Removes the click listener on cards.
+   */
   public void removeCardListener() {
     removeMouseListeners(cardViews.values());
   }
 
+  /**
+   * Sets a listener that will be called and removed when a playable position is clicked.
+   *
+   * @param listener the listener
+   */
   public void setOneShotPlayableListener(Consumer<Coordinates> listener) {
     setOneShotMouseListeners(playableViews, listener);
   }
 
+  /**
+   * Removes the click listener on playable positions.
+   */
   public void removePlayableListener() {
     removeMouseListeners(playableViews.values());
   }
 
+  /**
+   * Sets a listener that will be called and removed when a movable position is clicked.
+   *
+   * @param listener the listener
+   */
   public void setOneShotMovableListener(Consumer<Coordinates> listener) {
     setOneShotMouseListeners(movableViews, listener);
   }
 
+  /**
+   * Removes the click listener on movable positions.
+   */
   public void removeMovableListener() {
     removeMouseListeners(movableViews.values());
   }
