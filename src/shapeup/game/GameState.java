@@ -11,7 +11,7 @@ public class GameState {
   public final Deck deck;
 
   /**
-   * Creates a new gamestate instance.
+   * Creates a new GameState instance.
    *
    * @param playerStates the players for the game.
    * @param board        the board of the game.

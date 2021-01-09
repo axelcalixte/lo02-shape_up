@@ -32,7 +32,7 @@ public final class PlayerState {
   }
 
   /**
-   * Gives the player his victory card.
+   * Gives the player their victory card.
    *
    * @param c - a card to give.
    */
@@ -70,6 +70,11 @@ public final class PlayerState {
     return this.playerID;
   }
 
+  /**
+   * The player's hand.
+   *
+   * @return the hand
+   */
   public List<Card> getHand() {
     return this.hand;
   }

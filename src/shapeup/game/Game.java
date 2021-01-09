@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 /**
  * Main controller class.
  * {@code startGame} should be called after constructing it.
- * Currently doesn't support starting several rounds with the same controller object.
  */
 public final class Game {
   private final PlayerStrategy[] playerStrategies;
@@ -100,7 +99,7 @@ public final class Game {
   }
 
   /**
-   * Initialize the board, the deck and the players for the game.
+   * Initialize the board, the deck and the players for the round.
    */
   private void cleanGameState() {
     board = boardConstructor.get();
