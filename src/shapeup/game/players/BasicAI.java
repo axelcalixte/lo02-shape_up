@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * A class representing a very basic AI to play against.
  * <p>
- *   The basic AI is will always play its first accessible card
+ *   The basic AI will always play its first accessible card
  *   to the first position available on the board.
  * </p>
  * @see shapeup.game.players.PlayerStrategy

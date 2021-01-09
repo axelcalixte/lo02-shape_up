@@ -182,6 +182,9 @@ public final class GridBoard implements Board {
     return true;
   }
 
+  /**
+   * See {@link Board#areAdjacent}
+   */
   public static boolean adjacent(Coordinates a, Coordinates b) {
     int xDiff = Math.abs(a.x - b.x);
     int yDiff = Math.abs(a.y - b.y);
@@ -224,35 +227,47 @@ public final class GridBoard implements Board {
     return occupiedOrPlayablePositions().stream().mapToInt(Coordinates::getY).max().getAsInt();
   }
 
+  /**
+   * @return the maximum x coordinates
+   */
   public int maxX() {
     return maxX(this.cards);
   }
 
+  /**
+   * @return the minimum x coordinates
+   */
   public int minX() {
     return minX(this.cards);
   }
 
+  /**
+   * @return the maximum y coordinates
+   */
   public int maxY() {
     return maxY(this.cards);
   }
 
+  /**
+   * @return the minimum y coordinates
+   */
   public int minY() {
     return minY(this.cards);
   }
 
-  public static int maxX(Map<Coordinates, Card> cards) {
+  private static int maxX(Map<Coordinates, Card> cards) {
     return cards.keySet().stream().mapToInt(card -> card.x).max().orElse(0);
   }
 
-  public static int minX(Map<Coordinates, Card> cards) {
+  private static int minX(Map<Coordinates, Card> cards) {
     return cards.keySet().stream().mapToInt(card -> card.x).min().orElse(0);
   }
 
-  public static int maxY(Map<Coordinates, Card> cards) {
+  private static int maxY(Map<Coordinates, Card> cards) {
     return cards.keySet().stream().mapToInt(card -> card.y).max().orElse(0);
   }
 
-  public static int minY(Map<Coordinates, Card> cards) {
+  private static int minY(Map<Coordinates, Card> cards) {
     return cards.keySet().stream().mapToInt(card -> card.y).min().orElse(0);
   }
 

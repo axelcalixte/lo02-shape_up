@@ -8,6 +8,7 @@ import java.util.*;
 import static java.lang.Math.abs;
 
 /**
+ * A circular board, made of a center, and two concentric circles.
  * x == part of the board
  * <pre>
  * |x| |x| |x|
@@ -145,7 +146,7 @@ public class CircleBoard implements Board {
     return cards.entrySet().stream().anyMatch(entry -> adjacent(entry.getKey(), coordinates));
   }
 
-  public static boolean adjacent(Coordinates a, Coordinates b) {
+  private static boolean adjacent(Coordinates a, Coordinates b) {
     if (isCenter(a)) return inFirstCircle(b);
     if (isCenter(b)) return inFirstCircle(a);
 
@@ -172,16 +173,24 @@ public class CircleBoard implements Board {
       return false;
   }
 
-  public static boolean isCenter(Coordinates coordinates) {
+  private static boolean isCenter(Coordinates coordinates) {
     return coordinates.x == CircleBoard.CENTER && coordinates.y == CircleBoard.CENTER;
   }
 
+  /**
+   * @param coordinates the coordinates
+   * @return whether the coordinates are part of the board's first concentric circle
+   */
   public static boolean inFirstCircle(Coordinates coordinates) {
     return !isCenter(coordinates)
             && abs(coordinates.x - CircleBoard.CENTER) <= 1
             && abs(coordinates.y - CircleBoard.CENTER) <= 1;
   }
 
+  /**
+   * @param coordinates the coordinates
+   * @return whether the coordinates are part of the board's first concentric circle
+   */
   public static boolean inSecondCircle(Coordinates coordinates) {
     final int x = abs(coordinates.x - CircleBoard.CENTER);
     final int y = abs(coordinates.y - CircleBoard.CENTER);
@@ -193,6 +202,10 @@ public class CircleBoard implements Board {
     return true;
   }
 
+  /**
+   * @param coordinates the coordinates
+   * @return the coordinates' angle relative to the center of the board
+   */
   public static double angle(Coordinates coordinates) {
     double x = coordinates.x - CENTER;
     double y = coordinates.y - CENTER;
