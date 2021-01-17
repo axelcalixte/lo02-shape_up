@@ -8,8 +8,8 @@ import java.util.function.BiConsumer;
 /**
  * The result of a game action where the player could have either moved a card or played.
  * Interface inspired by {@link java.util.Optional#ifPresentOrElse}.
- * See {@link PlayerStrategy#canMoveOrPlay}
- *
+ * See {@link PlayerStrategy#canMoveOrPlay}.
+ * <p>
  * Example :
  * <pre>
  * var mop = MovedOrPlayed.moved(from, to);
@@ -56,8 +56,9 @@ public class MovedOrPlayed {
    * Consctructs a new {@link MovedOrPlayed} where the player moved a card.
    * See {@link shapeup.game.boards.Board#moveCard}
    * *
+   *
    * @param from the starting position
-   * @param to the ending position
+   * @param to   the ending position
    * @return the new {@link MovedOrPlayed}
    */
   public static MovedOrPlayed moved(Coordinates from, Coordinates to) {
@@ -69,7 +70,7 @@ public class MovedOrPlayed {
    * See {@link shapeup.game.boards.Board#playCard}
    *
    * @param coord the coordinates
-   * @param card the card
+   * @param card  the card
    * @return the new {@link MovedOrPlayed}
    */
   public static MovedOrPlayed played(Coordinates coord, Card card) {
@@ -78,6 +79,7 @@ public class MovedOrPlayed {
 
   /**
    * Runs the given action if the player moved a card.
+   *
    * @param action the action
    * @return {@code this}
    */
@@ -91,6 +93,7 @@ public class MovedOrPlayed {
 
   /**
    * Runs the given action if the player played.
+   *
    * @param action the action
    * @return {@code this}
    */

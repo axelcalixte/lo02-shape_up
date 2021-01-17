@@ -9,10 +9,19 @@ import shapeup.util.Tuple;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Facilitates communication between the model and a GUI controller/TUI controller-view.
+ */
 public class RealPlayer implements PlayerStrategy {
   private final UIController uiController;
   private final int playerID;
 
+  /**
+   * Constructs a new RealPlayer.
+   *
+   * @param uiController the ui
+   * @param playerID     the player corresponding to this RealPlayer
+   */
   public RealPlayer(UIController uiController, int playerID) {
     this.uiController = uiController;
     this.playerID = playerID;

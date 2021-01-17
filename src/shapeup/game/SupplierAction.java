@@ -5,7 +5,7 @@ package shapeup.game;
  * Running it returns a value.
  * Can be tought of as a {@link java.util.function.Supplier} with a {@link SupplierAction#name}.
  *
- * @param <T> the type of the returned value
+ * @param <T> the type of the action's return value
  */
 public interface SupplierAction<T> {
   /**

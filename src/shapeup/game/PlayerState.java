@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * A class representing a Shape Up! player.
+ * A class representing a Shape Up! player's state.
  */
 public final class PlayerState {
   private Card victoryCard;

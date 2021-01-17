@@ -5,8 +5,6 @@ import shapeup.game.scores.ScoreCounterVisitor;
 
 import java.util.*;
 
-// TODO: extract interface
-
 /**
  * A Shape Up! game board.
  * Implements the standard rules.

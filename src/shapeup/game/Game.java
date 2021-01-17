@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 /**
- * Main controller class.
+ * Main model class.
  * {@code startGame} should be called after constructing it.
  */
 public final class Game {

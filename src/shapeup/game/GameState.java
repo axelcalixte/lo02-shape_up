@@ -4,6 +4,8 @@ import shapeup.game.boards.Board;
 
 /**
  * A GameState class containing a Shape Up! game's objects.
+ * <p>
+ * Should be used when one wants to pass the game state as an argument.
  */
 public class GameState {
   public final PlayerState[] playerStates;
