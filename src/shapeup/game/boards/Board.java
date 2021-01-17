@@ -12,21 +12,24 @@ import java.util.Set;
 public interface Board {
   /**
    * Puts a cord on the board at the specified position.
-   * @param card the card
+   *
+   * @param card        the card
    * @param coordinates the position
    */
   void playCard(Card card, Coordinates coordinates);
 
   /**
    * Moves a cord from one position to another.
+   *
    * @param from the starting position
-   * @param to the ending position
+   * @param to   the ending position
    */
   void moveCard(Coordinates from, Coordinates to);
 
   /**
    * Gets the card at the given coordinates, or none if this space is empty.
    * Doesn't remove the card.
+   *
    * @param coordinates the coordinates
    * @return the card
    */
@@ -34,6 +37,7 @@ public interface Board {
 
   /**
    * All the positions where a card can be placed according to the game rules.
+   *
    * @return the positions
    */
   Set<Coordinates> getPlayablePositions();
@@ -42,6 +46,7 @@ public interface Board {
    * All the positions where the card at a given position can be moved. Different from
    * {@link Board#getPlayablePositions()} because the positions adjacent to this card only are not valid
    * targets for moving it.
+   *
    * @param from the position
    * @return the positions the corresponding card can be moved to
    */
@@ -49,20 +54,23 @@ public interface Board {
 
   /**
    * All the positions where a card is present.
+   *
    * @return the positions
    */
   Set<Coordinates> getOccupiedPositions();
 
   /**
    * Calculates the score for the given victory card using the given visitor.
+   *
    * @param scoreCounter the visitor
-   * @param victoryCard the victory card
+   * @param victoryCard  the victory card
    * @return the score
    */
   int acceptScoreCounter(ScoreCounterVisitor scoreCounter, Card victoryCard);
 
   /**
    * Whether these two positions are adjacent.
+   *
    * @param a the first position
    * @param b the second position
    * @return whether these two positions are adjacent

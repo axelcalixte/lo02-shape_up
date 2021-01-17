@@ -17,6 +17,9 @@ import java.util.function.Consumer;
  * The {@link UIController} for the GUI.
  */
 public class GraphicalUIController implements UIController {
+  /**
+   * UI text constants
+   */
   private static final String SELECT_MAIN_PLATEAU = "sélectionnez une carte dans votre main ou sur le plateau.";
   private static final String SELECT_CASE = "sélectionnez une case.";
   private static final String SELECT_MAIN = "sélectionnez une carte dans votre main.";
@@ -150,7 +153,7 @@ public class GraphicalUIController implements UIController {
   public void update(GameState gs) {
     gameState = gs;
     boardView.update(gs.board);
-    deckView.update(gameState.deck);
+    deckView.update(gs.deck);
   }
 
   @Override

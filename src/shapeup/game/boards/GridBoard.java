@@ -255,6 +255,9 @@ public final class GridBoard implements Board {
     return minY(this.cards);
   }
 
+  //
+  // Implementations
+  //
   private static int maxX(Map<Coordinates, Card> cards) {
     return cards.keySet().stream().mapToInt(card -> card.x).max().orElse(0);
   }
