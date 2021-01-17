@@ -225,8 +225,6 @@ public final class Game {
               .ifMoved((from, to) -> {
                 move(from, to);
 
-                if (currentPlayerStrategy.canFinishTurn().join()) return;
-
                 var played = currentPlayerStrategy.canPlay().join();
                 play(playerID, played.a, played.b);
               })
